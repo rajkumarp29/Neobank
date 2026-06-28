@@ -1,0 +1,123 @@
+﻿<!-- ══ HERO ════════════════════════════════════════════════ -->
+<div class="bills-hero">
+  <div class="hero-left">
+    <div class="hero-badge">&#128179; Bill Payments</div>
+    <h1>Pay Your Bills</h1>
+    <p>Pay electricity, water, mobile, insurance and more instantly</p>
+  </div>
+</div>
+
+<!-- ══ BILLER SELECTION VIEW ════════════════════════════════ -->
+<div class="bills-body" *ngIf="!selectedBiller && !success">
+
+  <!-- Category Tabs -->
+  <div class="cat-tabs">
+    <button
+      *ngFor="let cat of categories"
+      class="cat-tab"
+      [class.active]="activeCategory === cat"
+      (click)="activeCategory = cat">
+      {{ cat }}
+    </button>
+  </div>
+
+  <!-- Biller Cards Grid -->
+  <div class="billers-grid">
+    <div
+      class="biller-card"
+      *ngFor="let b of filteredBillers"
+      (click)="selectBiller(b)">
+
+      <div class="biller-icon" [style.background]="b.bg" [style.color]="b.color">
+        <span [innerHTML]="b.icon"></span>
+      </div>
+
+      <div class="biller-info">
+        <span class="biller-name">{{ b.name }}</span>
+        <span class="biller-cat">{{ b.category }}</span>
+      </div>
+
+      <span class="biller-arrow">&#8594;</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══ BILL FORM VIEW (after selecting biller) ═════════════ -->
+<div class="bills-body" *ngIf="selectedBiller && !success">
+
+  <!-- Back button -->
+  <button class="back-btn" (click)="goBack()">
+    &#8592; Back to Billers
+  </button>
+
+  <div class="bill-form-card">
+
+    <!-- Biller Info Header -->
+    <div class="form-biller-header">
+      <div class="form-biller-icon" [style.background]="selectedBiller.bg" [style.color]="selectedBiller.color">
+        <span [innerHTML]="selectedBiller.icon"></span>
+      </div>
+      <div>
+        <div class="form-biller-name">{{ selectedBiller.name }}</div>
+        <div class="form-biller-cat">{{ selectedBiller.category }}</div>
+      </div>
+    </div>
+
+    <!-- Custom Biller Name (only for Other) -->
+    <div class="form-group" *ngIf="selectedBiller && selectedBiller.category === 'Other'">
+      <label>Biller Name</label>
+      <input
+        type="text"
+        placeholder="Enter biller / payee name"
+        [(ngModel)]="bill.billerName" />
+    </div>
+
+    <!-- Amount -->
+    <div class="form-group">
+      <label>Amount</label>
+      <div class="amount-wrap">
+        <span class="currency">&#8377;</span>
+        <input
+          type="number"
+          placeholder="0.00"
+          [(ngModel)]="bill.amount"
+          min="1" />
+      </div>
+    </div>
+
+    <!-- Due Date -->
+    <div class="form-group">
+      <label>Due Date</label>
+      <input
+        type="date"
+        [(ngModel)]="bill.dueDate"
+        [min]="today" />
+      <small class="hint">Due date must be in the future</small>
+    </div>
+
+    <!-- Error -->
+    <div class="form-error" *ngIf="error">&#9888; {{ error }}</div>
+
+    <!-- Submit -->
+    <button class="submit-btn" (click)="submit()" [disabled]="loading">
+      {{ loading ? 'Processing...' : '&#128179; Pay Now' }}
+    </button>
+
+    <!-- Trust -->
+    <div class="trust-row">&#128274; Your payment is securely encrypted and processed</div>
+
+  </div>
+
+</div>
+
+<!-- ══ SUCCESS VIEW ═════════════════════════════════════════ -->
+<div class="bills-body success-view" *ngIf="success">
+  <div class="success-card">
+    <div class="success-icon">&#10003;</div>
+    <h2>Payment Scheduled!</h2>
+    <p>Your bill has been added successfully. Redirecting...</p>
+  </div>
+</div>
+
+

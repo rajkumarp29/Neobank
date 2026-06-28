@@ -1,0 +1,195 @@
+﻿/* ─── Page ──────────────────────────────────────── */
+.insights-page {
+  min-height: 100vh;
+  background: #0b1426;
+  padding: 0 0 60px;
+  font-family: "Segoe UI", sans-serif;
+  color: #e2e8f0;
+}
+
+/* ─── Hero ───────────────────────────────────────── */
+.insights-hero {
+  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #1e3a5f 100%);
+  padding: 44px 40px 40px;
+  display: flex; align-items: center;
+  justify-content: space-between; gap: 20px; flex-wrap: wrap;
+}
+.hero-badge {
+  display: inline-block;
+  background: rgba(99,102,241,.22); border: 1px solid rgba(99,102,241,.4);
+  color: #a5b4fc; font-size: 11px; font-weight: 700;
+  letter-spacing: .08em; text-transform: uppercase;
+  padding: 4px 12px; border-radius: 20px; margin-bottom: 14px;
+}
+.insights-hero h1 { font-size: 30px; font-weight: 800; color: #fff; margin: 0 0 8px; }
+.insights-hero p  { font-size: 14px; color: #c7d2fe; margin: 0; }
+.btn-refresh {
+  padding: 9px 20px; border-radius: 9px;
+  border: 1px solid rgba(99,102,241,.4); background: rgba(99,102,241,.15);
+  color: #a5b4fc; font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: all .2s;
+}
+.btn-refresh:hover { background: rgba(99,102,241,.3); }
+
+/* ─── 403 Banner ─────────────────────────────────── */
+.error-banner {
+  display: flex; align-items: center; gap: 16px;
+  padding: 20px 40px; font-size: 14px;
+}
+.err-403 {
+  background: rgba(239,68,68,.1);
+  border-bottom: 1px solid rgba(239,68,68,.25);
+  color: #fca5a5;
+}
+.err-icon { font-size: 28px; flex-shrink: 0; }
+.error-banner strong { display: block; font-size: 15px; font-weight: 700; margin-bottom: 3px; }
+.error-banner span   { font-size: 13px; opacity: .85; }
+
+/* ─── Loading Skeleton ───────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: -600px 0; }
+  100% { background-position:  600px 0; }
+}
+.sk-card, .sk-line, .sk-fill, .sk-chart-box, .sk-list-box, .sk-row {
+  background: linear-gradient(90deg, #141c2b 25%, #1e293b 50%, #141c2b 75%);
+  background-size: 600px 100%;
+  animation: shimmer 1.6s infinite linear;
+  border-radius: 8px;
+}
+.skeleton-kpi-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+  padding: 28px 40px 0;
+}
+.sk-card {
+  border-radius: 14px; padding: 22px 20px;
+  display: flex; flex-direction: column; gap: 12px;
+  height: 100px;
+}
+.sk-line { height: 12px; }
+.sk-short  { width: 50%; }
+.sk-tall   { height: 24px; width: 70%; }
+.sk-medium { width: 40%; }
+.skeleton-body {
+  display: grid; grid-template-columns: 1fr 360px;
+  gap: 20px; padding: 20px 40px 0;
+}
+.sk-chart-box { height: 300px; border-radius: 14px; }
+.sk-list-box  { border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+.sk-row       { height: 32px; border-radius: 6px; }
+
+/* ─── Empty State ─────────────────────────────────── */
+.empty-state {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; min-height: 50vh; gap: 12px; text-align: center;
+}
+.empty-icon { font-size: 52px; }
+.empty-state h3 { font-size: 20px; font-weight: 700; color: #e2e8f0; margin: 0; }
+.empty-state p  { font-size: 14px; color: #64748b; margin: 0; }
+
+/* ─── KPI Row ─────────────────────────────────────── */
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+  padding: 28px 40px 0;
+}
+.kpi-card {
+  background: #141c2b;
+  border-radius: 16px;
+  padding: 22px 20px;
+  display: flex; align-items: center; gap: 14px;
+  border: 1px solid #1e293b;
+  border-top: 3px solid transparent;
+  transition: transform .2s, box-shadow .2s;
+}
+.kpi-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.3); }
+.kc-balance { border-top-color: #06b6d4; }
+.kc-income  { border-top-color: #10b981; }
+.kc-expense { border-top-color: #ef4444; }
+.kc-savings { border-top-color: #6366f1; }
+.kc-neg     { border-top-color: #ef4444; background: rgba(239,68,68,.05); }
+.kc-txcount { border-top-color: #a855f7; }
+
+.kc-icon { font-size: 26px; flex-shrink: 0; }
+.kc-body { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.kc-label { font-size: 11px; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: .07em; }
+.kc-value { font-size: 20px; font-weight: 800; color: #ffffff; line-height: 1.1; }
+
+/* Savings negative */
+.savings-val { display: flex; align-items: center; gap: 5px; }
+.savings-val.negative { color: #f87171 !important; }
+.savings-arrow { font-size: 16px; font-weight: 900; }
+.savings-hint { font-size: 11px; color: #f87171; margin-top: 2px; }
+
+/* ─── Content Grid ────────────────────────────────── */
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 20px;
+  padding: 20px 40px 0;
+}
+
+/* ─── Shared Card ─────────────────────────────────── */
+.chart-card, .category-card, .trend-card {
+  background: #141c2b;
+  border: 1px solid #1e293b;
+  border-radius: 18px;
+  padding: 24px 24px 20px;
+}
+.trend-card { margin: 20px 40px 0; }
+.card-header {
+  display: flex; align-items: baseline; gap: 12px;
+  padding-bottom: 16px; border-bottom: 1px solid #1e293b; margin-bottom: 20px;
+}
+.card-header h3 { font-size: 15px; font-weight: 700; color: #e2e8f0; margin: 0; }
+.header-sub { font-size: 12px; color: #64748b; }
+
+/* ─── Chart ──────────────────────────────────────── */
+.chart-wrap { height: 280px; position: relative; }
+.no-chart { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 180px; gap: 8px; color: #64748b; font-size: 14px; }
+.no-chart span { font-size: 36px; }
+
+/* ─── Category List ───────────────────────────────── */
+.cat-list { display: flex; flex-direction: column; gap: 16px; }
+.cat-item { display: flex; gap: 12px; align-items: flex-start; }
+.cat-dot { width: 10px; height: 10px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+.cat-info { flex: 1; min-width: 0; }
+.cat-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+.cat-name { font-size: 13px; font-weight: 600; color: #e2e8f0; }
+.cat-pct  { font-size: 12px; font-weight: 700; color: #94a3b8; }
+.cat-bar-bg   { height: 5px; background: #1e293b; border-radius: 4px; overflow: hidden; }
+.cat-bar-fill { height: 100%; border-radius: 4px; transition: width .6s ease; }
+.cat-amount   { font-size: 12px; color: #64748b; margin-top: 4px; display: block; }
+
+/* ─── Trend Table ─────────────────────────────────── */
+.trend-table { width: 100%; border-collapse: collapse; }
+.trend-table thead tr { background: #0f172a; border-bottom: 1px solid #1e293b; }
+.trend-table th {
+  padding: 11px 16px; text-align: left;
+  font-size: 11px; font-weight: 700; letter-spacing: .07em;
+  text-transform: uppercase; color: #64748b;
+}
+.trend-table tbody tr { border-bottom: 1px solid #1a2438; transition: background .15s; }
+.trend-table tbody tr:last-child { border-bottom: none; }
+.trend-table tbody tr:hover { background: #1a2438; }
+.trend-table td { padding: 12px 16px; font-size: 14px; }
+.td-month   { color: #94a3b8; font-weight: 600; }
+.td-income  { color: #10b981; font-weight: 600; }
+.td-expense { color: #f87171; font-weight: 600; }
+.td-savings-pos { color: #10b981; font-weight: 700; }
+.td-savings-neg { color: #f87171; font-weight: 700; }
+
+/* ─── Responsive ─────────────────────────────────── */
+@media (max-width: 1100px) {
+  .kpi-row      { grid-template-columns: repeat(3, 1fr); }
+  .skeleton-kpi-row { grid-template-columns: repeat(3, 1fr); }
+  .content-grid { grid-template-columns: 1fr; }
+  .skeleton-body { grid-template-columns: 1fr; }
+}
+@media (max-width: 700px) {
+  .insights-hero { padding: 28px 20px 24px; }
+  .kpi-row { grid-template-columns: repeat(2, 1fr); padding: 20px 20px 0; }
+  .content-grid, .trend-card { padding: 20px 20px 0; margin: 20px 20px 0; }
+}

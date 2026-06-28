@@ -1,0 +1,93 @@
+﻿/* ============================= */
+/* GLOBAL RESET */
+/* ============================= */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
+/* Box sizing */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* ============================= */
+/* DASHBOARD SHELL */
+/* ============================= */
+.dashboard-layout {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============================= */
+/* HEADER */
+/* ============================= */
+.dashboard-header {
+  height: 60px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+/* ============================= */
+/* BODY */
+/* ============================= */
+.dashboard-body {
+  display: flex;
+  margin-top: 60px; /* header height */
+  height: calc(100vh - 60px);
+}
+
+/* ============================= */
+/* SIDEBAR (FIXED SIZE) */
+/* ============================= */
+.dashboard-sidebar {
+  width: 220px;        /* âœ… FIXED sidebar width */
+  position: fixed;
+  top: 60px;
+  left: 0;
+  bottom: 0;           /* âœ… full height */
+  background: #0f172a;
+}
+
+/* ============================= */
+/* CONTENT (SCROLLABLE) */
+/* ============================= */
+.dashboard-content {
+  margin-left: 220px;  /* âœ… same as sidebar width */
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;    /* âœ… ONLY this scrolls */
+  background: #0a0f1e;
+}
+
+/* ===================================================
+   ðŸ“± MOBILE LAYOUT FIX
+=================================================== */
+@media (max-width: 768px) {
+
+  /* Hide fixed sidebar completely on mobile */
+  .dashboard-sidebar {
+    width: 0;
+    overflow: hidden;
+  }
+
+  /* Main content MUST take full width */
+  .dashboard-content {
+    margin-left: 0;
+    padding: 16px;
+  }
+
+  /* Header stays fixed */
+  .dashboard-header {
+    position: fixed;
+  }
+}
+

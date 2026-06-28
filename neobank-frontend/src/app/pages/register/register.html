@@ -1,0 +1,76 @@
+﻿<div class="login-page">
+
+  <!-- LEFT PANEL -->
+  <div class="login-image" style="background-image: url('/banking-bg1.jpg');">
+    <div class="overlay"></div>
+    <div class="image-content">
+      <div class="lp-top">
+        <div class="bank-header">
+          <div class="bank-icon-wrap">
+            <img src="/neobank-icon-white.svg" alt="N" class="bank-logo-img"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+            <span class="bank-logo-fallback" style="display:none">N</span>
+          </div>
+          <h1>NeoBank</h1>
+        </div>
+        <p class="tagline">Smart Banking for<br/><span class="tagline-accent">Modern Life.</span></p>
+        <p class="tagline-desc">Next-gen banking with real-time insights, instant transfers and bank-grade security.</p>
+        <div class="feature-cards">
+          <div class="feature-card"><span class="fc-icon">&#9889;</span><div class="fc-text"><span class="fc-title">Instant Transactions</span><span class="fc-sub">Send &amp; receive in seconds</span></div></div>
+          <div class="feature-card"><span class="fc-icon">&#128202;</span><div class="fc-text"><span class="fc-title">Real-time Insights</span><span class="fc-sub">Track every rupee effortlessly</span></div></div>
+          <div class="feature-card"><span class="fc-icon">&#128274;</span><div class="fc-text"><span class="fc-title">Bank-grade Security</span><span class="fc-sub">Your money, fully protected</span></div></div>
+        </div>
+      </div>
+      <div class="stats-strip">
+        <div class="stat-item"><span class="stat-value">10M+</span><span class="stat-label">Customers</span></div>
+        <div class="stat-item"><span class="stat-value">&#8377;500Cr+</span><span class="stat-label">Transactions</span></div>
+        <div class="stat-item"><span class="stat-value">4.9&#9733;</span><span class="stat-label">Rated</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="login-right">
+    <div class="login-card">
+      <div class="card-brand">
+        <div class="card-icon-wrap">
+          <img src="/neobank-icon-white.svg" alt="N" class="card-logo-img"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+          <span class="card-logo-fallback" style="display:none">N</span>
+        </div>
+        <div class="card-title-wrap">
+          <h2>Create Account</h2>
+          <p class="subtitle">Join NeoBank today</p>
+        </div>
+      </div>
+
+      <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+      <form (ngSubmit)="register()" #registerForm="ngForm">
+        <div class="form-group">
+          <label>FULL NAME</label>
+          <input type="text" name="fullName" [(ngModel)]="fullName" required placeholder="Enter your full name"/>
+        </div>
+        <div class="form-group">
+          <label>EMAIL ADDRESS</label>
+          <input type="email" name="email" [(ngModel)]="email" required placeholder="Enter your email"/>
+        </div>
+        <div class="form-group password-wrapper">
+          <label>PASSWORD</label>
+          <input [type]="showPassword ? 'text' : 'password'" name="password" [(ngModel)]="password" required placeholder="Create a password"/>
+          <span class="toggle-password" (click)="showPassword = !showPassword">{{ showPassword ? '&#128584;' : '&#128065;' }}</span>
+        </div>
+        <div class="form-group password-wrapper">
+          <label>CONFIRM PASSWORD</label>
+          <input [type]="showConfirm ? 'text' : 'password'" name="confirmPassword" [(ngModel)]="confirmPassword" required placeholder="Confirm your password"/>
+          <span class="toggle-password" (click)="showConfirm = !showConfirm">{{ showConfirm ? '&#128584;' : '&#128065;' }}</span>
+        </div>
+        <button type="submit" [disabled]="registerForm.invalid">Create Account &#8594;</button>
+      </form>
+
+      <div class="or-divider"><span>OR</span></div>
+      <p class="switch">Already have an account? <a routerLink="/login">Sign In</a></p>
+    </div>
+  </div>
+
+</div>

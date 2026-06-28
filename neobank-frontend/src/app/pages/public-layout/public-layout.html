@@ -1,0 +1,98 @@
+<div class="pub-root">
+
+  <!-- ══ UTILITY BAR ══ -->
+  <div class="utility-bar">
+    <div class="ub-inner">
+      <div class="ub-left">
+        <span>🏦 RBI Regulated &amp; DICGC Insured</span>
+        <span class="ub-sep">|</span>
+        <span>24×7 Support: 1800-NEO-BANK</span>
+      </div>
+      <div class="ub-right">
+        <a routerLink="/login"    class="ub-link">Customer Login</a>
+        <span class="ub-sep">|</span>
+        <a routerLink="/register" class="ub-link">Open Account</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ NAVBAR ══ -->
+  <nav class="pub-nav">
+    <div class="nav-inner">
+      <a routerLink="/" class="nav-brand">
+        <div class="brand-icon"><span class="brand-n">N</span></div>
+        <div class="brand-text">
+          <span class="brand-name">NeoBank</span>
+          <span class="brand-tag">Digital Banking</span>
+        </div>
+      </a>
+
+      <ul class="nav-links">
+        <li *ngFor="let link of navLinks">
+          <a [routerLink]="link.path"
+             routerLinkActive="nav-active"
+             class="nav-link">{{ link.label }}</a>
+        </li>
+      </ul>
+
+      <div class="nav-auth">
+        <a routerLink="/login"    class="nav-login">Log In</a>
+        <a routerLink="/register" class="nav-cta">Open Account</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ══ PAGE CONTENT ══ -->
+  <main class="pub-content">
+    <router-outlet></router-outlet>
+  </main>
+
+  <!-- ══ FOOTER ══ -->
+  <footer class="pub-footer">
+    <div class="footer-top">
+      <div class="footer-inner">
+
+        <div class="fc-brand">
+          <div class="footer-logo">
+            <div class="brand-icon sm"><span class="brand-n sm-n">N</span></div>
+            <span class="brand-name">NeoBank</span>
+          </div>
+          <p class="fc-tagline">Banking built for the next generation of Indians. Safe, fast, and rewarding.</p>
+          <div class="fc-social">
+            <span class="soc-btn">𝕏</span>
+            <span class="soc-btn">in</span>
+            <span class="soc-btn">f</span>
+            <span class="soc-btn">▶</span>
+          </div>
+        </div>
+
+        <div class="fc-col">
+          <div class="fc-col-title">Products</div>
+          <a *ngFor="let p of footerProducts" [routerLink]="p.path" class="fc-link">{{ p.label }}</a>
+        </div>
+
+        <div class="fc-col">
+          <div class="fc-col-title">Company</div>
+          <a *ngFor="let c of footerCompany" routerLink="/about" class="fc-link">{{ c }}</a>
+        </div>
+
+        <div class="fc-col">
+          <div class="fc-col-title">Legal &amp; Security</div>
+          <a *ngFor="let l of footerLegal" href="#" class="fc-link">{{ l }}</a>
+        </div>
+
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="fb-inner">
+        <p class="fb-copy">&copy; 2026 NeoBank Financial Services Pvt. Ltd. All rights reserved. | RBI Licence No. NBC-2021-001</p>
+        <div class="fb-badges">
+          <span class="reg-badge">🏦 RBI Regulated</span>
+          <span class="reg-badge">🛡️ DICGC Member</span>
+          <span class="reg-badge">🔒 ISO 27001</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</div>

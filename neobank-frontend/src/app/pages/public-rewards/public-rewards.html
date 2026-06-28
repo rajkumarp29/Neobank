@@ -1,0 +1,139 @@
+<div class="page-root">
+
+  <!-- HERO -->
+  <section class="page-hero">
+    <div class="ph-bg"></div>
+    <div class="ph-inner">
+      <div class="ph-eyebrow">NeoRewards</div>
+      <h1 class="ph-title">Earn on Every Rupee<br><span class="ph-accent">You Spend</span></h1>
+      <p class="ph-sub">India's most generous bank reward program. Earn NeoPoints on every transaction and redeem them for cashback, vouchers, flights, and more.</p>
+      <div class="ph-actions">
+        <a routerLink="/register" class="pg-btn-primary">Start Earning &rarr;</a>
+        <a routerLink="/login"    class="pg-btn-outline">Check My Points</a>
+      </div>
+
+      <!-- Points showcase card -->
+      <div class="points-card">
+        <div class="pc-row">
+          <div class="pc-col">
+            <div class="pc-label">Your Balance</div>
+            <div class="pc-val gold">12,450 ⭐</div>
+            <div class="pc-sub">≈ ₹6,225 cashback</div>
+          </div>
+          <div class="pc-div"></div>
+          <div class="pc-col">
+            <div class="pc-label">This Month</div>
+            <div class="pc-val green">+2,150</div>
+            <div class="pc-sub">From 18 transactions</div>
+          </div>
+          <div class="pc-div"></div>
+          <div class="pc-col">
+            <div class="pc-label">Tier</div>
+            <div class="pc-val platinum">Platinum</div>
+            <div class="pc-sub">2× earn rate active</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EARNING WAYS -->
+  <section class="sect bg-mid">
+    <div class="wrap">
+      <div class="eyebrow">Ways to Earn</div>
+      <h2 class="sect-title">6 Ways to Earn NeoPoints</h2>
+      <p class="sect-sub">Every action you take in the app earns you points — automatically and instantly.</p>
+      <div class="earn-grid">
+        <div class="earn-card" *ngFor="let e of earnWays" [ngClass]="'ec-' + e.color">
+          <div class="ec-multiplier">{{ e.points }}</div>
+          <div class="ec-icon">{{ e.icon }}</div>
+          <h3 class="ec-title">{{ e.title }}</h3>
+          <p class="ec-desc">{{ e.desc }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REDEEM OPTIONS -->
+  <section class="sect bg-dark">
+    <div class="wrap">
+      <div class="eyebrow">Redemption</div>
+      <h2 class="sect-title">Redeem Your Way</h2>
+      <p class="sect-sub">Use your NeoPoints for what matters to you — instantly and without limits.</p>
+      <div class="redeem-grid">
+        <div class="redeem-card" *ngFor="let r of redeemOptions">
+          <div class="rc-icon">{{ r.icon }}</div>
+          <h4 class="rc-title">{{ r.title }}</h4>
+          <div class="rc-value">{{ r.value }}</div>
+          <p class="rc-desc">{{ r.desc }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TIERS -->
+  <section class="sect bg-mid">
+    <div class="wrap">
+      <div class="eyebrow">Membership Tiers</div>
+      <h2 class="sect-title">The More You Bank,<br>The More You Earn</h2>
+      <p class="sect-sub">Climb the tiers to unlock higher earn rates and exclusive lifestyle benefits.</p>
+      <div class="tiers-grid">
+        <div class="tier-card" *ngFor="let t of tiers" [ngClass]="'tc-' + t.color">
+          <div class="tc-name">{{ t.name }}</div>
+          <div class="tc-spend">{{ t.minSpend }}</div>
+          <ul class="tc-perks">
+            <li *ngFor="let p of t.perks"><span class="tc-check">✓</span> {{ p }}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PARTNER BRANDS -->
+  <section class="sect bg-dark">
+    <div class="wrap">
+      <div class="eyebrow">Partner Brands</div>
+      <h2 class="sect-title">Extra Cashback at 200+ Brands</h2>
+      <p class="sect-sub">Shop, eat, travel, watch — earn additional NeoPoints at our exclusive partners.</p>
+      <div class="partners-grid">
+        <div class="partner-card" *ngFor="let p of partners">
+          <div class="pn-icon">{{ p.icon }}</div>
+          <div class="pn-name">{{ p.name }}</div>
+          <div class="pn-cashback">{{ p.cashback }}</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="sect bg-mid">
+    <div class="wrap narrow">
+      <div class="eyebrow">FAQs</div>
+      <h2 class="sect-title">Frequently Asked Questions</h2>
+      <p class="sect-sub">Got questions? We've got answers about how NeoRewards works.</p>
+      <div class="faq-list">
+        <div class="faq-item" *ngFor="let f of faqs">
+          <div class="faq-q">
+            <span class="faq-icon">?</span>
+            <span>{{ f.q }}</span>
+          </div>
+          <p class="faq-a">{{ f.a }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="page-cta">
+    <div class="cta-bg"></div>
+    <div class="cta-inner">
+      <h2 class="cta-title">Start Earning NeoPoints Today</h2>
+      <p class="cta-sub">Open a free account in 3 minutes and get a welcome bonus of 500 points.</p>
+      <div class="cta-actions">
+        <a routerLink="/register" class="pg-btn-primary lg">Get 500 Bonus Points &rarr;</a>
+        <a routerLink="/login"    class="pg-btn-ghost lg">Log In</a>
+      </div>
+    </div>
+  </section>
+
+</div>

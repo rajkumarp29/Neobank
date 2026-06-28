@@ -1,0 +1,107 @@
+<div class="ml-page">
+
+  <!-- HERO BANNER -->
+  <div class="ml-hero">
+    <div class="hero-glow"></div>
+    <div class="hero-inner">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        <span>Loan Management</span>
+      </div>
+      <h1 class="hero-title">My Loans</h1>
+      <p class="hero-sub">Track your active loan accounts, EMIs and repayment schedules</p>
+    </div>
+    <a routerLink="/dashboard/loan-apply" class="hero-cta">
+      ➕ Apply New Loan
+    </a>
+  </div>
+
+  <!-- SUMMARY STRIP -->
+  <div class="summary-strip" *ngIf="loans.length > 0">
+    <div class="summary-stat">
+      <span class="stat-label">Total Loans</span>
+      <span class="stat-value cyan">{{ loans.length }}</span>
+    </div>
+    <div class="strip-divider"></div>
+    <div class="summary-stat">
+      <span class="stat-label">Total Principal</span>
+      <span class="stat-value cyan">₹ {{ totalPrincipal | number }}</span>
+    </div>
+    <div class="strip-divider"></div>
+    <div class="summary-stat">
+      <span class="stat-label">Monthly EMI</span>
+      <span class="stat-value amber">₹ {{ totalEmi | number }}</span>
+    </div>
+    <div class="strip-divider"></div>
+    <div class="summary-stat">
+      <span class="stat-label">Active Accounts</span>
+      <span class="stat-value green">{{ loans.length }}</span>
+    </div>
+  </div>
+
+  <!-- LOANS GRID -->
+  <div class="ml-content">
+
+    <!-- LOADING -->
+    <div class="ml-loading" *ngIf="loading">
+      <div class="spinner"></div>
+      <span>Loading your loans...</span>
+    </div>
+
+    <!-- LOAN CARDS -->
+    <div class="loans-grid" *ngIf="!loading && loans.length > 0">
+      <div
+        class="loan-card"
+        *ngFor="let loan of loans"
+        (click)="openSchedule(loan.id)">
+
+        <!-- CARD TOP -->
+        <div class="card-top">
+          <div class="loan-icon">🏦</div>
+          <div class="loan-meta">
+            <span class="loan-product">{{ loan.productName || 'Personal Loan' }}</span>
+            <span class="loan-id">#{{ loan.id }}</span>
+          </div>
+          <span class="status-pill active">Active</span>
+        </div>
+
+        <!-- CARD DIVIDER -->
+        <div class="card-div"></div>
+
+        <!-- STATS GRID -->
+        <div class="stats-grid">
+          <div class="stat-box">
+            <span class="stat-box-label">Principal</span>
+            <span class="stat-box-value cyan">₹ {{ loan.principalAmount | number }}</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-box-label">EMI / Month</span>
+            <span class="stat-box-value amber">₹ {{ loan.emiAmount | number }}</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-box-label">Tenure</span>
+            <span class="stat-box-value white">{{ loan.tenureMonths }} mo</span>
+          </div>
+        </div>
+
+        <!-- VIEW SCHEDULE BUTTON -->
+        <div class="card-footer">
+          <button class="schedule-btn">
+            📅 View Repayment Schedule →
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- EMPTY STATE -->
+    <div class="ml-empty" *ngIf="!loading && loans.length === 0">
+      <div class="empty-icon">📭</div>
+      <h3>No Active Loans</h3>
+      <p>You don't have any loan accounts yet.</p>
+      <a routerLink="/dashboard/loan-apply" class="empty-cta">Apply for a Loan</a>
+    </div>
+
+  </div>
+
+</div>

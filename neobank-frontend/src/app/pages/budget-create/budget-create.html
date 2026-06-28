@@ -1,0 +1,125 @@
+<div class="bc-page">
+
+  <!-- HERO BANNER -->
+  <div class="bc-hero">
+    <div class="hero-glow"></div>
+    <div class="hero-inner">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        <span>Budget Management</span>
+      </div>
+      <h1 class="hero-title">Create a Budget</h1>
+      <p class="hero-sub">Set monthly spending limits to track and control your expenses</p>
+    </div>
+  </div>
+
+  <!-- MAIN CARD -->
+  <div class="bc-card">
+
+    <!-- CARD HEADER -->
+    <div class="bc-card-header">
+      <div class="header-icon">💰</div>
+      <div class="header-text">
+        <h2>New Monthly Budget</h2>
+        <p>Fill in the details to set your spending limit</p>
+      </div>
+    </div>
+
+    <div class="bc-divider"></div>
+
+    <!-- FORM -->
+    <div class="bc-form">
+
+      <!-- Category -->
+      <div class="bc-field">
+        <label class="bc-label">
+          <span class="label-icon">🗂️</span> Category
+        </label>
+        <select class="bc-input" [(ngModel)]="category">
+          <option value="">Select a category</option>
+          <option *ngFor="let c of categories" [value]="c">
+            {{ c }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Budget Month -->
+      <div class="bc-field">
+        <label class="bc-label">
+          <span class="label-icon">📅</span> Budget Month
+        </label>
+        <input type="month" class="bc-input" [(ngModel)]="budgetMonth" />
+      </div>
+
+      <!-- Monthly Limit -->
+      <div class="bc-field">
+        <label class="bc-label">
+          <span class="label-icon">💸</span> Monthly Limit
+        </label>
+        <div class="amount-wrapper">
+          <span class="currency-badge">₹</span>
+          <input
+            type="number"
+            class="bc-input amount-input"
+            min="0.01"
+            step="0.01"
+            placeholder="0.00"
+            [(ngModel)]="limitAmount" />
+        </div>
+      </div>
+
+      <!-- LIVE PREVIEW CARD -->
+      <div class="preview-card" *ngIf="category && limitAmount">
+        <div class="preview-title">
+          <span>{{ categoryIcon }}</span>
+          <span>{{ category }} — Preview</span>
+        </div>
+        <div class="preview-grid">
+          <div class="preview-stat">
+            <span class="preview-period">Monthly</span>
+            <span class="preview-value">₹ {{ limitAmount | number }}</span>
+          </div>
+          <div class="preview-stat">
+            <span class="preview-period">Weekly</span>
+            <span class="preview-value">₹ {{ weeklyLimit | number }}</span>
+          </div>
+          <div class="preview-stat">
+            <span class="preview-period">Daily</span>
+            <span class="preview-value">₹ {{ dailyLimit | number }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ERROR -->
+      <div class="error-box" *ngIf="errorMessage">
+        <span>⚠️</span>
+        <span>{{ errorMessage }}</span>
+      </div>
+
+      <!-- SUCCESS -->
+      <div class="success-box" *ngIf="success">
+        <span>✅</span>
+        <span>Budget created! Redirecting...</span>
+      </div>
+
+    </div>
+
+    <!-- ACTIONS -->
+    <div class="bc-actions">
+      <button class="btn-cancel" routerLink="/dashboard/budget">
+        ← Cancel
+      </button>
+      <button
+        class="btn-create"
+        [disabled]="submitting || !category || !limitAmount"
+        (click)="createBudget()">
+        <span *ngIf="!submitting">💰 Create Budget</span>
+        <span *ngIf="submitting" class="saving-state">
+          <span class="spin"></span> Creating...
+        </span>
+      </button>
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,85 @@
+﻿<!-- ============================================================
+     LOAN DECISION · Approve / Reject single application
+============================================================ -->
+<div class="ld-page">
+
+  <button class="ld-back" (click)="back()">← Back to Approvals</button>
+
+  <!-- Loading -->
+  <div class="ld-loading" *ngIf="loading">
+    <div class="ld-spinner"></div>
+    Loading application…
+  </div>
+
+  <!-- Missing -->
+  <div class="ld-empty" *ngIf="!loading && !loan">
+    <span>😕</span>
+    <h3>Application not found</h3>
+    <p>This loan no longer exists or has already been decided.</p>
+  </div>
+
+  <!-- Main -->
+  <div class="ld-grid" *ngIf="!loading && loan">
+
+    <!-- Summary Panel -->
+    <div class="ld-card primary">
+      <span class="ld-eyebrow">APPLICATION</span>
+      <h1 class="ld-title">{{ loan.productName || ('Product #' + loan.loanProductId) }}</h1>
+      <p class="ld-sub">
+        Applied by <strong>{{ loan.applicantName || ('User #' + loan.userId) }}</strong>
+        · ID #{{ loan.id }}
+      </p>
+
+      <div class="ld-amount-block">
+        <span class="ld-amount-label">REQUESTED AMOUNT</span>
+        <span class="ld-amount-value">₹ {{ loan.requestedAmount | number:'1.0-0' }}</span>
+      </div>
+
+      <div class="ld-fact-row">
+        <div class="ld-fact">
+          <span class="ld-fact-label">Tenure</span>
+          <span class="ld-fact-value">{{ loan.requestedTenureMonths }} months</span>
+        </div>
+        <div class="ld-fact">
+          <span class="ld-fact-label">Interest Rate</span>
+          <span class="ld-fact-value">{{ loan.annualInterestRate }}%</span>
+        </div>
+        <div class="ld-fact">
+          <span class="ld-fact-label">Type</span>
+          <span class="ld-fact-value">{{ loan.loanType || 'Personal' }}</span>
+        </div>
+        <div class="ld-fact">
+          <span class="ld-fact-label">Status</span>
+          <span class="ld-fact-value ld-status">{{ decision || loan.status }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Panel -->
+    <div class="ld-card actions">
+      <h3 class="ld-actions-title">Take Decision</h3>
+      <p class="ld-actions-sub">
+        Approve to disburse the loan or reject to dismiss the application.
+      </p>
+
+      <!-- Already decided -->
+      <div *ngIf="decision" class="ld-decided" [class.approved]="decision === 'APPROVED'">
+        <span class="ld-decided-icon">{{ decision === 'APPROVED' ? '✓' : '✕' }}</span>
+        <span class="ld-decided-text">
+          Application {{ decision === 'APPROVED' ? 'approved' : 'rejected' }} successfully.
+        </span>
+      </div>
+
+      <!-- Decision buttons -->
+      <div class="ld-action-row" *ngIf="!decision">
+        <button class="ld-btn approve" [disabled]="acting" (click)="approve()">
+          {{ acting ? 'Processing…' : '✓ Approve Loan' }}
+        </button>
+        <button class="ld-btn reject" [disabled]="acting" (click)="reject()">
+          {{ acting ? 'Processing…' : '✕ Reject Loan' }}
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>

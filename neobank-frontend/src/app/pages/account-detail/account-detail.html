@@ -1,0 +1,219 @@
+<div class="detail-page">
+
+  <!-- ═══════ LOADING ═══════ -->
+  <div class="loading-wrap" *ngIf="loading">
+    <div class="spin"></div>
+    <span>Loading account details…</span>
+  </div>
+
+  <!-- ═══════ ERROR ═══════ -->
+  <div class="error-wrap" *ngIf="!loading && error">
+    <div class="error-icon">⚠️</div>
+    <p>{{ error }}</p>
+    <button class="back-link" (click)="goBack()">← Back to Accounts</button>
+  </div>
+
+  <!-- ═══════ MAIN ═══════ -->
+  <ng-container *ngIf="!loading && account">
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+      <span class="bc-link" (click)="goBack()">🏦 My Accounts</span>
+      <span class="bc-sep">›</span>
+      <span class="bc-current">{{ account.accountNumber }}</span>
+    </div>
+
+    <!-- ───── ACCOUNT HERO CARD ───── -->
+    <div class="account-hero"
+         [ngClass]="account.accountType === 'SAVINGS' ? 'hero-savings' : 'hero-current'">
+      <div class="hero-radial"></div>
+
+      <div class="hero-inner">
+        <!-- Left: info -->
+        <div class="hero-left">
+          <div class="acct-badge"
+               [ngClass]="account.accountType === 'SAVINGS' ? 'badge-sv' : 'badge-cu'">
+            <span>{{ account.accountType === 'SAVINGS' ? '💎' : '🏢' }}</span>
+            {{ account.accountType }}
+          </div>
+
+          <div class="info-grid">
+            <div class="info-block">
+              <div class="info-label">ACCOUNT NUMBER</div>
+              <div class="info-value mono">{{ account.accountNumber }}</div>
+            </div>
+            <div class="info-block">
+              <div class="info-label">ACCOUNT TYPE</div>
+              <div class="info-value">{{ account.accountType }}</div>
+            </div>
+            <div class="info-block">
+              <div class="info-label">CREATED DATE</div>
+              <div class="info-value">{{ account.createdAt | date:'dd MMM yyyy' }}</div>
+            </div>
+            <div class="info-block">
+              <div class="info-label">ACCOUNT ID</div>
+              <div class="info-value mono small">{{ account.id }}</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: balance + actions -->
+        <div class="hero-right">
+          <div class="bal-label">CURRENT BALANCE</div>
+          <div class="bal-amount">₹ {{ account.balance | number }}</div>
+          <div class="hero-btns">
+            <button class="btn-view-tx" (click)="viewTransactions()">
+              📋 All Transactions →
+            </button>
+            <button class="btn-back" (click)="goBack()">← Back</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ───── TWO-COLUMN GRID ───── -->
+    <div class="detail-grid">
+
+      <!-- ── ADD TRANSACTION CARD ── -->
+      <div class="tx-form-card" [ngClass]="selectedType === 'CREDIT' ? 'card-credit-mode' : 'card-debit-mode'">
+
+        <!-- Header -->
+        <div class="form-card-hd">
+          <div class="form-card-icon"
+               [ngClass]="selectedType === 'CREDIT' ? 'fci-credit' : 'fci-debit'">
+            <span *ngIf="selectedType === 'CREDIT'">＋</span>
+            <span *ngIf="selectedType === 'DEBIT'">−</span>
+          </div>
+          <div>
+            <h3 class="form-card-title">Add Transaction</h3>
+            <p class="form-card-sub">Credit or debit this account</p>
+          </div>
+        </div>
+
+        <div class="card-divider"></div>
+
+        <!-- Type Toggle -->
+        <div class="type-toggle">
+          <button class="tog-btn"
+                  [class.tog-active-credit]="selectedType === 'CREDIT'"
+                  (click)="selectType('CREDIT')">
+            <span>＋</span> Credit
+          </button>
+          <button class="tog-btn"
+                  [class.tog-active-debit]="selectedType === 'DEBIT'"
+                  (click)="selectType('DEBIT')">
+            <span>−</span> Debit
+          </button>
+        </div>
+
+        <!-- Alerts -->
+        <div class="alert alert-success" *ngIf="successMsg">
+          <span>✅</span> {{ successMsg }}
+        </div>
+        <div class="alert alert-error" *ngIf="errorMsg">
+          <span>❌</span> {{ errorMsg }}
+        </div>
+
+        <!-- Reactive Form -->
+        <form [formGroup]="txForm" (ngSubmit)="submitTransaction()">
+
+          <div class="fg">
+            <label>Amount (₹) <span class="req">*</span></label>
+            <input type="number"
+                   formControlName="amount"
+                   placeholder="0.00"
+                   class="fi"
+                   [class.fi-err]="amountCtrl?.invalid && amountCtrl?.touched" />
+            <div class="fe" *ngIf="amountCtrl?.hasError('required') && amountCtrl?.touched">
+              Amount is required
+            </div>
+            <div class="fe" *ngIf="amountCtrl?.hasError('min') && amountCtrl?.touched">
+              Must be greater than ₹0
+            </div>
+          </div>
+
+          <div class="fg">
+            <label>Category <span class="req">*</span></label>
+            <select formControlName="category"
+                    class="fi"
+                    [class.fi-err]="categoryCtrl?.invalid && categoryCtrl?.touched">
+              <option value="">Select Category</option>
+              <option value="GROCERIES">🛒 Groceries</option>
+              <option value="UTILITIES">💡 Utilities</option>
+              <option value="RENT">🏠 Rent</option>
+              <option value="ENTERTAINMENT">🎬 Entertainment</option>
+              <option value="TRANSFER">🔄 Transfer</option>
+              <option value="OTHER">📦 Other</option>
+            </select>
+            <div class="fe" *ngIf="categoryCtrl?.invalid && categoryCtrl?.touched">
+              Please select a category
+            </div>
+          </div>
+
+          <div class="fg">
+            <label>Description</label>
+            <input type="text"
+                   formControlName="description"
+                   placeholder="Optional note…"
+                   class="fi" />
+          </div>
+
+          <button type="submit"
+                  class="submit-btn"
+                  [class.submit-credit]="selectedType === 'CREDIT'"
+                  [class.submit-debit]="selectedType === 'DEBIT'"
+                  [disabled]="submitting">
+            <ng-container *ngIf="!submitting">
+              {{ selectedType === 'CREDIT' ? '＋ Add Credit' : '− Add Debit' }}
+            </ng-container>
+            <ng-container *ngIf="submitting">
+              <span class="btn-spinner"></span> Processing…
+            </ng-container>
+          </button>
+
+        </form>
+      </div>
+
+      <!-- ── ACCOUNT OVERVIEW PANEL ── -->
+      <div class="overview-card">
+        <h3 class="ov-title">📊 Account Overview</h3>
+
+        <div class="ov-row">
+          <span class="ov-label">Account Number</span>
+          <span class="ov-val mono">{{ account.accountNumber }}</span>
+        </div>
+        <div class="ov-row">
+          <span class="ov-label">Type</span>
+          <span class="ov-val">
+            <span class="type-chip"
+                  [ngClass]="account.accountType === 'SAVINGS' ? 'chip-sv' : 'chip-cu'">
+              {{ account.accountType }}
+            </span>
+          </span>
+        </div>
+        <div class="ov-row">
+          <span class="ov-label">Opened On</span>
+          <span class="ov-val">{{ account.createdAt | date:'MMMM dd, yyyy' }}</span>
+        </div>
+        <div class="ov-row">
+          <span class="ov-label">Account ID</span>
+          <span class="ov-val mono small">{{ account.id }}</span>
+        </div>
+
+        <div class="ov-balance-row">
+          <span class="ov-bal-label">Live Balance</span>
+          <span class="ov-bal-val">₹ {{ account.balance | number }}</span>
+        </div>
+
+        <button class="full-tx-btn" (click)="viewTransactions()">
+          View Full Transaction History →
+        </button>
+
+        <div class="ov-tip">
+          💡 <strong>Tip:</strong> All credits and debits update your live balance instantly.
+        </div>
+      </div>
+
+    </div>
+  </ng-container>
+</div>

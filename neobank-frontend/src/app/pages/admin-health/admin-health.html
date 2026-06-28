@@ -1,0 +1,126 @@
+﻿<div class="health-page">
+
+  <!-- ══ HERO ════════════════════════════════════════════ -->
+  <div class="health-hero">
+    <div class="hero-left">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        <span>System Monitor</span>
+      </div>
+      <h1 class="hero-title">System Health</h1>
+      <p class="hero-sub">Real-time status of all NeoBank backend services.</p>
+    </div>
+    <div class="overall-badge" [class]="statusClass">
+      {{ overallStatus }}
+    </div>
+  </div>
+
+  <!-- ══ SYSTEM OVERVIEW ══════════════════════════════════ -->
+  <div class="section-header">
+    <span class="section-bar"></span>
+    <span class="section-label">System Overview</span>
+  </div>
+
+  <div class="overview-grid">
+
+    <!-- Database -->
+    <div class="ov-card border-green">
+      <div class="ov-icon">&#128196;</div>
+      <div class="ov-body">
+        <span class="ov-label">Database</span>
+        <span class="ov-value">
+          <span class="dot-green"></span> {{ dbStatus }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Active Sessions -->
+    <div class="ov-card border-indigo">
+      <div class="ov-icon">&#128101;</div>
+      <div class="ov-body">
+        <span class="ov-label">Active Sessions</span>
+        <span class="ov-value">{{ activeSessions }}</span>
+      </div>
+    </div>
+
+    <!-- Server Uptime -->
+    <div class="ov-card border-cyan">
+      <div class="ov-icon">&#9203;</div>
+      <div class="ov-body">
+        <span class="ov-label">Server Uptime</span>
+        <span class="ov-value">{{ uptime }}</span>
+      </div>
+    </div>
+
+    <!-- CPU Usage -->
+    <div class="ov-card border-amber">
+      <div class="ov-icon">&#9881;</div>
+      <div class="ov-body">
+        <span class="ov-label">CPU Usage</span>
+        <span class="ov-value">{{ cpuUsage }}%</span>
+        <div class="progress-bar">
+          <div class="progress-fill amber-fill" [style.width.%]="cpuUsage"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Memory Usage -->
+    <div class="ov-card border-purple">
+      <div class="ov-icon">&#128200;</div>
+      <div class="ov-body">
+        <span class="ov-label">Memory Usage</span>
+        <span class="ov-value">{{ memoryUsage }}%</span>
+        <div class="progress-bar">
+          <div class="progress-fill purple-fill" [style.width.%]="memoryUsage"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Services Up -->
+    <div class="ov-card border-green">
+      <div class="ov-icon">&#10003;</div>
+      <div class="ov-body">
+        <span class="ov-label">Services Up</span>
+        <span class="ov-value">{{ servicesUp }} / {{ servicesTotal }}</span>
+      </div>
+    </div>
+
+    <!-- Last Checked -->
+    <div class="ov-card border-cyan">
+      <div class="ov-icon">&#9203;</div>
+      <div class="ov-body">
+        <span class="ov-label">Last Checked</span>
+        <span class="ov-value">{{ lastChecked }}</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══ BACKEND SERVICES ══════════════════════════════════ -->
+  <div class="section-header">
+    <span class="section-bar"></span>
+    <span class="section-label">Backend Services</span>
+  </div>
+
+  <div class="services-grid">
+    <div
+      class="svc-card"
+      *ngFor="let svc of services"
+      [class]="getCardBorder(svc.status)">
+
+      <div class="svc-left">
+        <div class="svc-icon">&#9203;</div>
+        <div class="svc-info">
+          <span class="svc-name">{{ svc.name }}</span>
+          <span class="svc-latency">{{ svc.latency }}</span>
+        </div>
+      </div>
+
+      <span class="svc-tag" [class]="getStatusClass(svc.status)">
+        {{ svc.status }}
+      </span>
+
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,130 @@
+<div class="page-root">
+
+  <!-- HERO -->
+  <section class="page-hero">
+    <div class="ph-bg"></div>
+    <div class="ph-inner">
+      <div class="ph-eyebrow">Loans</div>
+      <h1 class="ph-title">Fast Loans,<br><span class="ph-accent">Zero Paperwork</span></h1>
+      <p class="ph-sub">Get funds in your account within 24 hours. Transparent rates, zero hidden fees, and fully digital process — from application to disbursal.</p>
+      <div class="ph-actions">
+        <a routerLink="/register" class="pg-btn-primary">Apply Now &rarr;</a>
+        <a routerLink="/login"    class="pg-btn-outline">Check Eligibility</a>
+      </div>
+      <div class="ph-stats">
+        <div class="phs-item"><div class="phs-val">24 hrs</div><div class="phs-label">Disbursal Time</div></div>
+        <div class="phs-div"></div>
+        <div class="phs-item"><div class="phs-val">₹10L+</div><div class="phs-label">Max Loan Amount</div></div>
+        <div class="phs-div"></div>
+        <div class="phs-item"><div class="phs-val">8.35%</div><div class="phs-label">Starting Rate</div></div>
+        <div class="phs-div"></div>
+        <div class="phs-item"><div class="phs-val">0</div><div class="phs-label">Collateral Needed</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOAN TYPES -->
+  <section class="sect bg-dark">
+    <div class="wrap">
+      <div class="eyebrow">Loan Products</div>
+      <h2 class="sect-title">A Loan for Every Need</h2>
+      <p class="sect-sub">Whether it's personal, business, home, or education — we have flexible financing solutions for every goal.</p>
+      <div class="loans-grid">
+        <div class="loan-card" *ngFor="let l of loanTypes" [ngClass]="'lc-' + l.color">
+          <div class="lc-badge">{{ l.badge }}</div>
+          <div class="lc-icon">{{ l.icon }}</div>
+          <h3 class="lc-title">{{ l.title }}</h3>
+          <div class="lc-meta-row">
+            <div class="lc-meta"><div class="lcm-label">Amount</div><div class="lcm-val">{{ l.amount }}</div></div>
+            <div class="lc-meta"><div class="lcm-label">Rate</div><div class="lcm-val green">{{ l.rate }}</div></div>
+            <div class="lc-meta"><div class="lcm-label">Tenure</div><div class="lcm-val">{{ l.tenure }}</div></div>
+          </div>
+          <p class="lc-desc">{{ l.desc }}</p>
+          <ul class="lc-features">
+            <li *ngFor="let f of l.features"><span class="lc-check">✓</span> {{ f }}</li>
+          </ul>
+          <a routerLink="/register" class="lc-cta">Apply Now &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW TO APPLY -->
+  <section class="sect bg-mid">
+    <div class="wrap">
+      <div class="eyebrow">Simple Process</div>
+      <h2 class="sect-title">Apply in 4 Simple Steps</h2>
+      <p class="sect-sub">Our fully digital process means no branch visits, no courier of documents, and no waiting.</p>
+      <div class="steps-row">
+        <div class="step-card" *ngFor="let s of steps; let i = index">
+          <div class="step-connector" *ngIf="i < steps.length - 1"></div>
+          <div class="step-num">{{ s.num }}</div>
+          <div class="step-icon">{{ s.icon }}</div>
+          <h4 class="step-title">{{ s.title }}</h4>
+          <p class="step-desc">{{ s.desc }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ELIGIBILITY -->
+  <section class="sect bg-dark">
+    <div class="wrap">
+      <div class="two-col">
+        <div class="tc-left">
+          <div class="eyebrow">Who Can Apply</div>
+          <h2 class="sect-title left">Check Your<br>Eligibility</h2>
+          <p class="sect-sub left">Most Indians with a regular income qualify. Our flexible criteria make approval easy.</p>
+          <a routerLink="/register" class="pg-btn-primary">Check Eligibility &rarr;</a>
+        </div>
+        <div class="tc-right">
+          <div class="elig-card" *ngFor="let e of eligibility">
+            <div class="ec-icon">{{ e.icon }}</div>
+            <div>
+              <div class="ec-label">{{ e.label }}</div>
+              <div class="ec-desc">{{ e.desc }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EMI EXAMPLES -->
+  <section class="sect bg-mid">
+    <div class="wrap">
+      <div class="eyebrow">EMI Calculator</div>
+      <h2 class="sect-title">Sample EMI at 10.5% p.a.</h2>
+      <p class="sect-sub">Use our full EMI calculator after applying. These are indicative amounts.</p>
+      <div class="emi-table">
+        <div class="et-header">
+          <span>Loan Amount</span>
+          <span>Tenure</span>
+          <span>Interest Rate</span>
+          <span>Monthly EMI</span>
+        </div>
+        <div class="et-row" *ngFor="let e of emiExamples">
+          <span class="et-amount">{{ e.amount }}</span>
+          <span>{{ e.tenure }}</span>
+          <span>{{ e.rate }}</span>
+          <span class="et-emi">{{ e.emi }}</span>
+        </div>
+      </div>
+      <p class="emi-note">* Actual EMI may vary based on credit score and loan type. T&C apply.</p>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="page-cta">
+    <div class="cta-bg"></div>
+    <div class="cta-inner">
+      <h2 class="cta-title">Ready to Apply?</h2>
+      <p class="cta-sub">Approval in 24 hours. Money in your account. No branch visits, no paperwork.</p>
+      <div class="cta-actions">
+        <a routerLink="/register" class="pg-btn-primary lg">Apply for a Loan &rarr;</a>
+        <a routerLink="/login"    class="pg-btn-ghost lg">Log In</a>
+      </div>
+    </div>
+  </section>
+
+</div>

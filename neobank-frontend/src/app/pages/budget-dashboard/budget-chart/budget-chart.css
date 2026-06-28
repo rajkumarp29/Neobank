@@ -1,0 +1,135 @@
+﻿/* =========================
+   MAIN SECTION (CENTERED)
+========================= */
+.chart-section {
+  width: 100%;
+  margin-top: 40px;
+
+  display: flex;
+  justify-content: center;
+}
+
+/* =========================
+   SIDE-BY-SIDE ROW
+========================= */
+.chart-row {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 30px;
+
+  max-width: 1050px;
+  width: 100%;
+
+  flex-wrap: nowrap; /* keep side-by-side */
+}
+
+/* =========================
+   PREMIUM CARD
+========================= */
+.chart-card {
+  position: relative;
+
+  border-radius: 20px;
+  padding: 20px;
+
+  /* âœ… Glass + gradient border */
+  background: #141c2b;
+
+  border: 1.5px solid transparent;
+  backdrop-filter: blur(14px);
+
+  box-shadow:
+    0 25px 60px rgba(0, 0, 0, 0.18),
+    inset 0 1px 0 rgba(255,255,255,0.5);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  transition: all 0.25s ease;
+}
+
+/* =========================
+   HOVER EFFECT ðŸ”¥
+========================= */
+.chart-card:hover {
+  transform: translateY(-6px) scale(1.02);
+
+  box-shadow:
+    0 35px 80px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255,255,255,0.7);
+}
+
+/* =========================
+   DONUT CARD
+========================= */
+.chart-card.donut {
+  width: 360px;
+  height: 380px;
+  flex-shrink: 0;
+}
+
+/* =========================
+   BAR CARD
+========================= */
+.chart-card.bar {
+  width: 650px;
+  height: 380px;
+  flex-shrink: 0;
+}
+
+/* =========================
+   TITLE
+========================= */
+.chart-card h3 {
+  font-size: 15px;
+  font-weight: 800;
+  margin-bottom: 12px;
+
+  color: #f1f5f9;
+  letter-spacing: 0.4px;
+}
+
+/* =========================
+   CANVAS FIX
+========================= */
+canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* =========================
+   ENTRY ANIMATION ðŸŽ¯
+========================= */
+.chart-card {
+  animation: fadeUp 0.5s ease;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================
+   MOBILE
+========================= */
+@media (max-width: 900px) {
+  .chart-row {
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .chart-card.bar,
+  .chart-card.donut {
+    width: 100%;
+    height: 320px;
+  }
+}

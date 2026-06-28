@@ -1,0 +1,186 @@
+﻿<div class="rw-page">
+
+  <!-- ===== HERO ===== -->
+  <div class="rw-hero">
+    <div class="hero-glow"></div>
+
+    <div class="hero-left">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        NeoBank Rewards
+      </div>
+      <h1 class="hero-title">Your Rewards Hub</h1>
+      <p class="hero-sub">Earn points on every transaction and redeem them for real cash credited to your account.</p>
+      <div class="hero-tags">
+        <span class="tag">&#11088; Earn on Every Pay</span>
+        <span class="tag">&#128176; Redeem for Cash</span>
+        <span class="tag">&#9889; Instant Credit</span>
+      </div>
+    </div>
+
+    <div class="hero-points-bubble">
+      <span class="bubble-label">Total Balance</span>
+      <span class="bubble-value">{{ pointsBalance | number }}</span>
+      <span class="bubble-sub">Reward Points Available</span>
+    </div>
+  </div>
+
+  <!-- ===== BODY ===== -->
+  <div class="rw-body">
+
+    <!-- SUMMARY STRIP -->
+    <div class="summary-strip">
+      <div class="sum-stat">
+        <span class="sum-icon">&#11088;</span>
+        <div class="sum-info">
+          <span class="sum-label">Available</span>
+          <span class="sum-value gold">{{ pointsBalance | number }}</span>
+        </div>
+      </div>
+      <div class="strip-div"></div>
+      <div class="sum-stat">
+        <span class="sum-icon">&#128200;</span>
+        <div class="sum-info">
+          <span class="sum-label">Total Earned</span>
+          <span class="sum-value green">{{ totalEarned | number }}</span>
+        </div>
+      </div>
+      <div class="strip-div"></div>
+      <div class="sum-stat">
+        <span class="sum-icon">&#127873;</span>
+        <div class="sum-info">
+          <span class="sum-label">Total Redeemed</span>
+          <span class="sum-value amber">{{ totalRedeemed | number }}</span>
+        </div>
+      </div>
+      <div class="strip-div"></div>
+      <div class="sum-stat">
+        <span class="sum-icon">&#128181;</span>
+        <div class="sum-info">
+          <span class="sum-label">Cash Value</span>
+          <span class="sum-value purple">&#8377;{{ (pointsBalance / 100).toFixed(2) }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CASH-OUT CARD -->
+    <div class="cashout-card">
+      <div class="cashout-header">
+        <div class="cashout-icon">&#128176;</div>
+        <div>
+          <p class="cashout-title">Redeem Points</p>
+          <p class="cashout-sub">100 points = &#8377;1 credited to your account</p>
+        </div>
+      </div>
+
+      <div class="redeem-success" *ngIf="redeemSuccess">
+        &#10004; Successfully redeemed! Cash has been credited to your account.
+      </div>
+
+      <div class="cashout-form">
+        <!-- Account selector -->
+        <div class="form-group">
+          <label class="form-label">Select Account</label>
+          <select class="form-select" [(ngModel)]="selectedAccountId">
+            <option value="">Choose account&hellip;</option>
+            <option *ngFor="let acc of accounts" [value]="acc.id">
+              {{ acc.accountType }} &mdash; ****{{ acc.accountNumber.slice(-4) }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Points input -->
+        <div class="form-group">
+          <label class="form-label">Points to Redeem (min 100)</label>
+          <input class="form-input"
+                 type="number"
+                 [(ngModel)]="pointsToRedeem"
+                 min="100"
+                 [max]="pointsBalance"
+                 step="100" />
+        </div>
+      </div>
+
+      <!-- Preview -->
+      <div class="cashout-preview">
+        <div class="preview-item">
+          <span class="preview-label">Points</span>
+          <span class="preview-val gold">{{ pointsToRedeem | number }}</span>
+        </div>
+        <div class="preview-item" style="text-align:center">
+          <span style="font-size:1.4rem;color:#64748b">&#8594;</span>
+        </div>
+        <div class="preview-item">
+          <span class="preview-label">Cash Value</span>
+          <span class="preview-val green">&#8377;{{ cashValue.toFixed(2) }}</span>
+        </div>
+        <div class="preview-item">
+          <span class="preview-label">Remaining After</span>
+          <span class="preview-val gold">{{ (pointsBalance - pointsToRedeem) | number }}</span>
+        </div>
+      </div>
+
+      <button class="redeem-btn"
+              (click)="redeem()"
+              [disabled]="redeeming || !selectedAccountId || pointsToRedeem < 100 || pointsToRedeem > pointsBalance">
+        <span *ngIf="!redeeming">&#128176; Redeem {{ pointsToRedeem | number }} Points &rarr; &#8377;{{ cashValue.toFixed(2) }}</span>
+        <span *ngIf="redeeming"><span class="btn-spinner"></span>&nbsp; Processing&hellip;</span>
+      </button>
+    </div>
+
+    <!-- HISTORY GRID -->
+    <div class="history-grid">
+
+      <!-- Earned -->
+      <div class="history-card">
+        <div class="history-card-header earned-header">
+          <div class="hh-icon earned-icon">&#11088;</div>
+          <h4 class="hh-title">Points Earned ({{ earned.length }})</h4>
+        </div>
+        <div class="history-list">
+          <ng-container *ngIf="earned.length > 0; else emptyEarned">
+            <div class="history-row" *ngFor="let item of earned">
+              <div class="history-icon-wrap earned-wrap">&#128200;</div>
+              <div class="history-info">
+                <span class="history-desc">{{ item.description }}</span>
+                <span class="history-date">{{ item.date | date:'dd MMM yyyy' }}</span>
+              </div>
+              <span class="history-pts earned-pts">+{{ item.points }}</span>
+            </div>
+          </ng-container>
+          <ng-template #emptyEarned>
+            <div class="history-empty">No earned points yet. Pay bills or transact to earn!</div>
+          </ng-template>
+        </div>
+      </div>
+
+      <!-- Redeemed -->
+      <div class="history-card">
+        <div class="history-card-header redeemed-header">
+          <div class="hh-icon redeemed-icon">&#127873;</div>
+          <h4 class="hh-title">Points Redeemed ({{ redeemed.length }})</h4>
+        </div>
+        <div class="history-list">
+          <ng-container *ngIf="redeemed.length > 0; else emptyRedeemed">
+            <div class="history-row" *ngFor="let item of redeemed">
+              <div class="history-icon-wrap redeemed-wrap">&#128176;</div>
+              <div class="history-info">
+                <span class="history-desc">{{ item.description }}</span>
+                <span class="history-date">{{ item.date | date:'dd MMM yyyy' }}</span>
+              </div>
+              <span class="history-pts redeemed-pts">{{ item.points }}</span>
+            </div>
+          </ng-container>
+          <ng-template #emptyRedeemed>
+            <div class="history-empty">No redemptions yet. Redeem your points above!</div>
+          </ng-template>
+        </div>
+      </div>
+
+    </div>
+    <!-- /history-grid -->
+
+  </div>
+  <!-- /rw-body -->
+
+</div>

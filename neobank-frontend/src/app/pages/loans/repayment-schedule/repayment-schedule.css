@@ -1,0 +1,313 @@
+/* =========================
+   ✅ CONTAINER
+========================= */
+.schedule-container {
+  padding: 24px;
+  min-height: 100vh;
+
+  background: linear-gradient(135deg,
+    #0a0e27 0%,
+    #1a1f3a 30%,
+    #151b2f 60%,
+    #0f1220 100%
+  );
+
+  color: #f1f5f9;
+}
+
+/* =========================
+   ✅ HEADER
+========================= */
+.schedule-container h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+/* =========================
+   ✅ PREMIUM CARD
+========================= */
+.summary-card-premium {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 25px;
+
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.15);
+
+  box-shadow:
+    0 10px 25px rgba(0,0,0,0.3),
+    inset 0 0 20px rgba(255,255,255,0.05);
+
+  transition: transform 0.2s ease;
+}
+
+.summary-card-premium:hover {
+  transform: translateY(-3px);
+}
+
+/* =========================
+   ✅ TOP SECTION
+========================= */
+.summary-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.summary-top h4 {
+  font-size: 13px;
+  color: #cbd5f5;
+}
+
+.summary-top h1 {
+  font-size: 28px;
+  margin-top: 5px;
+}
+
+/* ✅ % BADGE */
+.percent-badge {
+  background: linear-gradient(135deg, #3b82f6, #22c55e);
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+/* =========================
+   ✅ STATS ROW
+========================= */
+.summary-stats {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.stat span {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.stat p {
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+/* COLORS */
+.paid p {
+  color: #22c55e;
+}
+
+.remaining p {
+  color: #3b82f6;
+}
+
+.overdue p {
+  color: #ef4444;
+}
+
+/* =========================
+   ✅ PROGRESS BAR
+========================= */
+.progress-section {
+  margin-top: 20px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 10px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.1);
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 10px;
+
+  background: linear-gradient(
+    90deg,
+    #3b82f6 0%,
+    #22c55e 100%
+  );
+
+  box-shadow: 0 0 10px rgba(34,197,94,0.5);
+  transition: width 0.6s ease;
+}
+
+.progress-text {
+  font-size: 12px;
+  color: #cbd5f5;
+  margin-top: 6px;
+  display: block;
+  text-align: right;
+}
+
+
+/* =========================
+   ✅ FILTER BAR
+========================= */
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.filter-bar label {
+  font-size: 13px;
+  color: #cbd5f5;
+}
+
+.filter-bar select,
+.filter-bar input {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: none;
+
+  background: rgba(255,255,255,0.08);
+  color: white;
+}
+
+/* ✅ Fix dropdown */
+.filter-bar select option {
+  background: white;
+  color: black;
+}
+
+/* =========================
+   ✅ TABLE
+========================= */
+.schedule-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* header */
+.schedule-table thead {
+  background: rgba(59,130,246,0.2);
+}
+
+.schedule-table th {
+  padding: 12px;
+  font-size: 13px;
+  text-align: left;
+  color: #e2e8f0;
+}
+
+/* body */
+.schedule-table td {
+  padding: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  font-size: 14px;
+}
+
+/* hover */
+.schedule-table tr:hover {
+  background: rgba(59,130,246,0.15);
+}
+
+/* =========================
+   ✅ STATUS
+========================= */
+.status-pending {
+  background: #f59e0b;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+.status-paid {
+  background: #10b981;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+.status-overdue {
+  background: #ef4444;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+/* =========================
+   ✅ PAY BUTTON
+========================= */
+.pay-btn {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.pay-btn:hover {
+  background: #1d4ed8;
+}
+
+.paid-text {
+  color: #22c55e;
+  font-weight: bold;
+}
+
+/* =========================
+   ✅ PAGINATION
+========================= */
+.pagination {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  background: #1e40af;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  margin: 5px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.pagination button:hover {
+  background: #1d4ed8;
+}
+
+/* =========================
+   ✅ EMPTY STATE
+========================= */
+.empty {
+  text-align: center;
+  margin-top: 30px;
+  color: #94a3b8;
+}
+
+/* =========================
+   ✅ RESPONSIVE
+========================= */
+@media (max-width: 768px) {
+
+  .schedule-container {
+    padding: 16px;
+  }
+
+  .summary-cards {
+    flex-direction: column;
+  }
+
+  .filter-bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .schedule-table th,
+  .schedule-table td {
+    font-size: 12px;
+    padding: 8px;
+  }
+}

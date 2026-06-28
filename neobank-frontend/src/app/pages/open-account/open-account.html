@@ -1,0 +1,419 @@
+﻿<!-- SUCCESS STATE -->
+<div *ngIf="submitted" class="oa-success">
+  <div class="success-card">
+    <div class="success-icon">&#127881;</div>
+    <h2>Application Submitted!</h2>
+    <p>Your account application has been received.<br/>Our team will review and activate it shortly.</p>
+    <div class="success-dots"><span></span><span></span><span></span></div>
+  </div>
+</div>
+
+<!-- MAIN FORM -->
+<div *ngIf="!submitted" class="oa-page">
+
+  <!-- HERO -->
+  <div class="oa-hero">
+    <div class="hero-badge">&#127970; NeoBank</div>
+    <h1>Open Your Account</h1>
+    <p>Complete your application in just 7 simple steps — quick, secure and fully digital.</p>
+  </div>
+
+  <!-- STEPPER -->
+  <div class="stepper-wrap">
+    <div class="stepper">
+      <div *ngFor="let s of steps; let i = index" class="step-node"
+           [class.active]="currentStep === i+1" [class.completed]="currentStep > i+1">
+        <div class="step-circle">
+          <span *ngIf="currentStep > i+1">&#10003;</span>
+          <span *ngIf="currentStep <= i+1">{{ i+1 }}</span>
+        </div>
+        <span class="step-lbl">{{ s.label }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- FORM CARD -->
+  <div class="form-wrap">
+    <div class="form-card">
+
+      <!-- Card Header -->
+      <div class="card-hdr">
+        <div class="step-badge">STEP {{ currentStep }} OF 7</div>
+        <div class="pbar-wrap"><div class="pbar-fill" [style.width]="progress + '%'"></div></div>
+        <span class="pbar-pct">{{ progress }}% complete</span>
+      </div>
+
+      <!-- ── STEP 1 — Personal Info ──────────────────────── -->
+      <div *ngIf="currentStep === 1" class="step-body">
+        <h2 class="step-title">&#128100; Personal Information</h2>
+        <div class="fg3">
+          <div class="fg"><label>First Name *</label><input type="text" [(ngModel)]="p.firstName" name="fn" placeholder="John"/></div>
+          <div class="fg"><label>Middle Name</label><input type="text" [(ngModel)]="p.middleName" name="mn" placeholder="Optional"/></div>
+          <div class="fg"><label>Last Name *</label><input type="text" [(ngModel)]="p.lastName" name="ln" placeholder="Doe"/></div>
+        </div>
+        <div class="fg2">
+          <div class="fg"><label>Date of Birth *</label><input type="date" [(ngModel)]="p.dob" name="dob"/></div>
+          <div class="fg"><label>Nationality *</label>
+            <select [(ngModel)]="p.nationality" name="nat">
+              <option *ngFor="let n of nationalities">{{ n }}</option>
+            </select>
+          </div>
+        </div>
+        <div class="fg fg-mb">
+          <label>Gender *</label>
+          <div class="radio-group">
+            <label class="radio-opt" *ngFor="let gv of ['Male','Female','Other']">
+              <input type="radio" [(ngModel)]="p.gender" name="gender" [value]="gv"/><span>{{ gv }}</span>
+            </label>
+          </div>
+        </div>
+        <div class="fg2">
+          <div class="fg"><label>Marital Status</label>
+            <select [(ngModel)]="p.maritalStatus" name="ms">
+              <option value="">Select</option>
+              <option *ngFor="let m of ['Single','Married','Divorced','Widowed']">{{ m }}</option>
+            </select>
+          </div>
+          <div class="fg"><label>Father Name</label><input type="text" [(ngModel)]="p.fatherName" name="ftn" placeholder="Optional"/></div>
+        </div>
+      </div>
+
+      <!-- ── STEP 2 — Contact & Address ─────────────────── -->
+      <div *ngIf="currentStep === 2" class="step-body">
+        <h2 class="step-title">&#128241; Contact &amp; Address</h2>
+        <div class="fg2">
+          <div class="fg"><label>Mobile Number *</label><input type="tel" [(ngModel)]="c.mobile" name="mob" placeholder="+91 99999 99999"/></div>
+          <div class="fg"><label>Alternate Phone</label><input type="tel" [(ngModel)]="c.altPhone" name="alt" placeholder="Optional"/></div>
+        </div>
+        <div class="fg2">
+          <div class="fg"><label>Email Address *</label><input type="email" [(ngModel)]="c.email" name="email" placeholder="john@email.com"/></div>
+        </div>
+        <div class="addr-section">
+          <h4>Current Address</h4>
+          <div class="fg2">
+            <div class="fg"><label>Address Line 1 *</label><input type="text" [(ngModel)]="c.curLine1" name="cl1" placeholder="House No, Street"/></div>
+            <div class="fg"><label>Address Line 2</label><input type="text" [(ngModel)]="c.curLine2" name="cl2" placeholder="Landmark, Area"/></div>
+          </div>
+          <div class="fg3">
+            <div class="fg"><label>City *</label><input type="text" [(ngModel)]="c.curCity" name="cc" placeholder="Mumbai"/></div>
+            <div class="fg"><label>State *</label>
+              <select [(ngModel)]="c.curState" name="cs"><option value="">Select State</option><option *ngFor="let s of states">{{ s }}</option></select>
+            </div>
+            <div class="fg"><label>PIN Code *</label><input type="text" [(ngModel)]="c.curPin" name="cp" placeholder="400001" maxlength="6"/></div>
+          </div>
+        </div>
+        <div class="addr-section">
+          <div class="addr-hdr">
+            <h4>Permanent Address</h4>
+            <label class="check-opt">
+              <input type="checkbox" [(ngModel)]="c.sameAsCurrent" name="sam" (change)="syncPermanent()"/>
+              <span>Same as Current Address</span>
+            </label>
+          </div>
+          <div class="fg2">
+            <div class="fg"><label>Address Line 1 *</label><input type="text" [(ngModel)]="c.perLine1" name="pl1" placeholder="House No, Street" [disabled]="c.sameAsCurrent"/></div>
+            <div class="fg"><label>Address Line 2</label><input type="text" [(ngModel)]="c.perLine2" name="pl2" placeholder="Landmark, Area" [disabled]="c.sameAsCurrent"/></div>
+          </div>
+          <div class="fg3">
+            <div class="fg"><label>City *</label><input type="text" [(ngModel)]="c.perCity" name="pc" placeholder="Mumbai" [disabled]="c.sameAsCurrent"/></div>
+            <div class="fg"><label>State *</label>
+              <select [(ngModel)]="c.perState" name="ps" [disabled]="c.sameAsCurrent"><option value="">Select State</option><option *ngFor="let s of states">{{ s }}</option></select>
+            </div>
+            <div class="fg"><label>PIN Code *</label><input type="text" [(ngModel)]="c.perPin" name="pp" placeholder="400001" maxlength="6" [disabled]="c.sameAsCurrent"/></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── STEP 3 — Occupation ─────────────────────────── -->
+      <div *ngIf="currentStep === 3" class="step-body">
+        <h2 class="step-title">&#128188; Occupation Details</h2>
+        <div class="fg fg-mb">
+          <label>Employment Type *</label>
+          <div class="emp-cards">
+            <div class="emp-card" *ngFor="let et of empTypes"
+                 [class.active]="o.employmentType === et"
+                 (click)="o.employmentType = et">
+              <span class="emp-icon">{{ empIcons[et] }}</span>
+              <span>{{ et }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="fg2" *ngIf="showCompany">
+          <div class="fg"><label>Company / Organisation *</label><input type="text" [(ngModel)]="o.companyName" name="comp" placeholder="Company name"/></div>
+          <div class="fg"><label>Designation</label><input type="text" [(ngModel)]="o.designation" name="desig" placeholder="e.g. Software Engineer"/></div>
+        </div>
+        <div class="fg2">
+          <div class="fg"><label>Annual Income</label>
+            <select [(ngModel)]="o.annualIncome" name="inc">
+              <option value="">Select range</option>
+              <option *ngFor="let ib of incomeBrackets">{{ ib }}</option>
+            </select>
+          </div>
+          <div class="fg"><label>Industry</label>
+            <select [(ngModel)]="o.industry" name="ind">
+              <option value="">Select industry</option>
+              <option *ngFor="let ind of industries">{{ ind }}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── STEP 4 — Govt ID ────────────────────────────── -->
+      <div *ngIf="currentStep === 4" class="step-body">
+        <h2 class="step-title">&#128220; Government ID</h2>
+        <div class="fg fg-mb">
+          <label>ID Type *</label>
+          <div class="id-cards">
+            <div class="id-card" *ngFor="let id of idTypes"
+                 [class.active]="g.idType === id.key"
+                 (click)="g.idType = id.key">
+              <span class="id-icon">{{ id.icon }}</span>
+              <span>{{ id.lbl }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="fg2">
+          <div class="fg"><label>ID Number *</label><input type="text" [(ngModel)]="g.idNumber" name="idn" placeholder="Enter ID number"/></div>
+          <div class="fg"><label>Issue Date</label><input type="date" [(ngModel)]="g.issueDate" name="isd"/></div>
+        </div>
+        <div class="fg2">
+          <div class="fg"><label>Expiry Date</label><input type="date" [(ngModel)]="g.expiryDate" name="exp"/></div>
+        </div>
+        <div class="upload-single">
+          <label class="fg"><span style="font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#64748b;">Upload Document</span></label>
+          <div class="upload-zone" (click)="fileInput.click()">
+            <div class="upload-prompt" *ngIf="!g.frontPreview">
+              <span class="upload-icon">&#128247;</span>
+              <p>Click to upload front side</p>
+              <span class="upload-hint">JPG, PNG or PDF — max 5MB</span>
+            </div>
+            <div class="upload-preview" *ngIf="g.frontPreview">
+              <img [src]="g.frontPreview" alt="ID Preview"/>
+            </div>
+          </div>
+          <input #fileInput type="file" accept="image/*,application/pdf" style="display:none" (change)="onFileChange($event)"/>
+          <p class="file-name" *ngIf="g.frontName">&#128206; {{ g.frontName }}</p>
+        </div>
+      </div>
+
+      <!-- ── STEP 5 — Preferences ────────────────────────── -->
+      <div *ngIf="currentStep === 5" class="step-body">
+        <h2 class="step-title">&#9881;&#65039; Account Preferences</h2>
+        <div class="fg fg-mb">
+          <label>Account Type *</label>
+          <div class="acct-cards">
+            <div class="acct-card" *ngFor="let ao of accountOptions"
+                 [class.active]="ap.accountType === ao.key"
+                 (click)="ap.accountType = ao.key">
+              <span class="acct-check" *ngIf="ap.accountType === ao.key">&#10003;</span>
+              <span class="acct-icon">{{ ao.icon }}</span>
+              <span class="acct-lbl">{{ ao.lbl }}</span>
+              <span class="acct-sub">{{ ao.desc }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="fg fg-mb">
+          <label>Banking Services</label>
+          <div class="toggle-grid">
+            <div class="toggle-row">
+              <span class="toggle-info"><span class="toggle-icon">&#128179;</span> Debit Card</span>
+              <label class="toggle-sw"><input type="checkbox" [(ngModel)]="ap.debitCard" name="dc"/><span class="slider"></span></label>
+            </div>
+            <div class="toggle-row">
+              <span class="toggle-info"><span class="toggle-icon">&#127760;</span> Net Banking</span>
+              <label class="toggle-sw"><input type="checkbox" [(ngModel)]="ap.netBanking" name="nb"/><span class="slider"></span></label>
+            </div>
+            <div class="toggle-row">
+              <span class="toggle-info"><span class="toggle-icon">&#128241;</span> Mobile Banking</span>
+              <label class="toggle-sw"><input type="checkbox" [(ngModel)]="ap.mobileBanking" name="mb"/><span class="slider"></span></label>
+            </div>
+            <div class="toggle-row">
+              <span class="toggle-info"><span class="toggle-icon">&#128196;</span> Cheque Book</span>
+              <label class="toggle-sw"><input type="checkbox" [(ngModel)]="ap.chequeBook" name="cb"/><span class="slider"></span></label>
+            </div>
+          </div>
+        </div>
+        <div class="fg2">
+          <div class="fg"><label>Statement Preference</label>
+            <select [(ngModel)]="ap.statement" name="stmt">
+              <option value="EMAIL">Email</option>
+              <option value="SMS">SMS</option>
+              <option value="BOTH">Both</option>
+              <option value="NONE">None</option>
+            </select>
+          </div>
+          <div class="fg"><label>Preferred Branch</label><input type="text" [(ngModel)]="ap.branch" name="br" placeholder="City or branch name"/></div>
+        </div>
+      </div>
+
+      <!-- ── STEP 6 — Nominee ────────────────────────────── -->
+      <div *ngIf="currentStep === 6" class="step-body">
+        <h2 class="step-title">&#128101; Nominee Details</h2>
+        <div *ngFor="let nom of nominees; let ni = index">
+          <div class="nominee-card">
+            <div class="nominee-hdr">
+              <span>Nominee {{ ni + 1 }}</span>
+              <button class="rm-btn" *ngIf="nominees.length > 1" (click)="removeNominee(ni)">&#10005; Remove</button>
+            </div>
+            <div class="fg2">
+              <div class="fg"><label>Full Name *</label><input type="text" [(ngModel)]="nom.fullName" [name]="'nfn'+ni" placeholder="Full legal name"/></div>
+              <div class="fg"><label>Relationship *</label>
+                <select [(ngModel)]="nom.relationship" [name]="'nrel'+ni">
+                  <option value="">Select</option>
+                  <option *ngFor="let r of ['Spouse','Father','Mother','Son','Daughter','Brother','Sister','Friend','Other']">{{ r }}</option>
+                </select>
+              </div>
+            </div>
+            <div class="fg2">
+              <div class="fg"><label>Date of Birth *</label><input type="date" [(ngModel)]="nom.dob" [name]="'ndob'+ni"/></div>
+              <div class="fg"><label>Mobile</label><input type="tel" [(ngModel)]="nom.mobile" [name]="'nmob'+ni" placeholder="Optional"/></div>
+            </div>
+            <div class="fg2">
+              <div class="fg"><label>Share % *</label><input type="number" [(ngModel)]="nom.share" [name]="'nshr'+ni" min="1" max="100" placeholder="e.g. 100"/></div>
+            </div>
+            <div class="guardian-section" *ngIf="getNomineeAge(nom.dob) < 18 && nom.dob">
+              <h5>&#9888;&#65039; Guardian Required (Nominee is a minor)</h5>
+              <div class="fg2">
+                <div class="fg"><label>Guardian Name *</label><input type="text" [(ngModel)]="nom.guardianName" [name]="'gn'+ni" placeholder="Guardian full name"/></div>
+                <div class="fg"><label>Relationship</label><input type="text" [(ngModel)]="nom.guardianRel" [name]="'gr'+ni" placeholder="e.g. Father"/></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="add-nom-btn" *ngIf="nominees.length < 3" (click)="addNominee()">+ Add Another Nominee</button>
+      </div>
+
+      <!-- ── STEP 7 — Review & Submit ────────────────────── -->
+      <div *ngIf="currentStep === 7" class="step-body">
+        <h2 class="step-title">&#128203; Review &amp; Submit</h2>
+
+        <!-- ── 2-column review grid ── -->
+        <div class="review-2col">
+
+          <!-- Personal Info -->
+          <div class="review-card">
+            <div class="review-hdr">
+              <span class="rv-hdr-icon">&#128100;</span>
+              <span class="rv-hdr-title">Personal Info</span>
+              <button class="rv-edit-btn" (click)="goToStep(1)">&#9998; Edit</button>
+            </div>
+            <div class="rv-rows">
+              <div class="rv-row"><span class="rv-lbl">Full Name</span><span class="rv-val">{{ p.firstName }} {{ p.middleName }} {{ p.lastName }}</span></div>
+              <div class="rv-row"><span class="rv-lbl">Date of Birth</span><span class="rv-val">{{ p.dob || '—' }}</span></div>
+              <div class="rv-row"><span class="rv-lbl">Gender</span><span class="rv-val">{{ p.gender || '—' }}</span></div>
+              <div class="rv-row"><span class="rv-lbl">Nationality</span><span class="rv-val">{{ p.nationality }}</span></div>
+              <div class="rv-row"><span class="rv-lbl">Marital Status</span><span class="rv-val">{{ p.maritalStatus || '—' }}</span></div>
+            </div>
+          </div>
+
+          <!-- Contact -->
+          <div class="review-card">
+            <div class="review-hdr">
+              <span class="rv-hdr-icon">&#128241;</span>
+              <span class="rv-hdr-title">Contact</span>
+              <button class="rv-edit-btn" (click)="goToStep(2)">&#9998; Edit</button>
+            </div>
+            <div class="rv-rows">
+              <div class="rv-row"><span class="rv-lbl">Mobile</span><span class="rv-val">{{ c.mobile || '—' }}</span></div>
+              <div class="rv-row"><span class="rv-lbl">Email</span><span class="rv-val">{{ c.email || '—' }}</span></div>
+              <div class="rv-row"><span class="rv-lbl">City</span><span class="rv-val">{{ c.curCity || '—' }}</span></div>
+              <div class="rv-row"><span class="rv-lbl">State</span><span class="rv-val">{{ c.curState || '—' }}</span></div>
+              <div class="rv-row"><span class="rv-lbl">PIN Code</span><span class="rv-val">{{ c.curPin || '—' }}</span></div>
+            </div>
+          </div>
+
+          <!-- Occupation -->
+          <div class="review-card">
+            <div class="review-hdr">
+              <span class="rv-hdr-icon">&#128188;</span>
+              <span class="rv-hdr-title">Occupation</span>
+              <button class="rv-edit-btn" (click)="goToStep(3)">&#9998; Edit</button>
+            </div>
+            <div class="rv-rows">
+              <div class="rv-row"><span class="rv-lbl">Employment</span><span class="rv-val">{{ o.employmentType || '—' }}</span></div>
+              <div class="rv-row"><span class="rv-lbl">Company</span><span class="rv-val">{{ o.companyName || '—' }}</span></div>
+              <div class="rv-row"><span class="rv-lbl">Industry</span><span class="rv-val">{{ o.industry || '—' }}</span></div>
+              <div class="rv-row"><span class="rv-lbl">Income</span><span class="rv-val">{{ o.annualIncome || '—' }}</span></div>
+            </div>
+          </div>
+
+          <!-- Preferences -->
+          <div class="review-card">
+            <div class="review-hdr">
+              <span class="rv-hdr-icon">&#9881;&#65039;</span>
+              <span class="rv-hdr-title">Preferences</span>
+              <button class="rv-edit-btn" (click)="goToStep(5)">&#9998; Edit</button>
+            </div>
+            <div class="rv-rows">
+              <div class="rv-row">
+                <span class="rv-lbl">Account Type</span>
+                <span class="rv-val rv-badge" [class.rv-savings]="ap.accountType==='SAVINGS'" [class.rv-current]="ap.accountType==='CURRENT'">
+                  {{ ap.accountType }}
+                </span>
+              </div>
+              <div class="rv-row"><span class="rv-lbl">Debit Card</span>
+                <span class="rv-val" [class.rv-yes]="ap.debitCard" [class.rv-no]="!ap.debitCard">{{ ap.debitCard ? '&#10003; Yes' : '&#10005; No' }}</span>
+              </div>
+              <div class="rv-row"><span class="rv-lbl">Net Banking</span>
+                <span class="rv-val" [class.rv-yes]="ap.netBanking" [class.rv-no]="!ap.netBanking">{{ ap.netBanking ? '&#10003; Yes' : '&#10005; No' }}</span>
+              </div>
+              <div class="rv-row"><span class="rv-lbl">Mobile Banking</span>
+                <span class="rv-val" [class.rv-yes]="ap.mobileBanking" [class.rv-no]="!ap.mobileBanking">{{ ap.mobileBanking ? '&#10003; Yes' : '&#10005; No' }}</span>
+              </div>
+              <div class="rv-row"><span class="rv-lbl">Statement</span><span class="rv-val">{{ ap.statement }}</span></div>
+            </div>
+          </div>
+
+        </div><!-- /review-2col -->
+
+        <!-- ── Full Name Confirmation ── -->
+        <div class="confirm-name-box">
+          <div class="cn-icon">&#9997;&#65039;</div>
+          <div class="cn-content">
+            <h4>Confirm Your Full Name</h4>
+            <p>Enter your full name exactly as it appears on your government-issued ID</p>
+            <div class="fg" style="max-width:400px; margin-top:12px;">
+              <label>Full Name *</label>
+              <input type="text" [(ngModel)]="declaration.fullName" name="fullName"
+                     placeholder="e.g. John Michael Doe"/>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Declaration ── -->
+        <div class="declaration-box">
+          <h4>&#128221; Declaration</h4>
+          <label class="check-opt">
+            <input type="checkbox" [(ngModel)]="declaration.terms" name="terms"/>
+            <span>I agree to the <a href="#">Terms &amp; Conditions</a> and <a href="#">Privacy Policy</a> of NeoBank.</span>
+          </label>
+          <label class="check-opt">
+            <input type="checkbox" [(ngModel)]="declaration.confirm" name="confirm"/>
+            <span>I confirm that all information provided is true and accurate to the best of my knowledge.</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- ── NAVIGATION BUTTONS ──────────────────────────── -->
+      <div class="nav-btns">
+        <button class="btn-prev" *ngIf="currentStep > 1" (click)="prevStep()">
+          &#8592; Previous
+        </button>
+        <button class="btn-next" *ngIf="currentStep < 7" (click)="nextStep()">
+          Next &#8594;
+        </button>
+        <button class="btn-submit"
+                *ngIf="currentStep === 7"
+                [disabled]="!declaration.terms || !declaration.confirm || !declaration.fullName || creating"
+                (click)="submitApplication()">
+          {{ creating ? 'Submitting...' : '&#10003; Submit Application' }}
+        </button>
+      </div>
+
+    </div><!-- /form-card -->
+  </div><!-- /form-wrap -->
+
+</div><!-- /oa-page -->
+
+
+

@@ -1,0 +1,176 @@
+﻿<div class="insights-page">
+
+  <!-- ═══ HERO ══════════════════════════════════════════ -->
+  <div class="insights-hero">
+    <div class="hero-left">
+      <span class="hero-badge">📊 Financial Insights</span>
+      <h1>Spending Insights</h1>
+      <p>A complete view of your income, expenses and savings trends.</p>
+    </div>
+    <div class="hero-right">
+      <button class="btn-refresh" (click)="loadInsights()">↺ Refresh</button>
+    </div>
+  </div>
+
+  <!-- API ERROR BANNER -->
+  <div class="error-banner err-403" *ngIf="apiError">
+    <span class="err-icon">⚠️</span>
+    <div><strong>Could not load insights</strong><span>The insights API returned an error. Please try again later.</span></div>
+  </div>
+
+  <!-- ═══ LOADING SKELETON ══════════════════════════════ -->
+  <ng-container *ngIf="loading">
+    <div class="skeleton-kpi-row">
+      <div class="sk-card" *ngFor="let i of [1,2,3,4,5]">
+        <div class="sk-line sk-short"></div>
+        <div class="sk-line sk-tall"></div>
+        <div class="sk-line sk-medium"></div>
+      </div>
+    </div>
+    <div class="skeleton-body">
+      <div class="sk-chart-box"><div class="sk-fill"></div></div>
+      <div class="sk-list-box">
+        <div class="sk-row" *ngFor="let i of [1,2,3,4,5,6]"></div>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- ═══ NO DATA ════════════════════════════════════════ -->
+  <div class="empty-state" *ngIf="!loading && !hasData">
+    <span class="empty-icon">📭</span>
+    <h3>No data yet</h3>
+    <p>Make some transactions to start seeing insights.</p>
+  </div>
+
+  <!-- ═══ MAIN CONTENT ══════════════════════════════════ -->
+  <ng-container *ngIf="!loading && hasData">
+
+    <!-- ── KPI Cards ─────────────────────────────── -->
+    <div class="kpi-row">
+
+      <div class="kpi-card kc-balance">
+        <div class="kc-icon">🏦</div>
+        <div class="kc-body">
+          <span class="kc-label">Total Balance</span>
+          <span class="kc-value">₹ {{ totalBalance | number:'1.0-0' }}</span>
+        </div>
+      </div>
+
+      <div class="kpi-card kc-income">
+        <div class="kc-icon">💰</div>
+        <div class="kc-body">
+          <span class="kc-label">Total Income</span>
+          <span class="kc-value">₹ {{ totalIncome | number:'1.0-0' }}</span>
+        </div>
+      </div>
+
+      <div class="kpi-card kc-expense">
+        <div class="kc-icon">💸</div>
+        <div class="kc-body">
+          <span class="kc-label">Total Expenses</span>
+          <span class="kc-value">₹ {{ totalExpenses | number:'1.0-0' }}</span>
+        </div>
+      </div>
+
+      <!-- Savings: red if negative, green if positive -->
+      <div class="kpi-card kc-savings" [class.kc-neg]="savingsNegative">
+        <div class="kc-icon">{{ savingsNegative ? '📉' : '📈' }}</div>
+        <div class="kc-body">
+          <span class="kc-label">Net Savings</span>
+          <span class="kc-value savings-val" [class.negative]="savingsNegative">
+            <span class="savings-arrow">{{ savingsNegative ? "↓" : "↑" }}</span>
+            ₹ {{ (netSavings < 0 ? -netSavings : netSavings) | number:'1.0-0' }}
+          </span>
+          <span class="savings-hint" *ngIf="savingsNegative">Spending exceeds income</span>
+        </div>
+      </div>
+
+      <div class="kpi-card kc-txcount">
+        <div class="kc-icon">🔄</div>
+        <div class="kc-body">
+          <span class="kc-label">Transactions</span>
+          <span class="kc-value">{{ transactionCount }}</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── Chart + Category Grid ─────────────────── -->
+    <div class="content-grid">
+
+      <div class="chart-card">
+        <div class="card-header">
+          <h3>Monthly Income vs Expenses</h3>
+          <span class="header-sub">Last 6 months</span>
+        </div>
+        <div class="chart-wrap">
+          <canvas #barChart></canvas>
+        </div>
+        <div class="no-chart" *ngIf="!monthlyTrend.length">
+          <span>📊</span><p>No monthly data available yet.</p>
+        </div>
+      </div>
+
+      <div class="category-card">
+        <div class="card-header">
+          <h3>Spending by Category</h3>
+          <span class="header-sub">Debit transactions</span>
+        </div>
+        <div class="no-chart" *ngIf="!spendingByCategory.length">
+          <span>🗂️</span><p>No category data yet.</p>
+        </div>
+        <div class="cat-list" *ngIf="spendingByCategory.length">
+          <div class="cat-item" *ngFor="let cat of spendingByCategory; let i = index">
+            <div class="cat-dot" [style.background]="categoryColors[i % categoryColors.length]"></div>
+            <div class="cat-info">
+              <div class="cat-top">
+                <span class="cat-name">{{ cat.category }}</span>
+                <span class="cat-pct">{{ cat.percentage }}%</span>
+              </div>
+              <div class="cat-bar-bg">
+                <div class="cat-bar-fill"
+                     [style.width.%]="cat.percentage"
+                     [style.background]="categoryColors[i % categoryColors.length]">
+                </div>
+              </div>
+              <span class="cat-amount">₹ {{ cat.amount | number:'1.0-0' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── Monthly Trend Table ───────────────────── -->
+    <div class="trend-card" *ngIf="monthlyTrend.length">
+      <div class="card-header">
+        <h3>Monthly Trend Summary</h3>
+      </div>
+      <table class="trend-table">
+        <thead>
+          <tr>
+            <th>Month</th>
+            <th>Income</th>
+            <th>Expenses</th>
+            <th>Savings</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of monthlyTrend">
+            <td class="td-month">{{ row.month }}</td>
+            <td class="td-income">₹ {{ row.income | number:'1.0-0' }}</td>
+            <td class="td-expense">₹ {{ row.expense | number:'1.0-0' }}</td>
+            <td [class.td-savings-pos]="row.savings >= 0" [class.td-savings-neg]="row.savings < 0">
+              {{ row.savings >= 0 ? '↑' : '↓' }} ₹ {{ (row.savings < 0 ? -row.savings : row.savings) | number:'1.0-0' }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </ng-container>
+
+</div>
+
+
+

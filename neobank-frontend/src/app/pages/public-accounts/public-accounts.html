@@ -1,0 +1,112 @@
+<div class="page-root">
+
+  <!-- HERO -->
+  <section class="page-hero">
+    <div class="ph-bg"></div>
+    <div class="ph-inner">
+      <div class="ph-eyebrow">Accounts</div>
+      <h1 class="ph-title">Open Your Account<br><span class="ph-accent">in 3 Minutes</span></h1>
+      <p class="ph-sub">Zero balance. Zero paperwork. 100% digital. Start banking smarter today with India's most rewarding bank account.</p>
+      <div class="ph-actions">
+        <a routerLink="/register" class="pg-btn-primary">Open Free Account &rarr;</a>
+        <a routerLink="/login"    class="pg-btn-outline">Already a Customer?</a>
+      </div>
+      <div class="ph-trust">
+        <span class="pt-item">✓ RBI Regulated</span>
+        <span class="pt-sep">·</span>
+        <span class="pt-item">✓ DICGC Insured up to ₹5 Lakh</span>
+        <span class="pt-sep">·</span>
+        <span class="pt-item">✓ 256-bit Encryption</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ACCOUNT TYPES -->
+  <section class="sect bg-dark">
+    <div class="wrap">
+      <div class="eyebrow">Choose Your Account</div>
+      <h2 class="sect-title">The Right Account<br>for Every Stage of Life</h2>
+      <p class="sect-sub">From zero-balance savings to business current accounts — we have a product tailored for you.</p>
+      <div class="acc-grid">
+        <div class="acc-card" *ngFor="let a of accountTypes" [ngClass]="'ac-' + a.color">
+          <div class="ac-badge">{{ a.badge }}</div>
+          <div class="ac-icon">{{ a.icon }}</div>
+          <div class="ac-rate-chip">{{ a.rate }}</div>
+          <h3 class="ac-title">{{ a.title }}</h3>
+          <p class="ac-desc">{{ a.desc }}</p>
+          <ul class="ac-features">
+            <li *ngFor="let f of a.features"><span class="ac-check">✓</span> {{ f }}</li>
+          </ul>
+          <a routerLink="/register" class="ac-cta">Open Account &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="sect bg-mid">
+    <div class="wrap">
+      <div class="eyebrow">Simple Process</div>
+      <h2 class="sect-title">Open in 3 Easy Steps</h2>
+      <p class="sect-sub">No branch visit. No paperwork. Just your phone and Aadhaar OTP.</p>
+      <div class="steps-row">
+        <div class="step-card" *ngFor="let s of steps">
+          <div class="step-num">{{ s.num }}</div>
+          <div class="step-icon">{{ s.icon }}</div>
+          <h4 class="step-title">{{ s.title }}</h4>
+          <p class="step-desc">{{ s.desc }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BENEFITS GRID -->
+  <section class="sect bg-dark">
+    <div class="wrap">
+      <div class="eyebrow">Why Choose Us</div>
+      <h2 class="sect-title">Benefits Designed<br>Around You</h2>
+      <div class="benefits-grid">
+        <div class="benefit-card" *ngFor="let b of benefits">
+          <div class="bc-icon">{{ b.icon }}</div>
+          <h4 class="bc-title">{{ b.title }}</h4>
+          <p class="bc-desc">{{ b.desc }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTEREST RATES -->
+  <section class="sect bg-mid">
+    <div class="wrap">
+      <div class="eyebrow">Rates &amp; Returns</div>
+      <h2 class="sect-title">Competitive Interest Rates</h2>
+      <p class="sect-sub">Transparent rates with no hidden charges. Rates effective June 2026.</p>
+      <div class="rates-table">
+        <div class="rt-header">
+          <span>Account Type</span>
+          <span>Interest Rate</span>
+          <span>Note</span>
+        </div>
+        <div class="rt-row" *ngFor="let r of rates">
+          <span class="rt-label">{{ r.label }}</span>
+          <span class="rt-rate">{{ r.rate }}</span>
+          <span class="rt-note">{{ r.note }}</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="page-cta">
+    <div class="cta-bg"></div>
+    <div class="cta-inner">
+      <h2 class="cta-title">Ready to Open Your Account?</h2>
+      <p class="cta-sub">Join 2 million+ Indians who bank smarter with NeoBank. Takes less than 3 minutes.</p>
+      <div class="cta-actions">
+        <a routerLink="/register" class="pg-btn-primary lg">Open Free Account &rarr;</a>
+        <a routerLink="/login"    class="pg-btn-ghost lg">Log In</a>
+      </div>
+    </div>
+  </section>
+
+</div>

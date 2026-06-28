@@ -1,0 +1,72 @@
+<section class="budget-section">
+
+  <h3 class="section-title">
+    📊 Monthly Budget Overview ({{ month }})
+  </h3>
+
+  <!-- =========================
+       BUDGET CARDS GRID
+  ========================== -->
+  <div class="budget-grid">
+
+    <div
+      class="budget-card"
+      *ngFor="let b of budgets"
+      [ngClass]="getColorClass(getUtilization(b.spentAmount, b.limitAmount))"
+    >
+
+      <!-- =========================
+           HEADER (ICON + CATEGORY)
+      ========================== -->
+      <div class="budget-header">
+
+        <div class="category">
+          <span class="icon">
+            {{ getIcon(b.category) }}
+          </span>
+          {{ b.category }}
+        </div>
+
+        <span
+          class="percent"
+          [ngClass]="getColorClass(getUtilization(b.spentAmount, b.limitAmount))"
+        >
+          {{ getUtilization(b.spentAmount, b.limitAmount) }}%
+        </span>
+
+      </div>
+
+      <!-- =========================
+           PROGRESS BAR
+      ========================== -->
+      <div class="progress">
+        <div
+          class="progress-fill"
+          [style.width.%]="getUtilization(b.spentAmount, b.limitAmount)"
+          [ngClass]="getColorClass(getUtilization(b.spentAmount, b.limitAmount))"
+        >
+        </div>
+      </div>
+
+      <!-- =========================
+           INFO
+      ========================== -->
+      <div class="budget-info">
+        ₹ {{ b.spentAmount ?? 0 }} spent
+        <span class="limit">
+          of ₹ {{ b.limitAmount ?? 0 }}
+        </span>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- =========================
+       CHART SECTION
+  ========================== -->
+  <div class="budget-chart-wrapper">
+    <app-budget-chart [budgets]="budgets"></app-budget-chart>
+  </div>
+
+</section>

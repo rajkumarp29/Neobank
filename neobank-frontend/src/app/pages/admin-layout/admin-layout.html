@@ -1,0 +1,61 @@
+﻿<!-- ADMIN PANEL SHELL - Sidebar + Content Outlet -->
+<div class="admin-shell" [class.collapsed]="collapsed">
+
+  <!-- SIDEBAR -->
+  <aside class="admin-sidebar">
+
+    <!-- Brand -->
+    <div class="brand-block">
+      <div class="brand-logo">N</div>
+      <div class="brand-text" *ngIf="!collapsed">
+        <span class="brand-name">NeoBank</span>
+        <span class="brand-tag">ADMIN</span>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="side-nav">
+      <a *ngFor="let item of navItems"
+         class="nav-link"
+         [class.active]="isActive(item)"
+         [routerLink]="item.route">
+
+        <span class="nav-icon">{{ item.icon }}</span>
+
+        <span class="nav-label" *ngIf="!collapsed">{{ item.label }}</span>
+
+        <span class="nav-badge"
+              *ngIf="item.badge && pendingCount > 0 && !collapsed">
+          {{ pendingCount }}
+        </span>
+        <span class="nav-badge mini"
+              *ngIf="item.badge && pendingCount > 0 && collapsed">
+          {{ pendingCount }}
+        </span>
+      </a>
+    </nav>
+
+    <!-- Footer Actions -->
+    <div class="side-footer">
+      <button class="collapse-btn" (click)="goToCustomerView()" title="Back to Customer Banking">
+        <span class="footer-icon">&#x21BA;</span>
+        <span *ngIf="!collapsed">Back</span>
+      </button>
+
+      <button class="collapse-btn" (click)="collapsed = !collapsed">
+        <span class="footer-icon">{{ collapsed ? '&#9654;' : '&#9664;' }}</span>
+        <span *ngIf="!collapsed">Collapse</span>
+      </button>
+
+      <button class="logout-btn" (click)="logout()">
+        <span class="footer-icon">&#x23FB;</span>
+        <span *ngIf="!collapsed">Logout</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- CONTENT OUTLET -->
+  <main class="admin-main">
+    <router-outlet></router-outlet>
+  </main>
+</div>

@@ -1,0 +1,136 @@
+﻿:host { display:block; width:100%; }
+
+/* ── HERO BANNER ── */
+.budget-hero {
+  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4c1d95 100%);
+  padding: 32px 32px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.hero-left { display:flex; flex-direction:column; gap:6px; }
+
+.hero-badge {
+  display: inline-block;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 20px;
+  padding: 4px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #c4b5fd;
+  width: fit-content;
+  margin-bottom: 4px;
+}
+
+.budget-hero h1 {
+  font-size: 28px;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0;
+}
+
+.budget-hero p {
+  font-size: 13px;
+  color: rgba(255,255,255,0.6);
+  margin: 0;
+  max-width: 400px;
+}
+
+.hero-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-shrink: 0;
+}
+
+.hero-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.hs-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.hs-value {
+  font-size: 16px;
+  font-weight: 800;
+  color: #a5b4fc;
+}
+
+/* ── CREATE BUTTON ── */
+.create-btn {
+  padding: 11px 22px;
+  border-radius: 12px;
+  border: none;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  color: #ffffff;
+  background: linear-gradient(135deg, #7c3aed, #5b21b6);
+  box-shadow: 0 8px 20px rgba(124,58,237,0.45);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  white-space: nowrap;
+}
+
+.create-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(124,58,237,0.6);
+}
+
+/* ── WHITE CONTENT AREA ── */
+.budget-content {
+  background: #0a0f1e;
+  min-height: calc(100vh - 120px);
+  padding: 24px 28px 40px;
+}
+
+/* ── LOADING ── */
+.loading-state {
+  text-align: center;
+  padding: 60px 0;
+  color: #64748b;
+  font-size: 14px;
+}
+
+/* ── EMPTY STATE ── */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+  text-align: center;
+  gap: 10px;
+}
+
+.empty-icon { font-size: 3rem; }
+
+.empty-state h3 {
+  font-size: 20px;
+  font-weight: 800;
+  color: #f1f5f9;
+  margin: 0;
+}
+
+.empty-state p {
+  font-size: 14px;
+  color: #64748b;
+  margin: 0 0 10px;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .budget-hero { flex-direction:column; align-items:flex-start; padding:24px 20px; }
+  .hero-right { width:100%; justify-content:space-between; }
+  .budget-content { padding:16px; }
+}

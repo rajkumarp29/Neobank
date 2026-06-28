@@ -1,0 +1,81 @@
+﻿<nav class="navbar">
+
+  <!-- âœ… BRAND -->
+<div class="brand">
+
+  <!-- Logo -->
+  <div class="logo-box">N</div>
+
+  <!-- Text -->
+  <div class="brand-texts">
+    <div class="brand-title">
+      <span class="neo">Neo</span><span class="bank">Bank</span>
+    </div>
+
+    <div class="brand-subtitle">
+      PREMIUM DIGITAL BANKING
+    </div>
+  </div>
+
+</div>
+
+  <!-- âœ… HAMBURGER -->
+<div class="hamburger" (click)="toggleMenu()">
+  ☰
+</div>
+
+</nav>
+
+<!-- âœ… MOBILE MENU -->
+<div class="mobile-menu" [class.open]="menuOpen">
+
+  <!-- âœ… PROFILE -->
+  <div class="menu-header">
+    <div class="profile">
+      <div class="avatar">👤</div>
+      <div class="user-info">
+        <strong>{{ getUserName() }}</strong>
+        <small>{{ getRole() }}</small>
+      </div>
+    </div>
+  </div>
+
+  <!-- âœ… MENU ITEMS -->
+<ul class="menu-items">
+
+<li routerLink="/dashboard" (click)="toggleMenu()">
+  🏠 Dashboard
+</li>
+
+<li routerLink="/dashboard/accounts" (click)="toggleMenu()">
+  💳 Accounts
+</li>
+
+<li routerLink="/dashboard/bills" (click)="toggleMenu()">
+  📄 Bills
+</li>
+
+<li routerLink="/dashboard/budget" (click)="toggleMenu()">
+  📊 Budget
+</li>
+
+<li routerLink="/dashboard/rewards" (click)="toggleMenu()">
+  🎁 Rewards
+</li>
+
+<li routerLink="/admin-panel/dashboard" (click)="toggleMenu()">
+  ⚙️ Admin
+</li>
+
+</ul>
+
+
+  <!-- âœ… FOOTER -->
+  <div class="menu-footer">
+    <button (click)="logout()">Logout</button>
+  </div>
+
+</div>
+
+<!-- âœ… OVERLAY -->
+<div class="overlay" *ngIf="menuOpen" (click)="toggleMenu()"></div>

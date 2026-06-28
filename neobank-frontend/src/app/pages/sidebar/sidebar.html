@@ -1,0 +1,95 @@
+﻿<aside class="sidebar">
+
+  <ul class="nav-list">
+
+    <!-- CORE BANKING -->
+    <li class="nav-section">Core Banking</li>
+
+    <li>
+      <a routerLink="/dashboard/home" routerLinkActive="active">🏠 Dashboard</a>
+    </li>
+
+    <li>
+      <a routerLink="/dashboard/accounts" routerLinkActive="active">🏦 Accounts</a>
+    </li>
+
+    <li>
+      <a routerLink="/dashboard/transactions" routerLinkActive="active">📋 Transactions</a>
+    </li>
+
+    <!-- LOANS -->
+    <li class="nav-section">Loans</li>
+
+    <li>
+      <a routerLink="/dashboard/loan-apply" routerLinkActive="active">💳 Apply Loan</a>
+    </li>
+
+    <li>
+      <a routerLink="/dashboard/my-loans" routerLinkActive="active">📊 My Loans</a>
+    </li>
+
+    <!-- FINANCE -->
+    <li class="nav-section">Finance</li>
+
+    <li>
+      <a routerLink="/dashboard/budget" routerLinkActive="active">💰 Budget</a>
+    </li>
+
+    <li>
+      <a routerLink="/dashboard/bills" routerLinkActive="active">🧾 Bills</a>
+    </li>
+
+    <li>
+      <a routerLink="/dashboard/rewards" routerLinkActive="active" class="rewards-link">
+        ⭐ Rewards
+        <span *ngIf="rewardPoints > 0" class="points-badge">{{ rewardPoints }}</span>
+      </a>
+    </li>
+
+    <li>
+      <a routerLink="/dashboard/insights" routerLinkActive="active">📈 Insights</a>
+    </li>
+
+    <!-- USER -->
+    <li class="nav-section">User</li>
+
+    <li>
+      <a routerLink="/dashboard/profile" routerLinkActive="active">👤 Profile</a>
+    </li>
+
+    <!-- ADMINS -->
+    <li *ngIf="isAdmin" class="nav-section">Admins</li>
+
+    <li *ngIf="isAdmin">
+      <a routerLink="/admin-panel/dashboard" routerLinkActive="active">⚙️ Admin Panel</a>
+    </li>
+
+    <li *ngIf="isAdmin">
+      <a routerLink="/admin-panel/loan-approvals" routerLinkActive="active">✅ Loan Approvals</a>
+    </li>
+
+    <li *ngIf="isAdmin">
+      <a routerLink="/admin-panel/users" routerLinkActive="active">👥 User Management</a>
+    </li>
+
+    <li *ngIf="isAdmin">
+      <a routerLink="/admin-panel/loan-products" routerLinkActive="active">📦 Loan Products</a>
+    </li>
+
+    <li *ngIf="isAdmin">
+      <a routerLink="/admin-panel/health" routerLinkActive="active">❤️ System Health</a>
+    </li>
+
+  </ul>
+
+  <!-- PREMIUM FOOTER -->
+  <div class="avatar-card">
+    <div class="avatar-bubble">{{ userInitial }}</div>
+    <div class="avatar-info">
+      <div class="avatar-name">{{ userName }}</div>
+      <div class="avatar-email">{{ userEmail }}</div>
+    </div>
+    <button class="signout-btn" (click)="logout()" title="Sign Out">⏻</button>
+  </div>
+
+</aside>

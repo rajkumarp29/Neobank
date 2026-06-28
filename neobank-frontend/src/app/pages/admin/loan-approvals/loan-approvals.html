@@ -1,0 +1,125 @@
+﻿<div class="approvals-page">
+
+  <!-- ===== HERO BANNER ===== -->
+  <div class="hero-banner">
+    <div class="hero-radial"></div>
+    <div class="hero-glow-ring"></div>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        Admin Control Panel
+      </div>
+      <h1 class="hero-title">Pending Approvals</h1>
+      <p class="hero-sub">Review and decide on pending loan applications. Approve or reject with a single click.</p>
+      <div class="hero-benefits">
+        <div class="benefit-pill"><span class="bp-icon">⏳</span><span>{{ pendingCount }} Awaiting Review</span></div>
+        <div class="benefit-pill"><span class="bp-icon">⚡</span><span>Instant Decisions</span></div>
+        <div class="benefit-pill"><span class="bp-icon">🔍</span><span>Search &amp; Filter</span></div>
+        <div class="benefit-pill"><span class="bp-icon">🛡</span><span>Secure Admin Access</span></div>
+      </div>
+    </div>
+    <div class="hero-kpi">
+      <div class="kpi-ring">
+        <span class="kpi-num">{{ pendingCount }}</span>
+        <span class="kpi-lbl">Pending</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CONTROLS ===== -->
+  <div class="controls-bar">
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input class="search-input" [(ngModel)]="searchText" (ngModelChange)="applyFilter()"
+             placeholder="Search applicant, product or ID…" />
+    </div>
+    <div class="type-filters">
+      <button class="tf-btn" [class.active]="selectedType==='ALL'" (click)="selectedType='ALL'; applyFilter()">All Types</button>
+      <button class="tf-btn" *ngFor="let t of loanTypes"
+              [class.active]="selectedType===t"
+              (click)="selectedType=t; applyFilter()">{{ t }}</button>
+    </div>
+  </div>
+
+  <!-- ===== LOADING ===== -->
+  <div *ngIf="loading" class="loading-wrap">
+    <div class="spinner"></div>
+    <span>Loading pending applications…</span>
+  </div>
+
+  <!-- ===== DATA TABLE ===== -->
+  <div *ngIf="!loading && filtered.length > 0" class="table-card">
+    <table class="approvals-table">
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Applicant</th>
+          <th>Product / Item</th>
+          <th>Amount</th>
+          <th>Applied Date</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let loan of filtered">
+
+          <!-- Type -->
+          <td>
+            <span class="type-badge">{{ loan.loanType || 'Personal' }}</span>
+          </td>
+
+          <!-- Applicant -->
+          <td>
+            <div class="applicant-cell">
+              <div class="applicant-avatar">{{ (loan.applicantName || ('User #' + loan.userId)).charAt(0).toUpperCase() }}</div>
+              <div class="applicant-info">
+                <span class="applicant-name">{{ loan.applicantName || ('User #' + loan.userId) }}</span>
+                <span class="applicant-id">ID #{{ loan.id }}</span>
+              </div>
+            </div>
+          </td>
+
+          <!-- Product/Item -->
+          <td>
+            <span class="product-name">{{ loan.productName || ('Product #' + loan.loanProductId) }}</span>
+            <span class="tenure-tag">{{ loan.requestedTenureMonths }} months</span>
+          </td>
+
+          <!-- Amount -->
+          <td>
+            <span class="amount-val">₹ {{ loan.requestedAmount | number:'1.0-0' }}</span>
+          </td>
+
+          <!-- Applied Date -->
+          <td>
+            <span class="date-val">{{ loan.appliedDate ? (loan.appliedDate | date:'dd MMM yyyy') : '—' }}</span>
+          </td>
+
+          <!-- Action -->
+          <td>
+            <button class="btn-review" (click)="review(loan.id)">
+              <span>🔎</span> Review
+            </button>
+          </td>
+
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ===== EMPTY STATE ===== -->
+  <div *ngIf="!loading && filtered.length === 0" class="empty-state">
+    <div class="empty-illustration">
+      <span class="empty-icon">🎉</span>
+      <div class="empty-ring"></div>
+    </div>
+    <h3 class="empty-title">All caught up!</h3>
+    <p class="empty-sub" *ngIf="searchText || selectedType !== 'ALL'">
+      No applications match your current filters. <button class="empty-reset" (click)="searchText=''; selectedType='ALL'; applyFilter()">Clear filters</button>
+    </p>
+    <p class="empty-sub" *ngIf="!searchText && selectedType === 'ALL'">
+      There are no pending loan applications at this time. Check back later.
+    </p>
+  </div>
+
+</div>

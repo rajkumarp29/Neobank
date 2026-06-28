@@ -1,0 +1,198 @@
+﻿<div class="profile-page">
+
+  <!-- ── Toast ──────────────────────────────────── -->
+  <div class="toast" [class.show]="showToast">
+    <span class="toast-icon">✅</span> Profile updated successfully
+  </div>
+
+  <!-- ══ HERO BANNER ═══════════════════════════════ -->
+  <div class="profile-hero">
+    <div class="hero-bg-radial"></div>
+    <div class="hero-bg-grid"></div>
+
+    <!-- Avatar -->
+    <div class="hero-avatar-wrap">
+      <div class="avatar-ring" [style.--ac]="user.avatarColor || '#6366f1'">
+        <div class="avatar-circle" [style.background]="user.avatarColor || '#6366f1'">
+          {{ getInitials() }}
+        </div>
+      </div>
+      <div class="avatar-online-dot"></div>
+    </div>
+
+    <!-- Identity -->
+    <div class="hero-identity">
+      <h1 class="hero-name">{{ user.fullName || 'Your Name' }}</h1>
+      <p class="hero-email">
+        <span class="email-icon">✉</span> {{ user.email || 'email@example.com' }}
+      </p>
+      <div class="hero-chips">
+        <span class="chip chip-role">
+          <span>{{ user.role === 'ADMIN' ? '⚙️' : '👤' }}</span>
+          {{ user.role || 'CUSTOMER' }}
+        </span>
+        <span class="chip chip-active">
+          <span class="dot-live"></span> Active
+        </span>
+      </div>
+    </div>
+
+    <!-- Stats strip -->
+    <div class="hero-stats">
+      <div class="hs-item">
+        <span class="hs-val">NeoBank</span>
+        <span class="hs-lbl">Platform</span>
+      </div>
+      <div class="hs-divider"></div>
+      <div class="hs-item">
+        <span class="hs-val">Verified</span>
+        <span class="hs-lbl">Account</span>
+      </div>
+      <div class="hs-divider"></div>
+      <div class="hs-item">
+        <span class="hs-val">Secure</span>
+        <span class="hs-lbl">Profile</span>
+      </div>
+    </div>
+  </div><!-- /hero -->
+
+  <!-- ══ BODY ══════════════════════════════════════ -->
+  <div class="profile-body">
+
+    <!-- Left column -->
+    <div class="col-left">
+
+      <!-- Appearance card -->
+      <div class="pf-card">
+        <div class="card-head">
+          <span class="card-icon">🎨</span>
+          <h3>Appearance</h3>
+        </div>
+        <div class="avatar-row">
+          <div class="av-preview" [style.background]="user.avatarColor || '#6366f1'">
+            {{ getInitials() }}
+          </div>
+          <div class="av-controls">
+            <span class="av-label">Avatar Colour</span>
+            <div class="colour-row">
+              <input class="colour-input" type="color"
+                     [ngModel]="user.avatarColor"
+                     (ngModelChange)="onColorChange($event)"
+                     [value]="user.avatarColor || '#6366f1'" />
+              <span class="colour-hex">{{ user.avatarColor || '#6366f1' }}</span>
+            </div>
+            <div class="preset-colours">
+              <button class="preset" style="background:#6366f1" (click)="onColorChange('#6366f1')" title="Indigo"></button>
+              <button class="preset" style="background:#06b6d4" (click)="onColorChange('#06b6d4')" title="Cyan"></button>
+              <button class="preset" style="background:#10b981" (click)="onColorChange('#10b981')" title="Emerald"></button>
+              <button class="preset" style="background:#f59e0b" (click)="onColorChange('#f59e0b')" title="Amber"></button>
+              <button class="preset" style="background:#ef4444" (click)="onColorChange('#ef4444')" title="Red"></button>
+              <button class="preset" style="background:#a855f7" (click)="onColorChange('#a855f7')" title="Purple"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- About card -->
+      <div class="pf-card">
+        <div class="card-head">
+          <span class="card-icon">✏️</span>
+          <h3>About</h3>
+        </div>
+        <div class="field">
+          <label>Bio</label>
+          <textarea [(ngModel)]="user.bio"
+                    [maxlength]="maxBioLength"
+                    placeholder="Tell us a bit about yourself…"></textarea>
+          <div class="char-counter">{{ user.bio?.length || 0 }} / {{ maxBioLength }}</div>
+        </div>
+      </div>
+
+    </div><!-- /col-left -->
+
+    <!-- Right column -->
+    <div class="col-right">
+
+      <!-- Personal info card -->
+      <div class="pf-card">
+        <div class="card-head">
+          <span class="card-icon">👤</span>
+          <h3>Personal Information</h3>
+        </div>
+
+        <div class="field">
+          <label>Full Name</label>
+          <div class="input-wrap">
+            <span class="input-icon">👤</span>
+            <input type="text" [(ngModel)]="user.fullName" placeholder="Enter your full name" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Email Address</label>
+          <div class="input-wrap disabled">
+            <span class="input-icon">✉</span>
+            <input type="email" [value]="user.email" disabled />
+          </div>
+          <small class="field-hint">📌 Email cannot be changed</small>
+        </div>
+
+        <div class="field">
+          <label>Account Role</label>
+          <div class="input-wrap disabled">
+            <span class="input-icon">🔑</span>
+            <input type="text" [value]="user.role" disabled />
+          </div>
+        </div>
+      </div>
+
+      <!-- Security card -->
+      <div class="pf-card security-card">
+        <div class="card-head">
+          <span class="card-icon">🔒</span>
+          <h3>Account Security</h3>
+        </div>
+        <div class="security-items">
+          <div class="sec-item">
+            <div class="sec-left">
+              <span class="sec-icon sec-green">✅</span>
+              <div>
+                <span class="sec-title">Email Verified</span>
+                <span class="sec-sub">Your email address is verified</span>
+              </div>
+            </div>
+          </div>
+          <div class="sec-item">
+            <div class="sec-left">
+              <span class="sec-icon sec-green">🔐</span>
+              <div>
+                <span class="sec-title">JWT Authentication</span>
+                <span class="sec-sub">Session secured with Bearer token</span>
+              </div>
+            </div>
+          </div>
+          <div class="sec-item">
+            <div class="sec-left">
+              <span class="sec-icon sec-green">🛡️</span>
+              <div>
+                <span class="sec-title">Role-Based Access</span>
+                <span class="sec-sub">Access controlled by {{ user.role || 'CUSTOMER' }} role</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Save button -->
+      <button class="save-btn" [disabled]="saving" (click)="saveProfile()">
+        <span *ngIf="!saving">💾 Save Profile</span>
+        <span *ngIf="saving" class="saving-row">
+          <span class="btn-spinner"></span> Saving…
+        </span>
+      </button>
+
+    </div><!-- /col-right -->
+
+  </div><!-- /profile-body -->
+
+</div>

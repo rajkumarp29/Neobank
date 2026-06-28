@@ -1,0 +1,163 @@
+﻿<div class="home-wrapper">
+
+  <div class="hero-banner">
+    <!-- Animated Background Elements -->
+    <div class="hero-bg-elements">
+      <div class="bg-orb bg-orb-1"></div>
+      <div class="bg-orb bg-orb-2"></div>
+      <div class="bg-orb bg-orb-3"></div>
+      <div class="bg-glow"></div>
+    </div>
+    
+    <!-- Hero Content -->
+    <div class="hero-content">
+      <div class="greeting-pill">
+        <span class="pill-dot"></span>
+        {{ greeting }}, {{ userName }}
+      </div>
+      
+      <div class="hero-text-group">
+        <h1 class="welcome-title">NeoBank Dashboard</h1>
+        <p class="welcome-sub">Manage your finances with ease — Access accounts, apply loans, and track spending all in one place.</p>
+      </div>
+
+      <!-- Feature Highlight Banner -->
+      <div class="feature-banner">
+        <div class="feature-icon">✨</div>
+        <div class="feature-content">
+          <span class="feature-label">LIMITED TIME OFFER</span>
+          <p class="feature-text">Get exclusive rewards on every transaction — Apply now and earn 2x points!</p>
+        </div>
+        <button class="feature-cta" (click)="go('/dashboard/rewards')">
+          Explore <span>→</span>
+        </button>
+      </div>
+      
+      <div class="hero-actions">
+        <button class="btn-primary" (click)="go('/dashboard/accounts')">
+          <span class="btn-icon">🏦</span>
+          <span class="btn-text">My Accounts</span>
+          <span class="btn-arrow">→</span>
+        </button>
+        <button class="btn-secondary" (click)="go('/dashboard/loan-apply')">
+          <span class="btn-icon">💳</span>
+          <span class="btn-text">Apply Loan</span>
+          <span class="btn-arrow">→</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon">🏛️</div>
+      <div class="stat-info">
+        <div class="stat-label">Total Balance</div>
+        <div class="stat-value">₹ {{ totalBalance | number }}</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">💰</div>
+      <div class="stat-info">
+        <div class="stat-label">Total Accounts</div>
+        <div class="stat-value">{{ totalAccounts }}</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">🏛️</div>
+      <div class="stat-info">
+        <div class="stat-label">Savings Accounts</div>
+        <div class="stat-value">{{ savingsCount }}</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">🗂️</div>
+      <div class="stat-info">
+        <div class="stat-label">Current Accounts</div>
+        <div class="stat-value">{{ currentCount }}</div>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="section-title">Quick Actions</h2>
+
+  <div class="actions-grid">
+    <button class="action-card" (click)="go('/dashboard/accounts')">
+      <span class="action-icon">🏛️</span><span class="action-label">Accounts</span>
+    </button>
+    <button class="action-card" (click)="go('/dashboard/loan-apply')">
+      <span class="action-icon">💳</span><span class="action-label">Apply Loan</span>
+    </button>
+    <button class="action-card" (click)="go('/dashboard/bills')">
+      <span class="action-icon">🧾</span><span class="action-label">Pay Bills</span>
+    </button>
+    <button class="action-card" (click)="go('/dashboard/budget')">
+      <span class="action-icon">💰</span><span class="action-label">Budget</span>
+    </button>
+    <button class="action-card" (click)="go('/dashboard/rewards')">
+      <span class="action-icon">⭐</span><span class="action-label">Rewards</span>
+    </button>
+    <button class="action-card" (click)="go('/dashboard/profile')">
+      <span class="action-icon">👤</span><span class="action-label">Profile</span>
+    </button>
+  </div>
+
+  <!-- ADMIN ONLY: ALL ACCOUNTS SECTION -->
+  <div *ngIf="isAdmin" class="admin-section">
+    <div class="section-header">
+      <div class="section-title-group">
+        <h2 class="section-title">All Accounts</h2>
+        <p class="section-subtitle">View all customer and admin accounts</p>
+      </div>
+      <div class="section-stats">
+        <div class="stat-badge">
+          <span class="stat-label">Total Accounts</span>
+          <span class="stat-value">{{ adminTotalAccounts }}</span>
+        </div>
+        <div class="stat-badge">
+          <span class="stat-label">Total Balance</span>
+          <span class="stat-value">₹ {{ adminTotalBalance | number }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="accounts-grid">
+      <div class="account-card" *ngFor="let account of allAccounts">
+        <div class="card-header">
+          <div class="owner-info">
+            <div class="avatar">{{ account.user?.fullName?.charAt(0) || 'A' }}</div>
+            <div class="owner-details">
+              <div class="owner-name">{{ account.user?.fullName || 'Account Owner' }}</div>
+              <div class="owner-email">{{ account.user?.email || 'N/A' }}</div>
+            </div>
+          </div>
+          <div class="account-type-badge">{{ account.accountType }}</div>
+        </div>
+
+        <div class="card-middle">
+          <div class="account-number">{{ maskAccount(account.accountNumber) }}</div>
+        </div>
+
+        <div class="card-balance">
+          <span class="balance-label">Balance</span>
+          <span class="balance-amount">₹ {{ account.balance | number }}</span>
+        </div>
+
+        <div class="card-footer">
+          <div class="account-meta">
+            <span class="meta-label">Account ID:</span>
+            <span class="meta-value">{{ account.id }}</span>
+          </div>
+          <div class="account-meta">
+            <span class="meta-label">Created:</span>
+            <span class="meta-value">{{ account.createdAt | slice:0:10 }}</span>
+          </div>
+        </div>
+
+        <button class="view-btn">View Account</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+

@@ -1,0 +1,236 @@
+﻿<div class="dash-page">
+
+  <!-- ============================================================
+       PREMIUM HERO BANNER
+  ============================================================ -->
+  <header class="dash-hero">
+
+    <!-- Decorative background layers -->
+    <div class="hero-bg" aria-hidden="true">
+      <div class="hero-mesh"></div>
+      <div class="hero-orb orb-violet"></div>
+      <div class="hero-orb orb-cyan"></div>
+      <div class="hero-orb orb-pink"></div>
+      <div class="hero-shine"></div>
+    </div>
+
+    <!-- LEFT: titles + KPI chips -->
+    <div class="hero-left">
+      <span class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        ADMIN PANEL · LIVE
+      </span>
+
+      <h1 class="hero-title">
+        <span class="hero-title-grad">Admin Dashboard</span>
+      </h1>
+
+      <p class="hero-sub">
+        Welcome back<ng-container *ngIf="currentUserName">, <strong>{{ currentUserName }}</strong></ng-container>
+        — manage users, loans &amp; products and monitor platform health in real time.
+      </p>
+
+      <!-- Live KPI chips -->
+      <div class="hero-chips">
+        <div class="hero-chip">
+          <span class="chip-icon c-violet">👥</span>
+          <div class="chip-body">
+            <span class="chip-val">{{ loading ? '—' : totalUsers }}</span>
+            <span class="chip-key">Users</span>
+          </div>
+        </div>
+
+        <div class="hero-chip">
+          <span class="chip-icon c-amber">⏳</span>
+          <div class="chip-body">
+            <span class="chip-val">{{ loading ? '—' : pendingLoans }}</span>
+            <span class="chip-key">Pending</span>
+          </div>
+        </div>
+
+        <div class="hero-chip">
+          <span class="chip-icon c-green">📦</span>
+          <div class="chip-body">
+            <span class="chip-val">{{ loading ? '—' : loanProductsCount }}</span>
+            <span class="chip-key">Products</span>
+          </div>
+        </div>
+
+        <div class="hero-chip">
+          <span class="chip-icon c-cyan">📅</span>
+          <div class="chip-body">
+            <span class="chip-val">{{ today }}</span>
+            <span class="chip-key">Today</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: animated rings visualization -->
+    <div class="hero-right">
+      <div class="hero-rings">
+        <span class="ring r1"></span>
+        <span class="ring r2"></span>
+        <span class="ring r3"></span>
+        <div class="ring-core">
+          <div class="ring-core-val">{{ loading ? '—' : healthScore }}<small>%</small></div>
+          <div class="ring-core-key">HEALTH</div>
+        </div>
+      </div>
+    </div>
+
+  </header>
+
+  <section class="stat-grid">
+
+    <a class="stat-card sc-violet" routerLink="/admin-panel/users">
+      <div class="sc-head">
+        <span class="sc-label">TOTAL USERS</span>
+        <span class="sc-glyph">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </span>
+      </div>
+      <div class="sc-value">{{ loading ? '—' : totalUsers }}</div>
+      <div class="sc-meta">{{ customerCount }} customers · {{ adminCount }} admins</div>
+      <span class="sc-action">Manage Users →</span>
+    </a>
+
+    <a class="stat-card sc-cyan" routerLink="/admin-panel/loan-approvals">
+      <div class="sc-head">
+        <span class="sc-label">TOTAL LOANS</span>
+        <span class="sc-glyph">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="8" y1="13" x2="16" y2="13"/>
+            <line x1="8" y1="17" x2="16" y2="17"/>
+          </svg>
+        </span>
+      </div>
+      <div class="sc-value">{{ loading ? '—' : totalLoans }}</div>
+      <div class="sc-meta">{{ approvedLoans }} approved · {{ rejectedLoans }} rejected</div>
+      <span class="sc-action">View Loans →</span>
+    </a>
+
+    <a class="stat-card sc-amber" routerLink="/admin-panel/loan-approvals">
+      <div class="sc-head">
+        <span class="sc-label">PENDING APPROVALS</span>
+        <span class="sc-glyph">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2v6a6 6 0 0 0 12 0V2"/>
+            <path d="M6 22v-6a6 6 0 0 1 12 0v6"/>
+            <line x1="4" y1="2" x2="20" y2="2"/>
+            <line x1="4" y1="22" x2="20" y2="22"/>
+          </svg>
+        </span>
+      </div>
+      <div class="sc-value">{{ loading ? '—' : pendingLoans }}</div>
+      <div class="sc-meta">Needs review</div>
+      <span class="sc-action">Review Now →</span>
+    </a>
+
+    <a class="stat-card sc-green" routerLink="/admin-panel/loan-products">
+      <div class="sc-head">
+        <span class="sc-label">LOAN PRODUCTS</span>
+        <span class="sc-glyph">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+            <line x1="12" y1="22.08" x2="12" y2="12"/>
+          </svg>
+        </span>
+      </div>
+      <div class="sc-value">{{ loading ? '—' : (loanProductsCount > 0 ? loanProductsCount : '—') }}</div>
+      <div class="sc-meta">Manage product catalog</div>
+      <span class="sc-action">View Products →</span>
+    </a>
+
+  </section>
+
+  <section class="dash-split">
+
+    <div class="panel">
+      <div class="panel-head">QUICK STATS</div>
+      <ul class="qstats">
+        <li><span class="qs-dot d-violet"></span><span class="qs-label">Total Users</span><span class="qs-val">{{ totalUsers }}</span></li>
+        <li><span class="qs-dot d-green"></span><span class="qs-label">Loan Portfolio</span><span class="qs-val">{{ totalLoans }}</span></li>
+        <li><span class="qs-dot d-amber"></span><span class="qs-label">Pending Approvals</span><span class="qs-val">{{ pendingLoans }}</span></li>
+        <li><span class="qs-dot d-green"></span><span class="qs-label">Approved Loans</span><span class="qs-val">{{ approvedLoans }}</span></li>
+        <li><span class="qs-dot d-red"></span><span class="qs-label">Rejected Loans</span><span class="qs-val">{{ rejectedLoans }}</span></li>
+        <li><span class="qs-dot d-violet"></span><span class="qs-label">Admin Accounts</span><span class="qs-val">{{ adminCount }}</span></li>
+      </ul>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head">QUICK ACTIONS</div>
+      <div class="qactions">
+
+        <a class="qa-row" routerLink="/admin-panel/loan-approvals">
+          <span class="qa-icon i-amber">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 2v6a6 6 0 0 0 12 0V2"/><path d="M6 22v-6a6 6 0 0 1 12 0v6"/>
+              <line x1="4" y1="2" x2="20" y2="2"/><line x1="4" y1="22" x2="20" y2="22"/>
+            </svg>
+          </span>
+          <div class="qa-body">
+            <span class="qa-title">Review Pending Loans</span>
+            <span class="qa-meta">{{ pendingLoans }} application{{ pendingLoans === 1 ? '' : 's' }} waiting</span>
+          </div>
+          <span class="qa-chev">→</span>
+        </a>
+
+        <a class="qa-row" routerLink="/admin-panel/users">
+          <span class="qa-icon i-violet">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+          </span>
+          <div class="qa-body">
+            <span class="qa-title">Manage Users</span>
+            <span class="qa-meta">{{ totalUsers }} registered user{{ totalUsers === 1 ? '' : 's' }}</span>
+          </div>
+          <span class="qa-chev">→</span>
+        </a>
+
+        <a class="qa-row" routerLink="/admin-panel/loan-products">
+          <span class="qa-icon i-green">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+              <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+              <line x1="12" y1="22.08" x2="12" y2="12"/>
+            </svg>
+          </span>
+          <div class="qa-body">
+            <span class="qa-title">Loan Products</span>
+            <span class="qa-meta">Configure loan catalog</span>
+          </div>
+          <span class="qa-chev">→</span>
+        </a>
+
+        <a class="qa-row" routerLink="/admin-panel/health">
+          <span class="qa-icon i-red">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+            </svg>
+          </span>
+          <div class="qa-body">
+            <span class="qa-title">System Health</span>
+            <span class="qa-meta">Monitor backend services</span>
+          </div>
+          <span class="qa-chev">→</span>
+        </a>
+
+      </div>
+    </div>
+
+  </section>
+
+</div>

@@ -1,0 +1,361 @@
+﻿<div class="la-container">
+
+  <!-- ═══════════════════ PREMIUM HERO ═══════════════════ -->
+  <div class="la-hero">
+    <div class="la-orb la-orb-1"></div>
+    <div class="la-orb la-orb-2"></div>
+    <div class="la-hero-content">
+      <div class="la-greeting-badge">
+        <span class="la-badge-dot"></span>
+        🏦 Smart Banking
+      </div>
+      <h1 class="la-hero-title">Apply for a Loan</h1>
+      <p class="la-hero-sub">Fast approvals, competitive rates, and flexible repayment — all in one place.</p>
+      <div class="la-hero-pills">
+        <span class="la-pill">⚡ Instant Decisions</span>
+        <span class="la-pill">📉 Low Interest Rates</span>
+        <span class="la-pill">🔒 100% Secure</span>
+        <span class="la-pill">📋 Paperless Process</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ STEP INDICATOR ═══════════════════ -->
+  <div class="la-steps">
+    <div class="la-step" [class.active]="currentStep === 1" [class.completed]="currentStep > 1">
+      <div class="la-step-circle">
+        <span *ngIf="currentStep <= 1">1</span>
+        <svg *ngIf="currentStep > 1" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div class="la-step-info">
+        <span class="la-step-num">Step 1</span>
+        <span class="la-step-label">Select Product</span>
+      </div>
+    </div>
+
+    <div class="la-step-connector" [class.filled]="currentStep > 1"></div>
+
+    <div class="la-step" [class.active]="currentStep === 2" [class.completed]="currentStep > 2">
+      <div class="la-step-circle">
+        <span *ngIf="currentStep <= 2">2</span>
+        <svg *ngIf="currentStep > 2" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div class="la-step-info">
+        <span class="la-step-num">Step 2</span>
+        <span class="la-step-label">Enter Details</span>
+      </div>
+    </div>
+
+    <div class="la-step-connector" [class.filled]="currentStep > 2"></div>
+
+    <div class="la-step" [class.active]="currentStep === 3" [class.completed]="currentStep === 3">
+      <div class="la-step-circle">
+        <span *ngIf="currentStep < 3">3</span>
+        <svg *ngIf="currentStep === 3" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div class="la-step-info">
+        <span class="la-step-num">Step 3</span>
+        <span class="la-step-label">Review & Submit</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ STEP 1: SELECT PRODUCT ═══════════════════ -->
+  <div class="la-step-content" *ngIf="currentStep === 1">
+
+    <div class="la-section-header">
+      <h2 class="la-section-title">Choose Your Loan Product</h2>
+      <p class="la-section-sub">Select the product that best matches your financial needs</p>
+    </div>
+
+    <div class="la-products-grid">
+      <div *ngFor="let product of products"
+           class="la-product-card"
+           [class.selected]="selectedProduct?.id === product.id"
+           (click)="selectProduct(product)">
+
+        <div class="la-product-card-shine"></div>
+
+        <div class="la-product-top">
+          <div class="la-product-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          </div>
+          <div class="la-product-badge">{{ product.loanType }}</div>
+          <div class="la-selected-tick" *ngIf="selectedProduct?.id === product.id">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+        </div>
+
+        <h3 class="la-product-name">{{ product.productName }}</h3>
+        <p class="la-product-desc">{{ product.description }}</p>
+
+        <div class="la-product-stats">
+          <div class="la-stat">
+            <span class="la-stat-value">{{ product.annualInterestRate }}%</span>
+            <span class="la-stat-label">Interest Rate</span>
+          </div>
+          <div class="la-stat-divider"></div>
+          <div class="la-stat">
+            <span class="la-stat-value">{{ product.maxTenure }}m</span>
+            <span class="la-stat-label">Max Tenure</span>
+          </div>
+          <div class="la-stat-divider"></div>
+          <div class="la-stat">
+            <span class="la-stat-value">₹{{ (product.maxAmount / 100000).toFixed(0) }}L</span>
+            <span class="la-stat-label">Max Amount</span>
+          </div>
+        </div>
+
+        <div class="la-product-details">
+          <div class="la-detail-item">
+            <span class="label">Amount Range</span>
+            <span class="value">₹ {{ product.minAmount | number }} – ₹ {{ product.maxAmount | number }}</span>
+          </div>
+          <div class="la-detail-item">
+            <span class="label">Tenure</span>
+            <span class="value">{{ product.minTenure }} – {{ product.maxTenure }} months</span>
+          </div>
+        </div>
+
+        <button class="la-btn-select" [class.selected]="selectedProduct?.id === product.id">
+          <svg *ngIf="selectedProduct?.id === product.id" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          <span>{{ selectedProduct?.id === product.id ? 'Selected' : 'Select This Plan' }}</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="la-step-actions">
+      <button class="la-btn-continue"
+              [disabled]="!selectedProduct"
+              (click)="goToStep(2)">
+        Continue to Details
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ STEP 2: ENTER DETAILS ═══════════════════ -->
+  <div class="la-step-content" *ngIf="currentStep === 2">
+
+    <div class="la-selected-banner">
+      <div class="la-selected-banner-left">
+        <div class="la-selected-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+        </div>
+        <div>
+          <p class="la-selected-meta">Selected Product</p>
+          <p class="la-selected-label">{{ selectedProduct?.productName }}</p>
+        </div>
+      </div>
+      <button class="la-change-btn" (click)="goToStep(1)">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+        Change
+      </button>
+    </div>
+
+    <div class="la-form-card">
+      <div class="la-form-card-header">
+        <div class="la-form-card-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        </div>
+        <h3>Loan Details</h3>
+      </div>
+
+      <form [formGroup]="form" class="la-form">
+        <div class="la-form-group">
+          <label>Loan Amount (₹)</label>
+          <div class="la-input-wrapper">
+            <span class="la-input-prefix">₹</span>
+            <input type="number"
+                formControlName="requestedAmount"
+                (input)="calculateEmi()"
+                placeholder="Enter loan amount"
+                class="la-input la-input-prefixed" />
+          </div>
+          <small class="la-help-text">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            Min: ₹ {{ selectedProduct?.minAmount | number }} &nbsp;/&nbsp; Max: ₹ {{ selectedProduct?.maxAmount | number }}
+          </small>
+          <div class="la-error" *ngIf="form.get('requestedAmount')?.hasError('required') && form.get('requestedAmount')?.touched">
+            Loan amount is required
+          </div>
+        </div>
+
+        <div class="la-form-group">
+          <label>Tenure (months)</label>
+          <div class="la-input-wrapper">
+            <span class="la-input-prefix">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </span>
+            <select formControlName="requestedTenureMonths"
+                    class="la-input la-input-prefixed"
+                    (change)="calculateEmi()">
+              <option value="">Select tenure</option>
+              <option *ngFor="let month of getTenureOptions()" [value]="month">{{ month }} months</option>
+            </select>
+          </div>
+          <div class="la-error" *ngIf="form.get('requestedTenureMonths')?.hasError('required') && form.get('requestedTenureMonths')?.touched">
+            Tenure is required
+          </div>
+        </div>
+
+        <!-- EMI Preview -->
+        <div class="la-emi-preview" *ngIf="emiAmount">
+          <div class="la-emi-header">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            <h4>EMI Breakdown</h4>
+          </div>
+          <div class="la-emi-row">
+            <div class="la-emi-item">
+              <span class="label">Monthly EMI</span>
+              <span class="value emi-main">₹{{ emiAmount.toFixed(2) }}</span>
+            </div>
+            <div class="la-emi-item">
+              <span class="label">Total Interest</span>
+              <span class="value">₹{{ totalInterest.toFixed(2) }}</span>
+            </div>
+            <div class="la-emi-item">
+              <span class="label">Total Payable</span>
+              <span class="value">₹{{ totalAmount.toFixed(2) }}</span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="la-step-actions">
+      <button class="la-btn-back" (click)="goToStep(1)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        Back
+      </button>
+      <button class="la-btn-continue"
+              [disabled]="form.get('requestedAmount')?.invalid || form.get('requestedTenureMonths')?.invalid"
+              (click)="goToStep(3)">
+        Review Application
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ STEP 3: REVIEW & SUBMIT ═══════════════════ -->
+  <div class="la-step-content" *ngIf="currentStep === 3">
+
+    <div class="la-section-header">
+      <h2 class="la-section-title">Review Your Application</h2>
+      <p class="la-section-sub">Please verify all details before submitting your loan application</p>
+    </div>
+
+    <div class="la-review-layout">
+
+      <!-- Left: Details -->
+      <div class="la-review-left">
+
+        <div class="la-review-card">
+          <div class="la-review-card-header">
+            <div class="la-review-card-icon blue-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+            </div>
+            <h4>Loan Details</h4>
+          </div>
+          <div class="la-review-row">
+            <span class="label">Product</span>
+            <span class="value">{{ selectedProduct?.productName }}</span>
+          </div>
+          <div class="la-review-row">
+            <span class="label">Loan Type</span>
+            <span class="value">
+              <span class="la-type-pill">{{ selectedProduct?.loanType }}</span>
+            </span>
+          </div>
+          <div class="la-review-row">
+            <span class="label">Requested Amount</span>
+            <span class="value amount-val">₹{{ form.get('requestedAmount')?.value | number }}</span>
+          </div>
+          <div class="la-review-row">
+            <span class="label">Tenure</span>
+            <span class="value">{{ form.get('requestedTenureMonths')?.value }} months</span>
+          </div>
+          <div class="la-review-row">
+            <span class="label">Interest Rate</span>
+            <span class="value rate-val">{{ selectedProduct?.annualInterestRate }}% p.a.</span>
+          </div>
+        </div>
+
+        <div class="la-review-card">
+          <div class="la-review-card-header">
+            <div class="la-review-card-icon green-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <h4>Employment Details</h4>
+          </div>
+          <div class="la-review-row">
+            <span class="label">Monthly Income</span>
+            <span class="value income-val">₹{{ monthlyIncome | number }}</span>
+          </div>
+          <div class="la-review-row">
+            <span class="label">Employer</span>
+            <span class="value">{{ employerName || '—' }}</span>
+          </div>
+          <div class="la-review-row">
+            <span class="label">Designation</span>
+            <span class="value">{{ designation || '—' }}</span>
+          </div>
+          <div class="la-review-row">
+            <span class="label">Existing EMIs</span>
+            <span class="value">₹0</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right: EMI Summary + Terms -->
+      <div class="la-review-right">
+
+        <div class="la-emi-summary-card">
+          <div class="la-emi-summary-glow"></div>
+          <p class="la-emi-summary-label">Monthly EMI</p>
+          <h1 class="la-emi-highlight">₹{{ emiAmount.toFixed(2) }}</h1>
+          <div class="la-emi-summary-bar">
+            <div class="la-emi-summary-fill"></div>
+          </div>
+          <div class="la-emi-summary-row">
+            <span>Total Interest</span>
+            <span>₹{{ totalInterest.toFixed(2) }}</span>
+          </div>
+          <div class="la-emi-summary-row">
+            <span>Total Payable</span>
+            <span class="bold">₹{{ totalAmount.toFixed(2) }}</span>
+          </div>
+        </div>
+
+        <div class="la-terms-card">
+          <div class="la-terms-checkbox">
+            <input type="checkbox"
+                   id="terms"
+                   class="la-checkbox"
+                   [(ngModel)]="acceptTerms" />
+            <label for="terms">
+              I accept the <span class="terms-link">terms and conditions</span> and confirm that all information provided is accurate and complete.
+            </label>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="la-step-actions">
+      <button class="la-btn-back" (click)="goToStep(2)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        Back
+      </button>
+      <button class="la-btn-submit"
+              [disabled]="!acceptTerms || form.invalid"
+              (click)="applyLoan()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
+        Submit Application
+      </button>
+    </div>
+
+  </div>
+
+</div>

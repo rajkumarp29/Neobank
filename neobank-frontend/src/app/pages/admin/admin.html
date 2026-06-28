@@ -1,0 +1,205 @@
+﻿<!-- Confirmation Modal Overlay -->
+<div class="confirm-overlay" *ngIf="showConfirmDialog" (click)="cancelConfirm()">
+  <div class="confirm-modal" (click)="$event.stopPropagation()">
+    <div class="confirm-icon" [class.deactivate]="confirmAction === 'INACTIVE'">
+      <span *ngIf="confirmAction === 'ACTIVE'">✓</span>
+      <span *ngIf="confirmAction === 'INACTIVE'">⚠</span>
+    </div>
+    <h3 class="confirm-title">
+      {{ confirmAction === 'ACTIVE' ? 'Activate Account' : 'Deactivate Account' }}
+    </h3>
+    <p class="confirm-body">
+      Are you sure you want to
+      <strong>{{ confirmAction === 'ACTIVE' ? 'activate' : 'deactivate' }}</strong>
+      the account of <strong>{{ confirmUser?.fullName }}</strong>?
+      <span *ngIf="confirmAction === 'INACTIVE'">
+        <br><small>The user will lose access to the platform.</small>
+      </span>
+    </p>
+    <div class="confirm-actions">
+      <button class="btn-cancel" (click)="cancelConfirm()">Cancel</button>
+      <button class="btn-confirm" [class.danger]="confirmAction === 'INACTIVE'"
+              (click)="confirmStatusChange()">
+        {{ confirmAction === 'ACTIVE' ? 'Yes, Activate' : 'Yes, Deactivate' }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Page Shell -->
+<div class="admin-page">
+
+  <!-- Hero -->
+  <div class="admin-hero">
+    <div class="hero-left">
+      <span class="hero-badge">⚙️ Admin Panel</span>
+      <h1>User Management</h1>
+      <p>Manage accounts, roles, and access across the platform.</p>
+    </div>
+    <div class="hero-right">
+      <div class="hero-stat">
+        <span class="hs-value">{{ users.length }}</span>
+        <span class="hs-label">Total Users</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hs-value">{{ activeCount }}</span>
+        <span class="hs-label">Active</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hs-value">{{ inactiveCount }}</span>
+        <span class="hs-label">Inactive</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stat Cards -->
+  <div class="stat-row">
+    <div class="stat-card sc-blue">
+      <span class="sc-icon">👥</span>
+      <div>
+        <div class="sc-num">{{ users.length }}</div>
+        <div class="sc-lbl">All Users</div>
+      </div>
+    </div>
+    <div class="stat-card sc-purple">
+      <span class="sc-icon">🛒</span>
+      <div>
+        <div class="sc-num">{{ customerCount }}</div>
+        <div class="sc-lbl">Customers</div>
+      </div>
+    </div>
+    <div class="stat-card sc-indigo">
+      <span class="sc-icon">🔑</span>
+      <div>
+        <div class="sc-num">{{ adminCount }}</div>
+        <div class="sc-lbl">Admins</div>
+      </div>
+    </div>
+    <div class="stat-card sc-green">
+      <span class="sc-icon">✅</span>
+      <div>
+        <div class="sc-num">{{ activeCount }}</div>
+        <div class="sc-lbl">Active</div>
+      </div>
+    </div>
+    <div class="stat-card sc-red">
+      <span class="sc-icon">🚫</span>
+      <div>
+        <div class="sc-num">{{ inactiveCount }}</div>
+        <div class="sc-lbl">Inactive</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <div class="controls-bar">
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input class="search-input" [(ngModel)]="searchText" placeholder="Search by name or email…"
+             (ngModelChange)="currentPage=1" />
+    </div>
+
+    <select class="role-filter" [(ngModel)]="selectedRole" (ngModelChange)="currentPage=1">
+      <option value="ALL">All Roles</option>
+      <option value="CUSTOMER">Customer</option>
+      <option value="ADMIN">Admin</option>
+    </select>
+
+    <div class="status-tabs">
+      <button class="st-tab" [class.active]="selectedStatus==='ALL'"
+              (click)="selectedStatus='ALL'; currentPage=1">All</button>
+      <button class="st-tab" [class.active]="selectedStatus==='ACTIVE'"
+              (click)="selectedStatus='ACTIVE'; currentPage=1">Active</button>
+      <button class="st-tab" [class.active]="selectedStatus==='INACTIVE'"
+              (click)="selectedStatus='INACTIVE'; currentPage=1">Inactive</button>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="table-card">
+
+    <!-- Loading -->
+    <div class="tbl-loading" *ngIf="loading">
+      <div class="spinner"></div> Loading users…
+    </div>
+
+    <!-- Empty -->
+    <div class="tbl-empty" *ngIf="!loading && filteredUsers.length === 0">
+      <span>👤</span>
+      <p>No users match your filters.</p>
+    </div>
+
+    <table *ngIf="!loading && filteredUsers.length > 0">
+      <thead>
+        <tr>
+          <th>#ID</th>
+          <th>User</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Date Joined</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of pagedUsers">
+          <td class="cell-id">#{{ user.id }}</td>
+          <td class="cell-user">
+            <div class="user-avatar">{{ user.fullName[0] | uppercase }}</div>
+            <span>{{ user.fullName }}</span>
+          </td>
+          <td class="cell-email">{{ user.email }}</td>
+          <td>
+            <select class="role-select" [(ngModel)]="user.role" (change)="updateRole(user)">
+              <option value="CUSTOMER">Customer</option>
+              <option value="ADMIN">Admin</option>
+            </select>
+          </td>
+          <td class="cell-date">{{ (user.createdAt | date:'dd MMM yyyy') || '—' }}</td>
+          <td>
+            <span class="status-badge"
+                  [class.badge-active]="(user.status || 'ACTIVE') === 'ACTIVE'"
+                  [class.badge-inactive]="user.status === 'INACTIVE'">
+              <span class="badge-dot"></span>
+              {{ user.status || 'ACTIVE' }}
+            </span>
+          </td>
+          <td class="cell-actions">
+            <span class="saved-tick" *ngIf="savedStatus[user.id]">✓ Saved</span>
+            <span class="saving-text" *ngIf="savingStatus[user.id]">Saving…</span>
+            <ng-container *ngIf="!savingStatus[user.id] && !savedStatus[user.id]">
+              <button class="btn-activate"
+                      *ngIf="(user.status || 'ACTIVE') === 'INACTIVE'"
+                      (click)="openConfirm(user, 'ACTIVE')">
+                ✓ Activate
+              </button>
+              <button class="btn-deactivate"
+                      *ngIf="(user.status || 'ACTIVE') === 'ACTIVE'"
+                      (click)="openConfirm(user, 'INACTIVE')">
+                ⊘ Deactivate
+              </button>
+            </ng-container>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Pagination -->
+    <div class="pagination" *ngIf="!loading && filteredUsers.length > pageSize">
+      <button class="pg-btn" [disabled]="currentPage === 1" (click)="changePage(currentPage - 1)">
+        ‹ Prev
+      </button>
+      <ng-container *ngFor="let p of pageNumbers">
+        <button class="pg-num" [class.current]="p === currentPage" (click)="changePage(p)">
+          {{ p }}
+        </button>
+      </ng-container>
+      <button class="pg-btn" [disabled]="currentPage === totalPages" (click)="changePage(currentPage + 1)">
+        Next ›
+      </button>
+      <span class="pg-info">Page {{ currentPage }} of {{ totalPages }}</span>
+    </div>
+
+  </div><!-- /table-card -->
+
+</div><!-- /admin-page -->

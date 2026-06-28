@@ -1,0 +1,802 @@
+<div class="lp-root">
+
+  <!-- ══════════════════════════════════════════════
+       SCROLL PROGRESS BAR (premium)
+  ══════════════════════════════════════════════ -->
+  <div class="scroll-progress" [style.width.%]="scrollProgress"></div>
+
+  <!-- ══════════════════════════════════════════════
+       TOP UTILITY BAR
+  ══════════════════════════════════════════════ -->
+  <div class="utility-bar">
+    <div class="ub-inner">
+      <div class="ub-left">
+        <span class="ub-pill">
+          <span class="ub-live"></span>
+          RBI Regulated &amp; DICGC Insured up to ₹5 Lakh
+        </span>
+        <span class="ub-info">📞 24×7 Care: <strong>1800-NEO-BANK</strong></span>
+      </div>
+      <div class="ub-right">
+        <a href="#nri" class="ub-link">🌍 NRI Banking</a>
+        <span class="ub-div">|</span>
+        <a href="#wealth" class="ub-link">💎 Private Wealth</a>
+        <span class="ub-div">|</span>
+        <a href="#help" class="ub-link">❔ Help</a>
+        <span class="ub-div">|</span>
+        <a href="#lang" class="ub-link">🌐 EN ▾</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       MAIN NAVBAR
+  ══════════════════════════════════════════════ -->
+  <nav class="lp-nav" [class.scrolled]="scrolled">
+    <div class="nav-inner">
+      <a routerLink="/" class="nav-brand">
+        <div class="brand-icon">
+          <span class="brand-n">N</span>
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">NeoBank</span>
+          <span class="brand-tag">Premium Digital Banking</span>
+        </div>
+      </a>
+      <ul class="nav-links">
+        <li *ngFor="let link of navLinks">
+          <a [href]="'#' + link.anchor" class="nav-link">{{ link.label }}</a>
+        </li>
+      </ul>
+      <div class="nav-auth">
+        <button class="nav-search" aria-label="Search" type="button">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7"></circle>
+            <path d="m21 21-4.3-4.3"></path>
+          </svg>
+        </button>
+        <a routerLink="/login" class="nav-login">Log In</a>
+        <a routerLink="/register" class="nav-register">
+          <span>Register</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M13 5l7 7-7 7"></path>
+          </svg>
+        </a>
+        <button class="nav-burger" (click)="toggleMobileMenu()" aria-label="Menu" type="button">
+          <span [class.open]="mobileMenuOpen"></span>
+          <span [class.open]="mobileMenuOpen"></span>
+          <span [class.open]="mobileMenuOpen"></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ══════════════════════════════════════════════
+       MOBILE MENU DRAWER
+  ══════════════════════════════════════════════ -->
+  <div class="mobile-overlay" [class.show]="mobileMenuOpen" (click)="closeMobileMenu()"></div>
+  <aside class="mobile-menu" [class.show]="mobileMenuOpen">
+    <div class="mm-head">
+      <div class="brand-text">
+        <span class="brand-name">NeoBank</span>
+        <span class="brand-tag">Premium Banking</span>
+      </div>
+      <button class="mm-close" (click)="closeMobileMenu()" type="button">✕</button>
+    </div>
+    <div class="mm-body">
+      <a *ngFor="let link of navLinks"
+         [href]="'#' + link.anchor"
+         class="mm-link"
+         (click)="closeMobileMenu()">
+        {{ link.label }}
+      </a>
+      <div class="mm-cta">
+        <a routerLink="/login" class="btn-outline" (click)="closeMobileMenu()">Log In</a>
+        <a routerLink="/register" class="btn-primary" (click)="closeMobileMenu()">Register</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ══════════════════════════════════════════════
+       PREMIUM HERO BANNER
+  ══════════════════════════════════════════════ -->
+  <section class="hero-banner-premium" data-reveal>
+    <div class="section-wrap">
+      <div class="hero-banner-wrap">
+        <div>
+          <span class="hero-banner-chip">NeoBank</span>
+          <h2 class="hero-banner-title">Banking that combines trust, speed, and elegance.</h2>
+          <p class="hero-banner-text">Manage your savings, cards, loans, and investments from one premium ecosystem designed for modern life.</p>
+          <div class="hero-banner-actions">
+            <a routerLink="/register" class="btn-primary">Open Account</a>
+            <a routerLink="/login" class="btn-outline">Explore Features</a>
+          </div>
+        </div>
+        <div class="hero-banner-cards">
+          <div class="hero-mini-card hero-mini-card-main">
+            <span>Available Balance</span>
+            <strong>₹ 2,64,500</strong>
+          </div>
+          <div class="hero-mini-card hero-mini-card-sm">
+            <span>Rewards</span>
+            <strong>12,450 pts</strong>
+          </div>
+          <div class="hero-mini-card hero-mini-card-sm alt">
+            <span>Visa Card</span>
+            <strong>Platinum</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       HERO
+  ══════════════════════════════════════════════ -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-pattern"></div>
+    <div class="hero-inner">
+
+      <!-- Left copy -->
+      <div class="hero-copy">
+        <div class="hero-badge">
+          <span class="hb-dot"></span>
+          India’s Most Trusted Digital Bank
+        </div>
+        <h1 class="hero-h1">
+          Banking that feels <span class="h1-accent">premium</span>,
+          <br>
+          <span class="h1-accent-2">smart, and effortless</span>
+        </h1>
+        <p class="hero-para">
+          Open a savings account in minutes, move money instantly, invest with confidence,
+          and monitor every rupee from one elegant dashboard built for modern life.
+        </p>
+        <div class="hero-actions">
+          <a routerLink="/register" class="btn-primary">Open Free Account →</a>
+          <a routerLink="/login" class="btn-outline">Existing Customer? Log In</a>
+        </div>
+        <div class="hero-features">
+          <div class="feature-pill"><span>⚡</span> Instant transfers</div>
+          <div class="feature-pill"><span>🛡️</span> 24/7 fraud monitoring</div>
+          <div class="feature-pill"><span>📈</span> Wealth insights</div>
+        </div>
+        <div class="hero-trust-row">
+          <div class="trust-badge">
+            <span class="tb-icon">🔒</span>
+            <div>
+              <div class="tb-title">256-bit SSL</div>
+              <div class="tb-sub">Bank-grade security</div>
+            </div>
+          </div>
+          <div class="trust-badge">
+            <span class="tb-icon">🏛️</span>
+            <div>
+              <div class="tb-title">RBI Regulated</div>
+              <div class="tb-sub">Fully licensed bank</div>
+            </div>
+          </div>
+          <div class="trust-badge">
+            <span class="tb-icon">🛡️</span>
+            <div>
+              <div class="tb-title">DICGC Insured</div>
+              <div class="tb-sub">Up to ₹5 Lakh</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right visual -->
+      <div class="hero-visual">
+        <div class="hero-orb orb-one"></div>
+        <div class="hero-orb orb-two"></div>
+        <div class="hero-dashboard glass-panel">
+          <div class="dashboard-top-row">
+            <div>
+              <span class="dash-label">Primary Account</span>
+              <h3>Business Savings</h3>
+            </div>
+            <span class="dash-growth">+7.8%</span>
+          </div>
+          <div class="dashboard-balance">
+            <span>Total Balance</span>
+            <strong>₹ 2,64,500</strong>
+          </div>
+          <div class="dashboard-cards-row">
+            <div class="main-card-preview">
+              <div class="card-chip"></div>
+              <div class="card-number">•••• 4082</div>
+              <div class="card-meta">NeoBank Platinum</div>
+            </div>
+            <div class="mini-chart">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+          <div class="dashboard-actions">
+            <button type="button">Send</button>
+            <button type="button">Pay</button>
+            <button type="button">Transfer</button>
+          </div>
+        </div>
+
+        <div class="floating-panel widget-left glass-panel">
+          <span>Monthly Spend</span>
+          <strong>₹ 84,200</strong>
+          <div class="widget-progress"><em></em></div>
+        </div>
+
+        <div class="floating-panel widget-right glass-panel">
+          <span>Rewards</span>
+          <strong>12,450 pts</strong>
+          <small>Earned this month</small>
+        </div>
+
+        <div class="floating-panel widget-bottom glass-panel">
+          <div>
+            <span>Cashflow</span>
+            <strong>₹ 1.24L</strong>
+          </div>
+          <div class="pulse-dot"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Premium scroll hint -->
+    <a href="#products" class="scroll-hint" aria-label="Scroll to explore">
+      <span class="sh-label">Scroll to Explore</span>
+      <span class="sh-mouse"><span class="sh-wheel"></span></span>
+    </a>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       STATS STRIP
+  ══════════════════════════════════════════════ -->
+  <section class="stats-strip" data-reveal>
+    <div class="stats-inner">
+      <div class="stat-item" *ngFor="let s of stats; let i = index">
+        <span class="stat-icon">{{ s.icon }}</span>
+        <div>
+          <div class="stat-val">{{ formatStatValue(s, i) }}</div>
+          <div class="stat-label">{{ s.label }}</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       SMART TOOLS
+  ══════════════════════════════════════════════ -->
+  <section class="smart-tools" id="investments" data-reveal>
+    <div class="section-wrap">
+      <div class="smart-layout">
+        <div class="smart-left">
+          <span class="sec-eyebrow">Investments</span>
+          <h2 class="sec-title left">Wealth tools built for long-term growth</h2>
+          <p class="sec-sub left">Track your money, automate investing, and get AI-driven insights that help you build a stronger financial future with confidence.</p>
+          <div class="smart-highlights">
+            <span *ngFor="let item of smartHighlights">{{ item }}</span>
+          </div>
+          <a routerLink="/register" class="btn-primary mt">Start Investing →</a>
+        </div>
+        <div class="smart-right">
+          <div class="smart-panel">
+            <div class="panel-top">
+              <span>Monthly Snapshot</span>
+              <span class="panel-pill">+18.4%</span>
+            </div>
+            <div class="panel-graph">
+              <div class="graph-bar b1"></div>
+              <div class="graph-bar b2"></div>
+              <div class="graph-bar b3"></div>
+              <div class="graph-bar b4"></div>
+              <div class="graph-bar b5"></div>
+            </div>
+            <div class="panel-footer">
+              <div>
+                <span class="foot-label">Income</span>
+                <strong>₹1,24,000</strong>
+              </div>
+              <div>
+                <span class="foot-label">Savings</span>
+                <strong>₹26,800</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       HOW IT WORKS
+  ══════════════════════════════════════════════ -->
+  <section class="process-section" data-reveal>
+    <div class="section-wrap">
+      <div class="sec-head">
+        <span class="sec-eyebrow">How it works</span>
+        <h2 class="sec-title">Banking in three effortless steps</h2>
+      </div>
+      <div class="process-grid">
+        <div class="process-card" *ngFor="let step of steps">
+          <span class="process-number">{{ step.number }}</span>
+          <h3>{{ step.title }}</h3>
+          <p>{{ step.desc }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       PRODUCTS
+  ══════════════════════════════════════════════ -->
+  <section class="products" id="payments" data-reveal>
+    <div class="section-wrap">
+      <div class="sec-head">
+        <span class="sec-eyebrow">Payments</span>
+        <h2 class="sec-title">Pay faster, safer, and smarter</h2>
+        <p class="sec-sub">Settle bills, transfer funds, split expenses, and manage recurring payments in seconds with secure banking tools designed for everyday life.</p>
+      </div>
+
+      <div class="product-shell">
+        <div class="product-tab-panel glass-panel">
+          <div class="product-tabs">
+            <button
+              *ngFor="let tab of productTabs"
+              type="button"
+              class="product-tab"
+              [class.active]="tab.key === activeProductTab"
+              (click)="selectTab(tab.key)">
+              <span>{{ tab.icon }}</span>
+              <strong>{{ tab.label }}</strong>
+            </button>
+          </div>
+          <div class="product-tab-content">
+            <span class="product-tab-kicker">Featured {{ currentProductTab.label }}</span>
+            <h3>{{ currentProductTab.title }}</h3>
+            <p>{{ currentProductTab.description }}</p>
+            <ul>
+              <li *ngFor="let bullet of currentProductTab.bullets">{{ bullet }}</li>
+            </ul>
+            <div class="product-tab-actions">
+              <a routerLink="/accounts" class="btn-primary">Explore Now →</a>
+              <span class="product-tab-meta">24/7 digital access</span>
+            </div>
+          </div>
+        </div>
+
+        <aside class="product-side-panel glass-panel">
+          <div class="side-panel-top">
+            <span>Today’s Snapshot</span>
+            <strong>+12.4%</strong>
+          </div>
+          <div class="side-panel-graph">
+            <span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <div class="side-panel-footer">
+            <div>
+              <small>Income</small>
+              <b>₹1.24L</b>
+            </div>
+            <div>
+              <small>Savings</small>
+              <b>₹26.8K</b>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <div class="products-grid">
+        <a *ngFor="let p of products"
+           [routerLink]="p.link"
+           class="product-card"
+           [attr.data-color]="p.color"
+           [attr.id]="p.anchor">
+          <div class="pc-top">
+            <div class="pc-icon">{{ p.icon }}</div>
+            <span class="pc-tag">{{ p.tag }}</span>
+          </div>
+          <h3 class="pc-title">{{ p.title }}</h3>
+          <p class="pc-desc">{{ p.desc }}</p>
+          <ul class="pc-bens">
+            <li *ngFor="let b of p.benefits"><span class="bullet">✓</span>{{ b }}</li>
+          </ul>
+          <div class="pc-cta">Learn More <span>→</span></div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       PERSONAL SECTION
+  ══════════════════════════════════════════════ -->
+  <section class="category-detail" id="accounts" data-reveal>
+    <div class="section-wrap">
+      <div class="category-layout">
+        <div class="category-copy">
+          <span class="sec-eyebrow">Accounts</span>
+          <h2 class="sec-title left">Everyday banking with premium control.</h2>
+          <p class="sec-sub left">From salary credits to family spending, manage your savings and current account in one place with instant insights, secure access, and zero hassle.</p>
+          <ul class="detail-list">
+            <li><span>✓</span> Zero balance savings account</li>
+            <li><span>✓</span> Salary credit and bill automation</li>
+            <li><span>✓</span> Real-time spending insights</li>
+          </ul>
+          <a routerLink="/accounts" class="btn-primary">Open Account →</a>
+        </div>
+        <div class="category-visual personal-visual">
+          <div class="mini-card main-card">
+            <span>Available Balance</span>
+            <strong>₹ 2,64,500</strong>
+            <small>+ ₹12,400 this month</small>
+          </div>
+          <div class="mini-card small-card one">Auto-save <b>₹1,200</b></div>
+          <div class="mini-card small-card two">Goal Tracker <b>82%</b></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="category-detail alt" id="deposits" data-reveal>
+    <div class="section-wrap">
+      <div class="category-layout reverse">
+        <div class="category-copy">
+          <span class="sec-eyebrow">Deposits</span>
+          <h2 class="sec-title left">Lock in growth with secure deposit plans.</h2>
+          <p class="sec-sub left">Choose fixed deposits, recurring deposits, and tax-saving options that help your money grow safely while staying liquid when you need it.</p>
+          <ul class="detail-list">
+            <li><span>✓</span> Guaranteed returns</li>
+            <li><span>✓</span> Flexible lock-in tenures</li>
+            <li><span>✓</span> Auto-renewal & reminders</li>
+          </ul>
+          <a routerLink="/accounts" class="btn-primary">Explore Deposits →</a>
+        </div>
+        <div class="category-visual business-visual">
+          <div class="business-panel">
+            <div class="panel-head"><span>Monthly Revenue</span><strong>₹ 8.4L</strong></div>
+            <div class="panel-bars">
+              <span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="panel-footer">
+              <div><small>Expenses</small><b>₹1.9L</b></div>
+              <div><small>Profit</small><b>₹6.5L</b></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="category-detail" id="loans" data-reveal>
+    <div class="section-wrap">
+      <div class="category-layout">
+        <div class="category-copy">
+          <span class="sec-eyebrow">Loans</span>
+          <h2 class="sec-title left">Fast funding for your biggest moments.</h2>
+          <p class="sec-sub left">Get approved in hours, track repayment easily, and choose flexible EMI plans tailored to your income and goals.</p>
+          <ul class="detail-list">
+            <li><span>✓</span> Up to ₹10 lakh approval</li>
+            <li><span>✓</span> Transparent EMI breakdown</li>
+            <li><span>✓</span> No branch visits needed</li>
+          </ul>
+          <a routerLink="/loans" class="btn-primary">Apply for Loan →</a>
+        </div>
+        <div class="category-visual loan-visual">
+          <div class="loan-card">
+            <span>Loan Eligibility</span>
+            <strong>₹ 5,00,000</strong>
+            <div class="loan-range"><em></em></div>
+            <small>Estimated EMI: ₹ 9,800/month</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="category-detail alt" id="cards" data-reveal>
+    <div class="section-wrap">
+      <div class="category-layout reverse">
+        <div class="category-copy">
+          <span class="sec-eyebrow">Cards</span>
+          <h2 class="sec-title left">Premium cards designed for daily life.</h2>
+          <p class="sec-sub left">Enjoy airport lounge access, cashback, travel perks, and instant purchase protection for every swipe, tap, and scan.</p>
+          <ul class="detail-list">
+            <li><span>✓</span> 5% cashback on top spends</li>
+            <li><span>✓</span> Worldwide lounge access</li>
+            <li><span>✓</span> Spend control & instant alerts</li>
+          </ul>
+          <a routerLink="/rewards" class="btn-primary">Explore Cards →</a>
+        </div>
+        <div class="category-visual card-visual">
+          <div class="card-stack">
+            <div class="credit-card front">
+              <span>NeoBank Platinum</span>
+              <strong>•••• 4082</strong>
+            </div>
+            <div class="credit-card back"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       REWARDS SECTION
+  ══════════════════════════════════════════════ -->
+  <section class="rewards-section" id="rewards" data-reveal>
+    <div class="section-wrap">
+      <div class="rewards-layout">
+        <div class="rewards-copy">
+          <span class="sec-eyebrow">Rewards</span>
+          <h2 class="sec-title left">Turn everyday spends into meaningful rewards.</h2>
+          <p class="sec-sub left">Earn points on bills, shopping, travel, and investments. Redeem them for vouchers, cashback, and premium lifestyle benefits.</p>
+          <div class="reward-pills">
+            <span>Cashback</span>
+            <span>Travel perks</span>
+            <span>Partner offers</span>
+          </div>
+          <a routerLink="/rewards" class="btn-primary">Explore Rewards →</a>
+        </div>
+        <div class="rewards-visual glass-panel">
+          <div class="reward-ring">
+            <div class="reward-value">12,450</div>
+            <span>Reward Points</span>
+          </div>
+          <div class="reward-cards-row">
+            <div class="reward-mini-card">Travel <strong>+3,200</strong></div>
+            <div class="reward-mini-card">Shopping <strong>+1,980</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       WHY CHOOSE US
+  ══════════════════════════════════════════════ -->
+  <section class="why-section" id="features" data-reveal>
+    <div class="section-wrap">
+      <div class="why-layout">
+        <div class="why-left">
+          <span class="sec-eyebrow">Why NeoBank</span>
+          <h2 class="sec-title left">Banking, reimagined for the modern Indian.</h2>
+          <p class="sec-sub left">We combine the trust of a traditional bank with the convenience and intelligence of fintech. Built with security, transparency, and customer delight at the core.</p>
+          <a routerLink="/register" class="btn-primary mt">Get Started Today →</a>
+        </div>
+        <div class="why-right">
+          <div class="why-card" *ngFor="let f of features">
+            <div class="wc-icon">{{ f.icon }}</div>
+            <h3 class="wc-title">{{ f.title }}</h3>
+            <p class="wc-desc">{{ f.desc }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       FAQS
+  ══════════════════════════════════════════════ -->
+  <section class="faq-section" id="faq" data-reveal>
+    <div class="section-wrap">
+      <div class="sec-head">
+        <span class="sec-eyebrow">FAQs</span>
+        <h2 class="sec-title">Frequently asked questions</h2>
+      </div>
+      <div class="faq-list">
+        <button type="button"
+                class="faq-item"
+                *ngFor="let faq of faqs; let i = index"
+                [class.open]="activeFaq === i"
+                (click)="toggleFaq(i)">
+          <div class="faq-question">
+            <span>{{ faq.question }}</span>
+            <span class="faq-icon">{{ activeFaq === i ? '−' : '+' }}</span>
+          </div>
+          <div class="faq-answer" *ngIf="activeFaq === i">{{ faq.answer }}</div>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       BIG NUMBERS STRIP
+  ══════════════════════════════════════════════ -->
+  <section class="numbers-section" data-reveal>
+    <div class="numbers-bg"></div>
+    <div class="section-wrap rel">
+      <div class="numbers-head">
+        <span class="sec-eyebrow light">By the Numbers</span>
+        <h2 class="sec-title light">Trusted by millions across India</h2>
+      </div>
+      <div class="numbers-grid">
+        <div class="number-block">
+          <div class="nb-val">12L+</div>
+          <div class="nb-lbl">Active Customers</div>
+        </div>
+        <div class="number-block">
+          <div class="nb-val">₹8,400Cr</div>
+          <div class="nb-lbl">Deposits Managed</div>
+        </div>
+        <div class="number-block">
+          <div class="nb-val">99.99%</div>
+          <div class="nb-lbl">Uptime SLA</div>
+        </div>
+        <div class="number-block">
+          <div class="nb-val">4.8★</div>
+          <div class="nb-lbl">Play Store Rating</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       TESTIMONIALS
+  ══════════════════════════════════════════════ -->
+  <section class="testimonials" data-reveal>
+    <div class="section-wrap">
+      <div class="sec-head">
+        <span class="sec-eyebrow">What Customers Say</span>
+        <h2 class="sec-title">Loved by Indians, everywhere</h2>
+      </div>
+      <div class="testi-grid">
+        <div class="testi-card" *ngFor="let t of testimonials">
+          <div class="t-stars">★★★★★</div>
+          <p class="t-quote">"{{ t.quote }}"</p>
+          <div class="t-foot">
+            <div class="t-avatar" [style.background]="t.color">{{ t.initials }}</div>
+            <div>
+              <div class="t-name">{{ t.name }}</div>
+              <div class="t-role">{{ t.role }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       APP SHOWCASE
+  ══════════════════════════════════════════════ -->
+  <section class="app-section" data-reveal>
+    <div class="section-wrap">
+      <div class="app-layout">
+        <div class="app-copy">
+          <span class="sec-eyebrow">Mobile App</span>
+          <h2 class="sec-title left">Banking power, in your pocket.</h2>
+          <p class="sec-sub left">Available on iOS and Android, our app delivers an effortless experience — pay bills, transfer money, track spending, and grow your savings, all from one beautifully designed home screen.</p>
+          <div class="app-features">
+            <div class="af-item" *ngFor="let f of appFeatures">
+              <span class="af-icon">{{ f.icon }}</span>
+              <div>
+                <div class="af-title">{{ f.title }}</div>
+                <div class="af-desc">{{ f.desc }}</div>
+              </div>
+            </div>
+          </div>
+          <div class="app-stores">
+            <a class="store-btn" href="#"><span>🍎</span><div><div class="sb-sm">Download on</div><div class="sb-lg">App Store</div></div></a>
+            <a class="store-btn" href="#"><span>🤖</span><div><div class="sb-sm">Get it on</div><div class="sb-lg">Google Play</div></div></a>
+          </div>
+        </div>
+        <div class="app-visual">
+          <div class="phone-mock">
+            <div class="pm-screen">
+              <div class="pm-top-bar"><span>9:41</span><span>●●●●</span></div>
+              <div class="pm-greet">Hello, Aarav 👋</div>
+              <div class="pm-bal-card">
+                <div class="pm-bal-label">Total Balance</div>
+                <div class="pm-bal-val">₹ 2,64,500</div>
+                <div class="pm-bal-foot">+₹12,400 this month</div>
+              </div>
+              <div class="pm-quick-grid">
+                <div class="pm-q"><span>💸</span><b>Send</b></div>
+                <div class="pm-q"><span>📥</span><b>Request</b></div>
+                <div class="pm-q"><span>💳</span><b>Pay Bill</b></div>
+                <div class="pm-q"><span>📊</span><b>Invest</b></div>
+              </div>
+              <div class="pm-txn">
+                <div class="pm-txn-title">Recent</div>
+                <div class="pm-txn-item">
+                  <span class="ptx-icon">🛒</span>
+                  <div class="ptx-info"><span>Amazon</span><span class="ptx-date">Today</span></div>
+                  <span class="ptx-amt red">–₹1,299</span>
+                </div>
+                <div class="pm-txn-item">
+                  <span class="ptx-icon">💰</span>
+                  <div class="ptx-info"><span>Salary</span><span class="ptx-date">Today</span></div>
+                  <span class="ptx-amt green">+₹2,00,000</span>
+                </div>
+                <div class="pm-txn-item">
+                  <span class="ptx-icon">☕</span>
+                  <div class="ptx-info"><span>Starbucks</span><span class="ptx-date">Yesterday</span></div>
+                  <span class="ptx-amt red">–₹420</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       FINAL CTA
+  ══════════════════════════════════════════════ -->
+  <section class="final-cta" id="contact" data-reveal>
+    <div class="fc-bg"></div>
+    <div class="fc-inner">
+      <span class="fc-badge">🚀 No paperwork. No hidden fees.</span>
+      <h2 class="fc-title">Your better banking starts today.</h2>
+      <p class="fc-sub">Open your zero-balance account in 3 minutes. 100% online, 100% secure, 100% transparent.</p>
+      <div class="fc-actions">
+        <a routerLink="/register" class="btn-primary lg">Open Free Account →</a>
+        <a routerLink="/login" class="btn-ghost">I have an account</a>
+      </div>
+      <div class="fc-note">✓ No minimum balance · ✓ Free Visa debit card · ✓ 24×7 support</div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════════════ -->
+  <footer class="lp-footer">
+    <div class="footer-top">
+      <div class="footer-inner">
+        <div class="fc-col fc-brand">
+          <div class="footer-logo">
+            <div class="brand-icon"><span class="brand-n">N</span></div>
+            <span class="brand-name">NeoBank</span>
+          </div>
+          <p class="fc-tagline">India's most trusted digital bank. Licensed by RBI. Deposits insured by DICGC.</p>
+          <div class="fc-social">
+            <a class="soc-btn" href="#">f</a>
+            <a class="soc-btn" href="#">t</a>
+            <a class="soc-btn" href="#">in</a>
+            <a class="soc-btn" href="#">ig</a>
+          </div>
+        </div>
+        <div class="fc-col">
+          <div class="fc-col-title">Products</div>
+          <a href="#" class="fc-link">Savings Account</a>
+          <a href="#" class="fc-link">Current Account</a>
+          <a href="#" class="fc-link">Personal Loans</a>
+          <a href="#" class="fc-link">Credit Cards</a>
+          <a href="#" class="fc-link">Investments</a>
+        </div>
+        <div class="fc-col">
+          <div class="fc-col-title">Company</div>
+          <a href="#" class="fc-link">About Us</a>
+          <a href="#" class="fc-link">Careers</a>
+          <a href="#" class="fc-link">Press</a>
+          <a href="#" class="fc-link">Blog</a>
+          <a href="#" class="fc-link">Contact</a>
+        </div>
+        <div class="fc-col">
+          <div class="fc-col-title">Support</div>
+          <a href="#" class="fc-link">Help Center</a>
+          <a href="#" class="fc-link">Security</a>
+          <a href="#" class="fc-link">Privacy Policy</a>
+          <a href="#" class="fc-link">Terms of Service</a>
+          <a href="#" class="fc-link">Grievance</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="fb-inner">
+        <div class="fb-copy">© 2026 NeoBank India Pvt. Ltd. All rights reserved.</div>
+        <div class="fb-badges">
+          <span class="reg-badge">RBI Licensed</span>
+          <span class="reg-badge">ISO 27001</span>
+          <span class="reg-badge">PCI-DSS</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</div>

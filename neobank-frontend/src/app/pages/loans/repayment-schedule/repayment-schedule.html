@@ -1,0 +1,123 @@
+<div class="schedule-container">
+
+  <h2>Repayment Schedule</h2>
+
+  <!-- ✅ DASHBOARD -->
+  <!-- ✅ PREMIUM SUMMARY CARD -->
+  <div class="summary-card-premium">
+
+    <div class="summary-top">
+      <div>
+        <h4>Total Loan</h4>
+        <h1>₹ {{ totalAmount | number }}</h1>
+      </div>
+
+      <div class="percent-badge">
+        {{ progressPercent | number:'1.0-0' }}%
+      </div>
+    </div>
+
+    <!-- ✅ DETAILS -->
+    <div class="summary-stats">
+
+      <div class="stat paid">
+        <span>Paid</span>
+        <p>₹ {{ paidAmount | number }}</p>
+      </div>
+
+      <div class="stat remaining">
+        <span>Remaining</span>
+        <p>₹ {{ remainingAmount | number }}</p>
+      </div>
+
+      <div class="stat overdue">
+        <span>Overdue</span>
+        <p>{{ overdueCount }}</p>
+      </div>
+
+    </div>
+
+    <!-- ✅ PROGRESS -->
+    <div class="progress-section">
+
+      <div class="progress-bar">
+        <div class="progress-fill"
+            [style.width.%]="progressPercent">
+        </div>
+      </div>
+
+      <span class="progress-text">
+        {{ progressPercent | number:'1.0-0' }}% Paid
+      </span>
+
+    </div>
+
+  </div>
+
+  <!-- ✅ FILTER -->
+  <div class="filter-bar">
+    <label>Status:</label>
+    <select [(ngModel)]="selectedStatus" (change)="applyFilter()">
+      <option value="ALL">All</option>
+      <option value="PENDING">Pending</option>
+      <option value="PAID">Paid</option>
+      <option value="OVERDUE">Overdue</option>
+    </select>
+
+    <label>From:</label>
+    <input type="date" [(ngModel)]="fromDate" (change)="applyFilter()">
+
+    <label>To:</label>
+    <input type="date" [(ngModel)]="toDate" (change)="applyFilter()">
+  </div>
+
+  <!-- ✅ TABLE -->
+  <table class="schedule-table" *ngIf="filteredSchedule.length > 0">
+
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Due Date</th>
+        <th>EMI</th>
+        <th>Principal</th>
+        <th>Interest</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let r of paginatedData">
+        <td>{{ r.installmentNumber }}</td>
+        <td>{{ r.dueDate | date }}</td>
+        <td>₹ {{ r.emiAmount }}</td>
+        <td>₹ {{ r.principalComponent }}</td>
+        <td>₹ {{ r.interestComponent }}</td>
+
+        <td>
+          <span [ngClass]="getStatusClass(r.status)">
+            {{ r.status }}
+          </span>
+        </td>
+
+        <td>
+          <button *ngIf="r.status !== 'PAID'"
+                  class="pay-btn"
+                  (click)="payEmi(r.id)">
+            Pay EMI
+          </button>
+
+          <span *ngIf="r.status === 'PAID'" class="paid-text">✅ Paid</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ✅ PAGINATION -->
+  <div class="pagination" *ngIf="filteredSchedule.length > pageSize">
+    <button (click)="prevPage()">Prev</button>
+    <span>Page {{ page }} / {{ totalPages() }}</span>
+    <button (click)="nextPage()">Next</button>
+  </div>
+
+</div>

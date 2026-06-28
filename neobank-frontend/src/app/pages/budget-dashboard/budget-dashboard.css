@@ -1,0 +1,116 @@
+﻿/* ── SECTION TITLE ── */
+.budget-section { margin-top: 0; }
+
+.section-title {
+  font-size: 16px;
+  font-weight: 800;
+  margin-bottom: 16px;
+  color: #f1f5f9;
+}
+
+/* ── BUDGET CARDS GRID ── */
+.budget-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+/* ── PREMIUM CARD ── */
+.budget-card {
+  position: relative;
+  border-radius: 16px;
+  padding: 14px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border: 1.5px solid transparent;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.3);
+  transition: all 0.25s ease;
+}
+
+.budget-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.5);
+}
+
+/* Card colours */
+.budget-card:nth-child(1) { background: linear-gradient(135deg, #4e7e60, #5b8069); }
+.budget-card:nth-child(2) { background: linear-gradient(135deg, #9c9993, #3a5364); }
+.budget-card:nth-child(3) { background: linear-gradient(135deg, #107c7c, #f37575); }
+.budget-card:nth-child(4) { background: linear-gradient(135deg, #050f1f, #334881); }
+.budget-card:nth-child(5) { background: linear-gradient(135deg, #4375af, #490b49); }
+.budget-card:nth-child(6) { background: linear-gradient(135deg, #129686, #0f8076); }
+
+/* ── HEADER ── */
+.budget-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.category {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.icon {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 16px;
+  background: rgba(255,255,255,0.3);
+  box-shadow: inset 0 1px 2px rgba(255,255,255,0.5), 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.budget-card:nth-child(1) .icon { background: rgba(34,197,94,0.3); }
+.budget-card:nth-child(2) .icon { background: rgba(245,158,11,0.3); }
+.budget-card:nth-child(3) .icon { background: rgba(239,68,68,0.3); }
+.budget-card:nth-child(4) .icon { background: rgba(59,130,246,0.3); }
+.budget-card:nth-child(5) .icon { background: rgba(139,92,246,0.3); }
+.budget-card:nth-child(6) .icon { background: rgba(20,184,166,0.3); }
+
+.percent { font-size: 13px; color: #ffffff; font-weight: 700; }
+
+/* ── PROGRESS ── */
+.progress {
+  height: 8px;
+  background: rgba(255,255,255,0.3);
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 6px;
+  background: #ffffff;
+  transition: width 0.5s ease;
+}
+
+/* ── INFO ── */
+.budget-info { font-size: 12px; font-weight: 600; color: #ffffff; }
+.limit { opacity: 0.9; }
+
+/* ── CHART WRAPPER — full-width two-column ── */
+.budget-chart-wrapper {
+  margin: 8px 0 0;
+  width: 100%;
+  max-width: 100%;
+}
+
+/* ── MOBILE ── */
+@media (max-width: 768px) {
+  .section-title { font-size: 15px; }
+  .budget-grid { grid-template-columns: 1fr 1fr; }
+}

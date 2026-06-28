@@ -1,0 +1,319 @@
+﻿<div class="tx-page">
+
+  <!-- ════ PAGE HEADER ════ -->
+  <div class="tx-page-header">
+    <div class="ph-left">
+      <div class="ph-breadcrumb">Dashboard &rsaquo; Transactions</div>
+    </div>
+    <div class="ph-right" *ngIf="currentAccount">
+      <div class="ph-account-chip" [ngClass]="currentAccount.accountType === 'SAVINGS' ? 'pac-savings' : 'pac-current'">
+        <span class="pac-dot"></span>
+        {{ currentAccount.accountType }} &bull; {{ currentAccount.accountNumber }}
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ INITIAL LOADING ════ -->
+  <div class="loading-state" *ngIf="loading && allAccounts.length === 0">
+    <div class="spinner"></div>
+    <span>Loading accounts&hellip;</span>
+  </div>
+
+  <ng-container *ngIf="!loading || allAccounts.length > 0">
+
+    <!-- ════ HERO BANNER — full width ════ -->
+    <ng-container *ngIf="accountId">
+
+      <div class="hero-banner">
+        <div class="hero-radial"></div>
+        <div class="hero-glow-ring"></div>
+        <div class="hero-content">
+
+          <div class="hero-badge">
+            <span class="hero-badge-dot"></span>
+            <span *ngIf="currentAccount">{{ currentAccount.accountType }} &bull; {{ currentAccount.accountNumber }}</span>
+            <span *ngIf="!currentAccount">ACCOUNT &bull; {{ accountId }}</span>
+          </div>
+
+          <h1 class="hero-title">Transactions</h1>
+          <p class="hero-sub">Complete history of credits and debits for this account.</p>
+
+          <div class="hero-benefits">
+            <div class="benefit-pill"><span class="bp-icon">&#x1F4B8;</span><span>Credits &amp; Debits</span></div>
+            <div class="benefit-pill"><span class="bp-icon">&#x1F4CA;</span><span>Live Balance</span></div>
+            <div class="benefit-pill"><span class="bp-icon">&#x1F5D3;</span><span>Date Filter</span></div>
+            <div class="benefit-pill"><span class="bp-icon">&#x26A1;</span><span>Instant Updates</span></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ════ STATS GRID — full width ════ -->
+      <div class="stats-grid">
+
+        <div class="stat-card s-total">
+          <div class="stat-icon-wrap si-indigo">&#x1F4CB;</div>
+          <div class="stat-info">
+            <div class="stat-label">Total Entries</div>
+            <div class="stat-value">{{ filtered.length }}</div>
+          </div>
+        </div>
+
+        <div class="stat-card s-balance">
+          <div class="stat-icon-wrap si-purple">&#x1F4B0;</div>
+          <div class="stat-info">
+            <div class="stat-label">Latest Balance</div>
+            <div class="stat-value balance-live">
+              <ng-container *ngIf="filtered.length > 0">&#x20B9;&nbsp;{{ filtered[0]?.balanceAfter | number:'1.0-0' }}</ng-container>
+              <ng-container *ngIf="filtered.length === 0 && currentAccount">&#x20B9;&nbsp;{{ currentAccount.balance | number:'1.0-0' }}</ng-container>
+              <ng-container *ngIf="filtered.length === 0 && !currentAccount">&mdash;</ng-container>
+            </div>
+          </div>
+        </div>
+
+        <div class="stat-card s-credit">
+          <div class="stat-icon-wrap si-green">&#x2B06;</div>
+          <div class="stat-info">
+            <div class="stat-label">Credits</div>
+            <div class="stat-value stat-green">{{ creditCount }}</div>
+          </div>
+        </div>
+
+        <div class="stat-card s-debit">
+          <div class="stat-icon-wrap si-red">&#x2B07;</div>
+          <div class="stat-info">
+            <div class="stat-label">Debits</div>
+            <div class="stat-value stat-red">{{ debitCount }}</div>
+          </div>
+        </div>
+
+      </div>
+
+    </ng-container>
+    <!-- /hero + stats -->
+
+    <!-- ════ MAIN TWO-COLUMN LAYOUT ════ -->
+    <div class="main-layout">
+
+      <!-- ══ LEFT PANEL: ADD TRANSACTION ══ -->
+      <div class="left-panel">
+        <div class="add-tx-panel" [ngClass]="selectedTxType === 'CREDIT' ? 'panel-credit' : 'panel-debit'">
+
+          <div class="panel-header">
+            <div class="panel-icon" [ngClass]="selectedTxType === 'CREDIT' ? 'pi-credit' : 'pi-debit'">
+              <span *ngIf="selectedTxType === 'CREDIT'">&#x2B;</span>
+              <span *ngIf="selectedTxType === 'DEBIT'">&#x2212;</span>
+            </div>
+            <div>
+              <h3 class="panel-title">Add Transaction</h3>
+              <p class="panel-sub">Record a credit or debit</p>
+            </div>
+          </div>
+
+          <div class="panel-divider"></div>
+
+          <!-- TYPE TOGGLE -->
+          <div class="type-toggle">
+            <button class="tog-btn" [class.tog-credit]="selectedTxType === 'CREDIT'" (click)="setTxType('CREDIT')">
+              &#x2B;&nbsp; Credit
+            </button>
+            <button class="tog-btn" [class.tog-debit]="selectedTxType === 'DEBIT'" (click)="setTxType('DEBIT')">
+              &#x2212;&nbsp; Debit
+            </button>
+          </div>
+
+          <!-- ACCOUNT PREVIEW -->
+          <div class="account-preview" *ngIf="currentAccount">
+            <div class="ap-top-row">
+              <span class="ap-label">SELECTED ACCOUNT</span>
+              <span class="ap-type-chip" [ngClass]="currentAccount.accountType === 'SAVINGS' ? 'chip-sv' : 'chip-cu'">
+                {{ currentAccount.accountType }}
+              </span>
+            </div>
+            <div class="ap-number">{{ currentAccount.accountNumber }}</div>
+            <div class="ap-balance-row">
+              <span class="ap-bal-label">Balance</span>
+              <span class="ap-balance">&#x20B9;&nbsp;{{ currentAccount.balance | number:'1.0-0' }}</span>
+            </div>
+          </div>
+
+          <!-- ALERTS -->
+          <div class="f-alert f-success" *ngIf="successMsg">&#x2705;&nbsp; {{ successMsg }}</div>
+          <div class="f-alert f-error"   *ngIf="errorMsg">&#x274C;&nbsp; {{ errorMsg }}</div>
+
+          <!-- FORM -->
+          <form [formGroup]="txForm" (ngSubmit)="submitTransaction()" class="tx-form">
+
+            <div class="fg">
+              <label>Account <span class="req">*</span></label>
+              <select formControlName="accountId" class="fi"
+                      (change)="onFormAccountChange()"
+                      [class.fi-err]="txForm.get('accountId')?.invalid && txForm.get('accountId')?.touched">
+                <option value="">Select Account</option>
+                <option *ngFor="let acc of allAccounts" [value]="acc.id">
+                  {{ acc.accountType }} &#x2013; {{ acc.accountNumber }}
+                </option>
+              </select>
+              <div class="fe" *ngIf="txForm.get('accountId')?.invalid && txForm.get('accountId')?.touched">
+                Please select an account
+              </div>
+            </div>
+
+            <div class="fg">
+              <label>Amount (&#x20B9;) <span class="req">*</span></label>
+              <input type="number" formControlName="amount" placeholder="0.00" class="fi"
+                     [class.fi-err]="txForm.get('amount')?.invalid && txForm.get('amount')?.touched" />
+              <div class="fe" *ngIf="txForm.get('amount')?.hasError('required') && txForm.get('amount')?.touched">Amount is required</div>
+              <div class="fe" *ngIf="txForm.get('amount')?.hasError('min')      && txForm.get('amount')?.touched">Must be greater than &#x20B9;0</div>
+            </div>
+
+            <div class="fg">
+              <label>Category <span class="req">*</span></label>
+              <select formControlName="category" class="fi"
+                      [class.fi-err]="txForm.get('category')?.invalid && txForm.get('category')?.touched">
+                <option value="">Select Category</option>
+               
+                <option value="RENT">&#x1F3E0;&nbsp; Rent</option>
+                <option value="GROCERIES">&#x1F6D2;&nbsp; Groceries</option>
+                <option value="UTILITIES">&#x1F4A1;&nbsp; Utilities</option>
+                <option value="TRANSFER">&#x1F504;&nbsp; Transfer</option>
+                <option value="ENTERTAINMENT">&#x1F3AC;&nbsp; Entertainment</option>
+                <option value="OTHER">&#x1F4E6;&nbsp; Other</option>
+              </select>
+              <div class="fe" *ngIf="txForm.get('category')?.invalid && txForm.get('category')?.touched">Please select a category</div>
+            </div>
+
+            <div class="fg">
+              <label>Description <span class="opt">(optional)</span></label>
+              <input type="text" formControlName="description" placeholder="e.g. Monthly rent payment" class="fi" />
+            </div>
+
+            <button type="submit" class="submit-btn"
+                    [class.submit-credit]="selectedTxType === 'CREDIT'"
+                    [class.submit-debit]="selectedTxType === 'DEBIT'"
+                    [disabled]="submitting">
+              <span class="btn-spin" *ngIf="submitting"></span>
+              <ng-container *ngIf="!submitting">
+                {{ selectedTxType === 'CREDIT' ? '+ Add Credit' : '- Add Debit' }}
+              </ng-container>
+              <ng-container *ngIf="submitting">Processing&hellip;</ng-container>
+            </button>
+
+          </form>
+        </div>
+      </div><!-- /left-panel -->
+
+      <!-- ══ RIGHT PANEL: TRANSACTIONS TABLE ══ -->
+      <div class="right-panel">
+
+        <!-- No account selected -->
+        <div class="no-acct" *ngIf="!accountId && !loading">
+          <div class="na-icon">&#x1F4CB;</div>
+          <h3 class="na-title">Select an Account</h3>
+          <p class="na-sub">Choose an account from the dropdown on the left to view transactions.</p>
+        </div>
+
+        <ng-container *ngIf="accountId">
+
+          <!-- ── SECTION HEADING ── -->
+          <h2 class="ph-title section-heading">Transaction History</h2>
+
+          <!-- ── FILTER CONTROLS ── -->
+          <div class="controls-bar">
+            <div class="filter-tabs">
+              <button (click)="filterType='ALL'; applyFilters()" [class.active]="filterType==='ALL'">
+                All
+                <span class="tab-count">{{ transactions.length }}</span>
+              </button>
+              <button (click)="filterType='CREDIT'; applyFilters()" [class.active]="filterType==='CREDIT'">
+                <span class="tab-dot tdot-cr"></span> Credit
+                <span class="tab-count tcount-cr">{{ creditCount }}</span>
+              </button>
+              <button (click)="filterType='DEBIT'; applyFilters()" [class.active]="filterType==='DEBIT'">
+                <span class="tab-dot tdot-db"></span> Debit
+                <span class="tab-count tcount-db">{{ debitCount }}</span>
+              </button>
+            </div>
+            <div class="date-wrap">
+              <span class="date-icon">&#x1F5D3;</span>
+              <input type="date" [(ngModel)]="filterDate" (change)="applyFilters()" />
+              <button class="clear-date" *ngIf="filterDate" (click)="filterDate=''; applyFilters()" title="Clear">&#x2715;</button>
+            </div>
+          </div>
+
+          <!-- ── TABLE LOADING ── -->
+          <div class="loading-state" *ngIf="loading">
+            <div class="spinner"></div>
+            <span>Loading transactions&hellip;</span>
+          </div>
+
+          <!-- ── TRANSACTION TABLE ── -->
+          <div class="table-card" *ngIf="!loading && filtered.length > 0">
+            <table class="tx-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Description</th>
+                  <th>Category</th>
+                  <th>Type</th>
+                  <th class="right">Amount</th>
+                  <th class="right">Balance</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let tx of filtered; let i = index"
+                    class="tx-row" [class.row-latest]="i === 0">
+
+                  <td class="date-cell">
+                    <div class="date-primary">{{ tx.transactionDate | date:'dd MMM yyyy' }}</div>
+                    <div class="date-time">{{ tx.transactionDate | date:'hh:mm a' }}</div>
+                  </td>
+
+                  <td class="desc-cell">{{ tx.description || '—' }}</td>
+
+                  <td><span class="cat-badge">{{ tx.category }}</span></td>
+
+                  <td>
+                    <span class="type-badge" [ngClass]="tx.type === 'CREDIT' ? 'badge-credit' : 'badge-debit'">
+                      <span class="type-dot" [ngClass]="tx.type === 'CREDIT' ? 'btdot-credit' : 'btdot-debit'"></span>
+                      {{ tx.type }}
+                    </span>
+                  </td>
+
+                  <td class="right">
+                    <span class="amount-val" [ngClass]="tx.type === 'CREDIT' ? 'amt-credit' : 'amt-debit'">
+                      {{ tx.type === 'CREDIT' ? '+' : '&#x2212;' }}&nbsp;&#x20B9;&nbsp;{{ tx.amount | number:'1.0-0' }}
+                    </span>
+                  </td>
+
+                  <td class="right">
+                    <span class="balance-val">&#x20B9;&nbsp;{{ tx.balanceAfter | number:'1.0-0' }}</span>
+                  </td>
+
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- ── PAGINATION ── -->
+          <div class="pagination" *ngIf="!loading && totalPages > 1">
+            <button class="page-btn" (click)="prevPage()" [disabled]="page === 0">&#x2190; Prev</button>
+            <span class="page-info">Page {{ page + 1 }} of {{ totalPages }}</span>
+            <button class="page-btn" (click)="nextPage()" [disabled]="page >= totalPages - 1">Next &#x2192;</button>
+          </div>
+
+          <!-- ── EMPTY STATE ── -->
+          <div class="empty-state" *ngIf="!loading && filtered.length === 0">
+            <div class="empty-icon">&#x1F4ED;</div>
+            <div class="empty-title">No Transactions Found</div>
+            <div class="empty-msg">Try adjusting your filters or add your first transaction using the form on the left.</div>
+          </div>
+
+        </ng-container>
+      </div><!-- /right-panel -->
+
+    </div><!-- /main-layout -->
+
+  </ng-container>
+
+</div><!-- /tx-page -->

@@ -1,0 +1,34 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 200 160"
+  fill="none"
+>
+  <!-- Swoosh -->
+  <path
+    d="M30 110c20 30 100 40 140 0"
+    stroke="#ffffff"
+    stroke-width="14"
+    stroke-linecap="round"
+  />
+
+  <!-- Stylized N -->
+  <path
+    d="M30 120V30l60 70V40"
+    stroke="#ffffff"
+    stroke-width="18"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+
+  <!-- Bank roof -->
+  <path d="M95 45l40-25 40 25" fill="#ffffff"/>
+  <rect x="100" y="45" width="70" height="12" fill="#ffffff"/>
+
+  <!-- Pillars -->
+  <rect x="112" y="57" width="10" height="55" rx="2" fill="#ffffff"/>
+  <rect x="132" y="57" width="10" height="55" rx="2" fill="#ffffff"/>
+  <rect x="152" y="57" width="10" height="55" rx="2" fill="#ffffff"/>
+
+  <!-- Base -->
+  <rect x="102" y="112" width="76" height="10" rx="2" fill="#ffffff"/>
+</svg>

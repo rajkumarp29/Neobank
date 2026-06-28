@@ -1,0 +1,51 @@
+﻿<!-- ══ HERO BANNER ═══════════════════════════════════════ -->
+<div class="budget-hero">
+
+  <div class="hero-left">
+    <div class="hero-badge">&#128184; Budget Manager</div>
+    <h1>My Budget</h1>
+    <p>Track and manage your monthly spending budgets</p>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-stat">
+      <span class="hs-label">Month</span>
+      <span class="hs-value">{{ budgetMonth }}</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hs-label">Categories</span>
+      <span class="hs-value">{{ budgets.length }}</span>
+    </div>
+    <button class="create-btn" routerLink="/dashboard/budget-create">
+      + Create Budget
+    </button>
+  </div>
+
+</div>
+
+<!-- ══ CONTENT AREA ══════════════════════════════════════ -->
+<div class="budget-content">
+
+  <!-- LOADING -->
+  <div class="loading-state" *ngIf="loading">
+    &#9203; Loading budgets...
+  </div>
+
+  <!-- BUDGET DASHBOARD -->
+  <app-budget-dashboard
+    *ngIf="!loading && budgets.length"
+    [budgets]="budgets"
+    [month]="budgetMonth">
+  </app-budget-dashboard>
+
+  <!-- EMPTY STATE -->
+  <div class="empty-state" *ngIf="!loading && !budgets.length">
+    <span class="empty-icon">&#128184;</span>
+    <h3>No budgets yet</h3>
+    <p>Create your first budget to start tracking spending.</p>
+    <button class="create-btn" routerLink="/dashboard/budget-create">
+      + Create Budget
+    </button>
+  </div>
+
+</div>

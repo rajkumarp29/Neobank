@@ -1,0 +1,167 @@
+/* ===========================
+   SIDEBAR CONTAINER
+=========================== */
+.sidebar {
+  width: 100%;
+  height: 100%;
+  background: #0f172a;
+  color: #e5e7eb;
+  padding: 16px 10px 12px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+/* ===========================
+   NAV LIST
+=========================== */
+.nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex: 1;
+}
+
+.nav-list li {
+  margin-bottom: 2px;
+}
+
+/* Section Headers */
+.nav-section {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #475569;
+  padding: 14px 10px 5px;
+  border-top: 1px solid #1e293b;
+  margin-top: 4px;
+}
+
+.nav-list li:first-child .nav-section,
+.nav-list > li.nav-section:first-child {
+  border-top: none;
+  padding-top: 4px;
+}
+
+/* Nav Links */
+.nav-list a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #94a3b8;
+  text-decoration: none;
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.18s ease;
+}
+
+.nav-list a:hover {
+  background: rgba(99, 102, 241, 0.12);
+  color: #e2e8f0;
+  transform: translateX(3px);
+}
+
+.nav-list a.active {
+  background: linear-gradient(135deg, rgba(99,102,241,0.25), rgba(6,182,212,0.15));
+  color: #ffffff;
+  font-weight: 700;
+  border-left: 2px solid #06b6d4;
+}
+
+/* ===========================
+   PREMIUM AVATAR CARD
+=========================== */
+.avatar-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+  padding: 10px 12px;
+  background: rgba(99, 102, 241, 0.12);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+
+.avatar-bubble {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #7c3aed, #4f46e5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 800;
+  color: #fff;
+  flex-shrink: 0;
+  letter-spacing: 0.5px;
+}
+
+.avatar-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  gap: 2px;
+}
+
+.avatar-name {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.avatar-email {
+  font-size: 0.7rem;
+  color: #64748b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.signout-btn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 8px;
+  color: #f87171;
+  font-size: 1rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.signout-btn:hover {
+  background: rgba(239, 68, 68, 0.3);
+  border-color: rgba(239, 68, 68, 0.6);
+  color: #fff;
+  transform: scale(1.05);
+}
+
+/* Rewards badge */
+.rewards-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.points-badge {
+  margin-left: auto;
+  background: #7c3aed;
+  color: #ffffff;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+}

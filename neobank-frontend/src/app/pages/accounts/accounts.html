@@ -1,0 +1,359 @@
+﻿<!-- ═══════════════════ PREMIUM HERO ═══════════════════ -->
+<div class="hero">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+
+  <div class="hero-content">
+
+    <div class="greeting-badge">
+      <span class="badge-dot"></span>
+      ✨ {{ greetingMessage }}, {{ userName }}
+    </div>
+
+    <h1 class="hero-title">My Accounts</h1>
+    <p class="hero-sub">
+      Manage your savings &amp; current accounts. Credit, debit and track transactions in one place.
+    </p>
+
+    <div class="hero-pills">
+      <span class="pill">💳 Multiple Accounts</span>
+      <span class="pill">⚡ Instant Transfers</span>
+      <span class="pill">📊 Live Balance</span>
+      <span class="pill">🔒 Secure &amp; Safe</span>
+    </div>
+
+    <div class="hero-actions">
+      <button class="open-btn" (click)="openNewAccountPage()">
+        <span>✦</span>
+        Open New Account
+        <span class="btn-shine"></span>
+      </button>
+      <button class="secondary-btn">
+        <span>📋</span>
+        View Transactions
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════ SUMMARY CARDS ═══════════════════ -->
+<div class="summary-row">
+
+  <div class="summary-card total">
+    <div class="icon-box">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    </div>
+    <div class="card-info">
+      <p>TOTAL BALANCE</p>
+      <h2>₹ {{ totalBalance | number }}</h2>
+    </div>
+    <div class="card-glow"></div>
+  </div>
+
+  <div class="summary-card savings">
+    <div class="icon-box">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    </div>
+    <div class="card-info">
+      <p>SAVINGS ({{ savingsCount }})</p>
+      <h2>₹ {{ savingsBalance | number }}</h2>
+    </div>
+    <div class="card-glow"></div>
+  </div>
+
+  <div class="summary-card current">
+    <div class="icon-box">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+    </div>
+    <div class="card-info">
+      <p>CURRENT ({{ currentCount }})</p>
+      <h2>₹ {{ currentBalance | number }}</h2>
+    </div>
+    <div class="card-glow"></div>
+  </div>
+
+  <div class="summary-card accounts">
+    <div class="icon-box">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+    </div>
+    <div class="card-info">
+      <p>TOTAL ACCOUNTS</p>
+      <h2>{{ accounts.length }}</h2>
+    </div>
+    <div class="card-glow"></div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════ MAIN LAYOUT ═══════════════════ -->
+<div class="main-layout">
+
+  <!-- LEFT: ACCOUNTS -->
+  <div class="accounts-section">
+
+    <!-- SAVINGS -->
+    <div class="section-header">
+      <div class="section-icon savings-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+      </div>
+      <h3 class="section-title">Savings Accounts</h3>
+      <span class="section-count">{{ savingsCount }}</span>
+    </div>
+
+    <div class="accounts-list">
+      <div class="account-card-wrap"
+           *ngFor="let acc of savingsAccounts; let i = index"
+           [class.active]="selectedAccount?.id === acc.id"
+           [style.animation-delay.ms]="i * 90"
+           (click)="selectAccount(acc)">
+
+        <div class="bank-card savings-card" #cardEl1
+             (mousemove)="onCardMove($event, cardEl1)"
+             (mouseleave)="onCardLeave(cardEl1)">
+
+          <div class="card-texture"></div>
+          <div class="card-sheen"></div>
+
+          <div class="card-top">
+            <span class="card-brand">NEO<span>BANK</span></span>
+            <span class="card-network">
+              <span class="net-dot net-dot-a"></span>
+              <span class="net-dot net-dot-b"></span>
+            </span>
+          </div>
+
+          <div class="card-mid">
+            <div class="card-chip"></div>
+            <svg class="card-wave" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 12a6 6 0 0 1 12 0"/>
+              <path d="M3 12a9 9 0 0 1 18 0"/>
+              <circle cx="12" cy="16" r="1.4" fill="currentColor" stroke="none"/>
+            </svg>
+          </div>
+
+          <p class="card-number">{{ maskedNumber(acc.accountNumber) }}</p>
+
+          <div class="card-bottom">
+            <div class="card-holder">
+              <span class="ch-label">Card Holder</span>
+              <span class="ch-name">{{ getCardHolderName(acc) }}</span>
+            </div>
+            <div class="card-type-mark">SAV</div>
+          </div>
+        </div>
+
+        <div class="card-info-strip">
+          <div class="strip-top">
+            <span class="type-badge savings-badge">{{ acc.accountType }}</span>
+            <span class="date-chip">{{ acc.createdAt | date:'shortDate' }}</span>
+          </div>
+          <button class="view-btn savings-view full-width"
+                  (click)="selectAccount(acc); $event.stopPropagation()">
+            View Details
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CURRENT -->
+    <div class="section-header" style="margin-top: 24px">
+      <div class="section-icon current-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+      </div>
+      <h3 class="section-title">Current Accounts</h3>
+      <span class="section-count current-count">{{ currentCount }}</span>
+    </div>
+
+    <div class="accounts-list">
+      <div class="account-card-wrap"
+           *ngFor="let acc of currentAccounts; let i = index"
+           [class.active]="selectedAccount?.id === acc.id"
+           [style.animation-delay.ms]="i * 90"
+           (click)="selectAccount(acc)">
+
+        <div class="bank-card current-card" #cardEl2
+             (mousemove)="onCardMove($event, cardEl2)"
+             (mouseleave)="onCardLeave(cardEl2)">
+
+          <div class="card-texture"></div>
+          <div class="card-sheen"></div>
+
+          <div class="card-top">
+            <span class="card-brand">NEO<span>BANK</span></span>
+            <span class="card-network">
+              <span class="net-dot net-dot-a"></span>
+              <span class="net-dot net-dot-b"></span>
+            </span>
+          </div>
+
+          <div class="card-mid">
+            <div class="card-chip"></div>
+            <svg class="card-wave" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 12a6 6 0 0 1 12 0"/>
+              <path d="M3 12a9 9 0 0 1 18 0"/>
+              <circle cx="12" cy="16" r="1.4" fill="currentColor" stroke="none"/>
+            </svg>
+          </div>
+
+          <p class="card-number">{{ maskedNumber(acc.accountNumber) }}</p>
+
+          <div class="card-bottom">
+            <div class="card-holder">
+              <span class="ch-label">Card Holder</span>
+              <span class="ch-name">{{ getCardHolderName(acc) }}</span>
+            </div>
+            <div class="card-type-mark">CUR</div>
+          </div>
+        </div>
+
+        <div class="card-info-strip">
+          <div class="strip-top">
+            <span class="type-badge current-badge">{{ acc.accountType }}</span>
+            <span class="date-chip">{{ acc.createdAt | date:'shortDate' }}</span>
+          </div>
+          <button class="view-btn current-view full-width"
+                  (click)="selectAccount(acc); $event.stopPropagation()">
+            View Details
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RIGHT: DETAILS PANEL -->
+  <div class="details-panel" *ngIf="selectedAccount">
+
+    <div class="panel-header">
+      <div class="panel-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      </div>
+      <h3>Account Details</h3>
+      <span class="panel-live-dot"></span>
+    </div>
+
+    <!-- Selected card replica -->
+    <div class="panel-card-wrap">
+      <div class="bank-card panel-bank-card" #detailCardEl
+           [class.savings-card]="selectedAccount.accountType === 'SAVINGS'"
+           [class.current-card]="selectedAccount.accountType === 'CURRENT'"
+           (mousemove)="onCardMove($event, detailCardEl)"
+           (mouseleave)="onCardLeave(detailCardEl)">
+
+        <div class="card-texture"></div>
+        <div class="card-sheen"></div>
+
+        <div class="card-top">
+          <span class="card-brand">NEO<span>BANK</span></span>
+          <span class="card-network">
+            <span class="net-dot net-dot-a"></span>
+            <span class="net-dot net-dot-b"></span>
+          </span>
+        </div>
+
+        <div class="card-mid">
+          <div class="card-chip"></div>
+          <svg class="card-wave" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M6 12a6 6 0 0 1 12 0"/>
+            <path d="M3 12a9 9 0 0 1 18 0"/>
+            <circle cx="12" cy="16" r="1.4" fill="currentColor" stroke="none"/>
+          </svg>
+        </div>
+
+        <p class="card-number">{{ maskedNumber(selectedAccount.accountNumber) }}</p>
+
+        <div class="card-bottom">
+          <div class="card-holder">
+            <span class="ch-label">Card Holder</span>
+            <span class="ch-name">{{ getCardHolderName(selectedAccount) }}</span>
+          </div>
+          <div class="card-type-mark">{{ selectedAccount.accountType === 'SAVINGS' ? 'SAV' : 'CUR' }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel-balance-hero">
+      <div class="balance-hero-top">
+        <p class="panel-balance-label">Current Balance</p>
+        <button class="eye-toggle" type="button" (click)="toggleBalance()">
+          <svg *ngIf="!balanceHidden" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          <svg *ngIf="balanceHidden" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a18.5 18.5 0 0 1 5.06-5.94M9.9 4.24A10.4 10.4 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+        </button>
+      </div>
+      <h1 class="panel-balance-value">{{ balanceHidden ? '₹ ••••••' : ('₹ ' + (selectedAccount.balance | number)) }}</h1>
+      <div class="panel-balance-bar">
+        <div class="panel-balance-fill"
+             [class.savings-fill]="selectedAccount.accountType === 'SAVINGS'"
+             [class.current-fill]="selectedAccount.accountType === 'CURRENT'">
+        </div>
+      </div>
+    </div>
+
+    <div class="panel-details">
+      <div class="detail-row">
+        <span class="detail-label">
+          <svg class="detail-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18"/></svg>
+          Account Type
+        </span>
+        <span class="detail-value">
+          <span class="type-pill"
+                [class.savings-pill]="selectedAccount.accountType === 'SAVINGS'"
+                [class.current-pill]="selectedAccount.accountType === 'CURRENT'">
+            {{ selectedAccount.accountType }}
+          </span>
+        </span>
+      </div>
+
+      <div class="detail-row">
+        <span class="detail-label">
+          <svg class="detail-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01"/></svg>
+          Account Number
+        </span>
+        <strong class="detail-value mono">{{ selectedAccount.accountNumber }}</strong>
+      </div>
+
+      <div class="detail-row">
+        <span class="detail-label">
+          <svg class="detail-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Opened On
+        </span>
+        <strong class="detail-value">{{ selectedAccount.createdAt | date:'mediumDate' }}</strong>
+      </div>
+
+      <div class="detail-row">
+        <span class="detail-label">
+          <svg class="detail-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"/></svg>
+          Status
+        </span>
+        <span class="status-chip">
+          <span class="status-dot"></span>
+          Active
+        </span>
+      </div>
+    </div>
+
+    <div class="panel-actions">
+      <button class="panel-action-btn"
+              [class.savings-btn]="selectedAccount.accountType === 'SAVINGS'"
+              [class.current-btn]="selectedAccount.accountType === 'CURRENT'">
+        Manage Account
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+      <button class="panel-secondary-btn">
+        📋 View Transactions
+      </button>
+    </div>
+  </div>
+
+  <!-- Empty state for panel -->
+  <div class="details-empty" *ngIf="!selectedAccount">
+    <div class="empty-icon">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+    </div>
+    <p>Select an account<br>to view details</p>
+  </div>
+
+</div>

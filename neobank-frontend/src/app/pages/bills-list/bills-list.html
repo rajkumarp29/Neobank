@@ -1,0 +1,123 @@
+﻿<!-- ✅ REWARD TOAST -->
+<div class="reward-toast" [class.toast-visible]="toastVisible">
+  <span class="toast-icon">⭐</span>
+  <div class="toast-body">
+    <span class="toast-title">{{ toastMsg }}</span>
+    <span class="toast-sub">You earned <strong>+{{ toastPts }} pts</strong> reward!</span>
+  </div>
+</div>
+<div class="bills-page">
+
+  <!-- ===== HERO BANNER ===== -->
+  <div class="hero-banner">
+    <div class="hero-radial"></div>
+    <div class="hero-glow-ring"></div>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        Payment Center
+      </div>
+      <h1 class="hero-title">Bills &amp; Payments</h1>
+      <p class="hero-sub">Track, schedule and manage all your upcoming bill payments in one place.</p>
+      <div class="hero-benefits">
+        <div class="benefit-pill"><span class="bp-icon">&#x23F0;</span><span>Due Reminders</span></div>
+        <div class="benefit-pill"><span class="bp-icon">&#x2705;</span><span>One-click Pay</span></div>
+        <div class="benefit-pill"><span class="bp-icon">&#x1F4CA;</span><span>Payment Stats</span></div>
+        <div class="benefit-pill"><span class="bp-icon">&#x26A1;</span><span>Instant Updates</span></div>
+      </div>
+    </div>
+    <div class="hero-cta">
+      <button class="btn-create" routerLink="/dashboard/bills/create">
+        <span>&#x2B;</span> Create Bill
+      </button>
+    </div>
+  </div>
+
+  <!-- ===== LOADING ===== -->
+  <div class="loading-state" *ngIf="loading">
+    <div class="spinner"></div>
+    <span>Loading bills...</span>
+  </div>
+
+  <div *ngIf="!loading">
+
+    <!-- ===== STATS GRID ===== -->
+    <div class="stats-grid">
+      <div class="stat-card total-card">
+        <div class="stat-icon">&#x1F4CB;</div>
+        <div class="stat-info">
+          <div class="stat-label">Total Bills</div>
+          <div class="stat-value">{{ totalBills }}</div>
+        </div>
+      </div>
+      <div class="stat-card pending-card">
+        <div class="stat-icon">&#x23F3;</div>
+        <div class="stat-info">
+          <div class="stat-label">Pending</div>
+          <div class="stat-value">{{ pendingCount }}</div>
+        </div>
+      </div>
+      <div class="stat-card paid-card">
+        <div class="stat-icon">&#x2705;</div>
+        <div class="stat-info">
+          <div class="stat-label">Paid</div>
+          <div class="stat-value">{{ paidCount }}</div>
+        </div>
+      </div>
+      <div class="stat-card overdue-card">
+        <div class="stat-icon">&#x26A0;&#xFE0F;</div>
+        <div class="stat-info">
+          <div class="stat-label">Overdue</div>
+          <div class="stat-value">{{ overdueCount }}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== EMPTY STATE ===== -->
+    <div class="empty-state" *ngIf="bills.length === 0">
+      <div class="empty-icon">&#x1F9FE;</div>
+      <div class="empty-title">No Bills Yet</div>
+      <div class="empty-msg">Click <strong>Create Bill</strong> to add your first payment.</div>
+      <button class="btn-create" routerLink="/dashboard/bills/create">&#x2B; Create Bill</button>
+    </div>
+
+    <!-- ===== BILLS LIST ===== -->
+    <div class="bills-list" *ngIf="bills.length > 0">
+      <div class="bill-item"
+           *ngFor="let bill of bills"
+           [ngClass]="{'overdue-item': isOverdue(bill), 'paid-item': bill.status === 'PAID'}">
+
+        <!-- Left: icon + info -->
+        <div class="bill-left">
+          <div class="bill-icon-wrap"
+               [ngClass]="{'icon-overdue': isOverdue(bill), 'icon-paid': bill.status === 'PAID', 'icon-pending': bill.status === 'PENDING'}">
+            <span *ngIf="bill.status === 'PAID'">&#x2705;</span>
+            <span *ngIf="isOverdue(bill)">&#x26A0;&#xFE0F;</span>
+            <span *ngIf="bill.status === 'PENDING' && !isOverdue(bill)">&#x23F3;</span>
+          </div>
+          <div class="bill-info">
+            <div class="bill-name">{{ bill.billerName }}</div>
+            <div class="bill-due">Due {{ bill.dueDate | date:"dd MMM yyyy" }}</div>
+          </div>
+        </div>
+
+        <!-- Right: amount + status + action -->
+        <div class="bill-right">
+          <div class="bill-amount">&#x20B9; {{ bill.amount | number }}</div>
+          <span class="status-badge"
+                [ngClass]="{'badge-pending': bill.status === 'PENDING', 'badge-paid': bill.status === 'PAID', 'badge-overdue': isOverdue(bill)}">
+            {{ isOverdue(bill) ? "OVERDUE" : bill.status }}
+          </span>
+          <span class="reminder-tag" *ngIf="bill.remindMe">&#x23F0; Due Soon</span>
+          <button class="btn-pay"
+                  *ngIf="bill.status === 'PENDING'"
+                  (click)="markPaid(bill)">
+            Mark Paid
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>

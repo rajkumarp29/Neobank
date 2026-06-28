@@ -1,0 +1,250 @@
+/* =============================
+   NAVBAR
+============================= */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  height: 70px;
+  padding: 0 20px;
+
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  color: white;
+
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+/* =============================
+   BRAND
+============================= */
+/* BRAND CONTAINER */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* LOGO BOX */
+.logo-box {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-weight: bold;
+  font-size: 18px;
+  color: white;
+
+  background: linear-gradient(135deg, #6d28d9, #9333ea, #3b82f6);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
+
+/* TEXT GROUP */
+.brand-texts {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+
+/* MAIN TITLE */
+.brand-title {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+/* COLORS */
+.neo {
+  color: #22d3ee;
+}
+
+.bank {
+  color: #e5e7eb;
+}
+
+/* SUBTITLE */
+.brand-subtitle {
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  color: rgba(255,255,255,0.6);
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .brand-title {
+    font-size: 18px;
+  }
+
+  .brand-subtitle {
+    display: none; /* hide subtitle on mobile */
+  }
+
+  .logo-box {
+    width: 36px;
+    height: 36px;
+  }
+}
+/* =============================
+   HAMBURGER
+============================= */
+.hamburger {
+  font-size: 24px;
+  cursor: pointer;
+  display: none;
+}
+
+/* =============================
+   MOBILE MENU
+============================= */
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  left: -260px;
+
+  width: 260px;
+  height: 100%;
+
+  background: #020617;
+  color: white;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  padding: 20px;
+  transition: 0.3s;
+  z-index: 1001;
+}
+
+/* OPEN STATE */
+.mobile-menu.open {
+  left: 0;
+}
+
+/* =============================
+   PROFILE
+============================= */
+.menu-header {
+  margin-bottom: 20px;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  background: #1e293b;
+  border-radius: 50%;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-info strong {
+  display: block;
+  font-size: 14px;
+}
+
+.user-info small {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+/* =============================
+   MENU ITEMS
+============================= */
+.menu-items {
+  list-style: none;
+  padding: 0;
+}
+
+.menu-items li {
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.menu-items li:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+/* ACTIVE ITEM */
+.menu-items li.active {
+  background: linear-gradient(135deg, #4f46e5, #6366f1);
+  font-weight: 600;
+}
+
+.menu-items li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* =============================
+   FOOTER
+============================= */
+.menu-footer {
+  border-top: 1px solid rgba(255,255,255,0.2);
+  padding-top: 15px;
+}
+
+.menu-footer button {
+  width: 100%;
+  padding: 10px;
+
+  background: #ef4444;
+  border: none;
+  border-radius: 8px;
+
+  color: white;
+  font-weight: bold;
+}
+
+/* =============================
+   OVERLAY
+============================= */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 1000;
+}
+
+/* =============================
+   ✅ MOBILE FIX (OPTION 1)
+============================= */
+@media (max-width: 768px) {
+
+  .hamburger {
+    display: block;   /* ✅ show menu icon */
+  }
+
+  .brand-text {
+    display: block;   /* ✅ SHOW TITLE */
+    font-size: 22px;  /* ✅ smaller for mobile */
+  }
+
+  .brand {
+    gap: 8px;         /* ✅ tighter spacing */
+  }
+
+  .brand-logo {
+    width: 36px;      /* ✅ slightly smaller logo */
+  }
+
+  .navbar {
+    padding: 0 12px;  /* ✅ better mobile spacing */
+  }
+
+}
